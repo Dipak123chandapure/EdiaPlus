@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:id="@+id/form_one_ll"
+    android:elevation="2dp"
+    android:visibility="gone">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Form one" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name*"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form1entity1"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name*"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form1entity2"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name*"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form1entity3"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name*"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form1entity4"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+</LinearLayout>

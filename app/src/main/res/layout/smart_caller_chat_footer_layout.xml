@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        android:id="@+id/smart_caller_footer_ll"
+        android:background="@drawable/smart_sms_footer_ll_background">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:text="X"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:background="@drawable/smart_sms_footer_image_background" />
+
+    </LinearLayout>
+</LinearLayout>

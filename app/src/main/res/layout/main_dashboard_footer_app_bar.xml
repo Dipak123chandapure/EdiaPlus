@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:background="#ffffff">
+
+
+    <ImageView
+        android:id="@+id/m_d_f_a_b_image_one"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/equalizer_grey" />
+
+    <ImageView
+        android:id="@+id/m_d_f_a_b_image_two"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/smart_caller_grey" />
+
+    <ImageView
+        android:id="@+id/m_d_f_a_b_image_three"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/notification_grey" />
+
+    <ImageView
+        android:id="@+id/m_d_f_a_b_image_four"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/home_grey" />
+
+    <ImageView
+        android:id="@+id/m_d_f_a_b_image_five"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/chat_grey" />
+
+    <ImageView
+        android:id="@+id/m_d_f_a_b_image_six"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/email_grey" />
+
+    <ImageView
+        android:id="@+id/m_d_f_a_b_image_seven"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/setting_grey" />
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include
+        layout="@layout/group_dashboard_header_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Grey_300"></TextView>
+    <android.support.v7.widget.RecyclerView
+        android:background="#f9f7f7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/group_dashbard_fragment_recycler">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

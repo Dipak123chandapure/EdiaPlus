@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/heading_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="26-March-2016"
+        android:textColor="@color/Grey_800"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:textSize="26sp"
+            android:background="@drawable/student_dashboard_circular_text"
+            android:text="R"
+            android:gravity="center"
+            android:textColor="@color/Grey_900"
+            android:layout_gravity="center"
+            android:id="@+id/circular_text"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="12dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rohan Kumar"
+                android:textColor="@color/Grey_700"
+                android:layout_marginBottom="6dp"
+                android:textSize="16sp"
+                android:id="@+id/student_name"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/call_received_grey"
+                    android:id="@+id/call_type_image"/>
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/sim_card_grey"
+                    android:id="@+id/sim_type_image"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+91-8229055090"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/Grey_500"
+                    android:textSize="12sp"
+                    android:id="@+id/mob_no"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18:28 (3m 20s)"
+                    android:textColor="@color/Grey_500"
+                    android:textSize="12sp"
+                    android:id="@+id/time_duartion"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/Grey_300"></TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

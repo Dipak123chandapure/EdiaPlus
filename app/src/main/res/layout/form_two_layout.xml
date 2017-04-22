@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:id="@+id/form_two_ll"
+    android:visibility="gone"
+    android:elevation="2dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Form two" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Source*"
+            android:textSize="14sp"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form2entity1"
+            android:focusable="false"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Status*"
+            android:textSize="14sp"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form2entity2"
+            android:focusable="false"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Priority*"
+            android:textSize="14sp"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form2entity3"
+            android:focusable="false"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type*"
+            android:textSize="14sp"
+            app:met_floatingLabel="highlight"
+            style="@style/materialStyle"
+            android:id="@+id/form2entity4"
+            android:focusable="false"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>

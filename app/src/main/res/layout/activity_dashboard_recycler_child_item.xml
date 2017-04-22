@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="It was one of those brain storming sessions of theGujarat government soon after Narendra Modi had taken charge of the state administration after his thumping victory in the 2002 assembly poll. It was one of those brain storming sessions of the Gujarat government soon after Narendra Modi had taken charge of the state administration after his thumping victory in the 2002 assembly polls"
+            android:textColor="@color/Grey_600"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="https://www.recording.url.com \nhttps://www.recording.url.com"
+            android:textColor="@color/Blue_400"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/s_d_r_c_i_image_one"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/notification_grey" />
+
+        <ImageView
+            android:id="@+id/s_d_r_c_i_image_two"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/email_grey" />
+
+        <ImageView
+            android:id="@+id/s_d_r_c_i_image_three"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/smart_caller_grey" />
+
+        <ImageView
+            android:id="@+id/s_d_r_c_i_image_four"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/chat_grey" />
+
+        <ImageView
+            android:id="@+id/s_d_r_c_i_image_five"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/email_grey" />
+
+        <ImageView
+            android:id="@+id/s_d_r_c_i_image_six"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/delete_grey" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Grey_300" />
+</LinearLayout>

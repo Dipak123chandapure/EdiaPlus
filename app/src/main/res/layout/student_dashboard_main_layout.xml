@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/main_dashboard_header_app_bar_layout"
+        layout="@layout/student_dashboard_header_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/student_dashboard_header_separator"
+        android:layout_below="@+id/main_dashboard_header_app_bar_layout"
+        android:background="@color/Grey_300"></TextView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/main_dashboard_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/student_dashboard_header_separator">
+    </android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/s_d_m_l_floating_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:background="@drawable/student_dashboard_floating_button_circular_text"
+        android:elevation="2dp"
+        android:padding="12dp"
+        android:src="@mipmap/add_student_white" />
+</RelativeLayout>
