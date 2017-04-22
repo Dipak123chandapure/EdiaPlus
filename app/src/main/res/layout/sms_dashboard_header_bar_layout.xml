@@ -24,15 +24,15 @@
         android:layout_height="25dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="8dp"
-        android:src="@mipmap/date_picker_grey"
-        android:id="@+id/main_dashbard_header_icon2"/>
+        android:src="@mipmap/attach_file_grey"
+        android:id="@+id/email_attachment_icon"/>
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="8dp"
-        android:src="@mipmap/time_picker_grey"
-        android:id="@+id/main_dashbard_header_icon3"/>
+        android:src="@mipmap/send_grey"
+        android:id="@+id/send_icons_ll"/>
 
 </LinearLayout>

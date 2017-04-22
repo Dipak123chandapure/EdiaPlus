@@ -16,7 +16,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,12 +56,10 @@
                 android:layout_height="0.5dp"
                 android:background="@color/Grey_400" />
 
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/s_d_f_l_add_student_list_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="344dp"
                 android:visibility="gone">
 
             </android.support.v7.widget.RecyclerView>
@@ -106,81 +105,38 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                    <LinearLayout
+
+                    <EditText
+                        android:id="@+id/emal_body_et"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:padding="12dp">
-
-                        <EditText
-                            android:id="@+id/emal_body_et"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:gravity="top"
-                            android:hint="Body"
-                            android:textColor="@color/Grey_600"
-                            android:textColorHint="@color/Grey_500"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/send_icons_ll"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="right"
-                        android:orientation="horizontal">
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="Body"
+                        android:paddingLeft="12dp"
+                        android:paddingTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:textColor="@color/Grey_600"
+                        android:textColorHint="@color/Grey_500"
+                        android:textSize="14sp" />
 
-                        <ImageView
-                            android:id="@+id/email_attachment_icon"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="right"
-                            android:layout_marginRight="8dp"
-                            android:background="@drawable/sms_dashboard_circular_text"
-                            android:padding="8dp"
-                            android:rotation="50"
-                            android:src="@mipmap/attach_file_grey" />
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="right"
-                            android:layout_marginRight="8dp"
-                            android:background="@drawable/sms_dashboard_circular_text"
-                            android:padding="8dp"
-                            android:rotation="-30"
-                            android:src="@mipmap/send_grey" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/Grey_400" />
-
-                <LinearLayout
-                    android:id="@+id/attachment_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/email_attachment_recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/emal_body_et">
 
                     </android.support.v7.widget.RecyclerView>
 
-                </LinearLayout>
+
+                </RelativeLayout>
+
             </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>

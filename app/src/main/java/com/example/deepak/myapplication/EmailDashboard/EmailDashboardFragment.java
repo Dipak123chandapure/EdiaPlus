@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class EmailDashboardFragment extends Fragment implements View.OnClickListener, EmailDashboardStudentListAdapter.OnSMSToListCallback, EmailAttchmentAdapter.OnAttchmentRemoved, MainActivity.OnMActivityResult {
     RecyclerView s_d_f_l_to_recycler_view, s_d_f_l_add_student_list_recycler_view, email_attachment_recycler_view;
-    LinearLayout s_d_f_l_temp_text_ll, attachment_ll, send_icons_ll;
+    LinearLayout s_d_f_l_temp_text_ll;
     ImageView s_d_f_l_add_student_image, email_attachment_icon;
     String TYPE = "";
     EditText emal_body_et;
@@ -58,8 +58,7 @@ public class EmailDashboardFragment extends Fragment implements View.OnClickList
         s_d_f_l_add_student_image = (ImageView) view.findViewById(R.id.s_d_f_l_add_student_image);
         email_attachment_icon = (ImageView) view.findViewById(R.id.email_attachment_icon);
         email_attachment_icon.setOnClickListener(this);
-        attachment_ll = (LinearLayout) view.findViewById(R.id.attachment_ll);
-        send_icons_ll = (LinearLayout) view.findViewById(R.id.send_icons_ll);
+
         emal_body_et = (EditText) view.findViewById(R.id.emal_body_et);
 
         switch (TYPE) {
@@ -128,7 +127,6 @@ public class EmailDashboardFragment extends Fragment implements View.OnClickList
                 }
                 break;
             case R.id.email_attachment_icon:
-                attachment_ll.setVisibility(View.VISIBLE);
                 email_attachment_recycler_view.setVisibility(View.VISIBLE);
                 showFileChooser();
                 break;

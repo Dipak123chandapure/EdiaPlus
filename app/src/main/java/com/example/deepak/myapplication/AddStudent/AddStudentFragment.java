@@ -49,6 +49,7 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
         inItView(view);
         inItForm();
+
         return view;
     }
 
