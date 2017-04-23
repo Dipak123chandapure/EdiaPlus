@@ -23,11 +23,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class StudentDashboardFilterFragment extends Fragment
-        implements StudentDashboardFilterParentAdapter.OnFilterParentItemSelected, View.OnClickListener, AddDropDownValueDialog.OnDropDownValueAdded {
+public class FilterFragment extends Fragment
+        implements FilterParentAdapter.OnFilterParentItemSelected, View.OnClickListener, AddDropDownDialog.OnDropDownValueAdded {
 
     RecyclerView s_d_f_f_l_parent_recycler, s_d_f_f_l_child_recycler;
-    StudentDashboardFilterChildListAdapter adapter;
+    FilterChildAdapter adapter;
     JSONArray jsonArray;
     ArrayList<ArrayList<DropDownDataDTO>> list;
     String TYPE;
@@ -35,7 +35,7 @@ public class StudentDashboardFilterFragment extends Fragment
     ImageView s_d_f_F_l_check_mark,  add_drop_down_child;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.student_dashboard_filte_fragment_layout, container, false);
+        View view = inflater.inflate(R.layout.student_dashboard_filte, container, false);
         s_d_f_f_l_parent_recycler = (RecyclerView) view.findViewById(R.id.s_d_f_f_l_parent_recycler);
         s_d_f_f_l_child_recycler = (RecyclerView) view.findViewById(R.id.s_d_f_f_l_child_recycler);
         s_d_f_F_l_check_mark = (ImageView) view.findViewById(R.id.s_d_f_F_l_check_mark);
@@ -53,13 +53,13 @@ public class StudentDashboardFilterFragment extends Fragment
     private void setUpChildRecycler(ArrayList<DropDownDataDTO> list) {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         s_d_f_f_l_child_recycler.setLayoutManager(manager);
-        adapter = new StudentDashboardFilterChildListAdapter(getActivity(), list);
+        adapter = new FilterChildAdapter(getActivity(), list);
         s_d_f_f_l_child_recycler.setAdapter(adapter);
     }
     private void setUpParentRecycler() {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         s_d_f_f_l_parent_recycler.setLayoutManager(manager);
-        StudentDashboardFilterParentAdapter adapter = new StudentDashboardFilterParentAdapter(getActivity(), jsonArray, list);
+        FilterParentAdapter adapter = new FilterParentAdapter(getActivity(), jsonArray, list);
         adapter.setmOnFilterParentItemSelected(this);
         s_d_f_f_l_parent_recycler.setAdapter(adapter);
     }
@@ -150,7 +150,7 @@ public class StudentDashboardFilterFragment extends Fragment
 
 
             case R.id.add_drop_down_child:
-                AddDropDownValueDialog dialog = new AddDropDownValueDialog(getActivity(),TYPE,position );
+                AddDropDownDialog dialog = new AddDropDownDialog(getActivity(),TYPE,position );
                 dialog.setOnDropDownValueAdded(this);
                 dialog.show();
                 break;

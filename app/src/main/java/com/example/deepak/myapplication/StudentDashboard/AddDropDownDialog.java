@@ -16,8 +16,8 @@ import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.R;
 
-class AddDropDownValueDialog extends Dialog implements View.OnClickListener {
-    public AddDropDownValueDialog(@NonNull Context context, String TYPE, int position) {
+class AddDropDownDialog extends Dialog implements View.OnClickListener {
+    public AddDropDownDialog(@NonNull Context context, String TYPE, int position) {
         super(context);
         mContext = context;
         this.TYPE = TYPE;

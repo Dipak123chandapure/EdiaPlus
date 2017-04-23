@@ -14,16 +14,16 @@ import com.example.deepak.myapplication.R;
 import java.util.ArrayList;
 
 
-public class StudentDashboardFilterChildListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FilterChildAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<DropDownDataDTO> mList;
-    public StudentDashboardFilterChildListAdapter(Context mContext, ArrayList<DropDownDataDTO> mList) {
+    public FilterChildAdapter(Context mContext, ArrayList<DropDownDataDTO> mList) {
         this.mList = mList;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_dashboard_filter_recycler_child_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_dashboard_filter_child_item, parent, false);
         return new LeadListViewHolder(view);
     }
 

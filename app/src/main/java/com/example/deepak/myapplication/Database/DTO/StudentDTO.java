@@ -4,6 +4,10 @@ import android.os.Parcelable;
 
 public class StudentDTO implements Parcelable {
 
+
+
+    private int id;
+
     private String form1Entity1;
     private String form1Entity2;
     private String form1Entity3;
@@ -57,6 +61,7 @@ public class StudentDTO implements Parcelable {
     }
 
     protected StudentDTO(Parcel in) {
+        this.id = in.readInt();
 
         this.form1Entity1 = in.readString();
         this.form1Entity2 = in.readString();
@@ -99,6 +104,7 @@ public class StudentDTO implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
 
         dest.writeString(this.form1Entity1);
         dest.writeString(this.form1Entity2);
@@ -151,7 +157,13 @@ public class StudentDTO implements Parcelable {
         }
     };
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getForm1Entity1() {
         return form1Entity1;

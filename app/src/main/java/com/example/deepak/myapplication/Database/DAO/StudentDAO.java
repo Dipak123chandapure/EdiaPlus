@@ -90,6 +90,28 @@ public class StudentDAO extends OfflineDatabase {
     }
 
 
+    public ArrayList<StudentDTO> getAllStudentList(){
+        int i =0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] coloumns = {ID, STUDENT_DATA_JSON};
+        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_2_ENTITY_2_ID +" = '"+4+"'", null, null, null, null);
+        ArrayList<StudentDTO> list = new ArrayList<>();
+        if (null != cursor) {
+            while (cursor.moveToNext()) {
+                String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
+                int id = cursor.getInt(cursor.getColumnIndex(ID));
+                StudentDTO studentData = new Gson().fromJson(student, StudentDTO.class);
+                studentData.setId(id);
+                list.add(studentData);
+                i++;
+                if (i>100)
+                    return list;
+            }
+        }
+        return list;
+
+    }
+
     public StudentDTO getStudentForNumber(String number) {
 
         SQLiteDatabase db = this.getWritableDatabase();

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#babeb4"
+            android:orientation="vertical">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:elevation="3dp"
+                android:src="@mipmap/hugh"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="3dp"
+                app:civ_shadow="true"
+                app:civ_shadow_color="#898c86"
+                app:civ_shadow_radius="2" />
+
+            <LinearLayout
+                android:id="@+id/form1_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="60dp"
+                android:orientation="vertical"
+                android:background="#ffffff"
+                android:elevation="2dp">
+
+                <include
+                    layout="@layout/group_dashboard_form_one_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></include>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/form2_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/form1_ll"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:elevation="2dp"
+                android:visibility="gone">
+
+                <include
+                    layout="@layout/group_dashboard_form_two_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></include>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/form3_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/form2_ll"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:elevation="2dp"
+                android:visibility="gone">
+
+                <include
+                    layout="@layout/group_dashboard_form_three_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></include>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/form4_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/form3_ll"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#ffffff"
+                android:layout_marginTop="10dp"
+                android:elevation="2dp"
+                android:visibility="gone">
+
+                <include
+                    layout="@layout/group_dashboard_form_four_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></include>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#f6f7f5"
+                android:id="@+id/attachment_ll"
+                android:layout_below="@+id/form4_ll"
+                android:layout_margin="12dp"
+                android:elevation="2dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/student_attachment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#fefffc"
+                android:id="@+id/activities"
+                android:layout_below="@+id/attachment_ll"
+                android:layout_margin="12dp"
+                android:elevation="2dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/student_activities_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

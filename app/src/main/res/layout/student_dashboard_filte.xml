@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/student_dashboard_filter_header_layout"
+        layout="@layout/student_dashboard_filter_header"
         android:layout_width="match_parent"
         android:layout_height="52dp" />
 
@@ -82,7 +82,7 @@
             android:layout_alignParentRight="true"
             android:src="@mipmap/add_white"
             android:id="@+id/add_drop_down_child"
-            android:background="@drawable/student_dashboard_filter_check_mark_background"/>
+            android:background="@drawable/circular_border_white"/>
 
         <ImageView
             android:id="@+id/s_d_f_F_l_check_mark"
@@ -91,6 +91,6 @@
             android:padding="6dp"
             android:layout_margin="5dp"
             android:src="@mipmap/check_white"
-            android:background="@drawable/student_dashboard_filter_check_mark_background"/>
+            android:background="@drawable/circular_border_white"/>
     </LinearLayout>
 </LinearLayout>

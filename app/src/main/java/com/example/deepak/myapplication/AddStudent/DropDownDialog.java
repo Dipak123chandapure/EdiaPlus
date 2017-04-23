@@ -35,7 +35,7 @@ public class DropDownDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.add_lead_common_code_dialog);
+        setContentView(R.layout.dropdownvalue_dialog);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = (Gravity.CENTER);

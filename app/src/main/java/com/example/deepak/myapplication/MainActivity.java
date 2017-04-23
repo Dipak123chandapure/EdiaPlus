@@ -14,24 +14,16 @@ import android.widget.ImageView;
 import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardFragmnet;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
-import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
-import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
-import com.example.deepak.myapplication.Database.OfflineDatabase;
 import com.example.deepak.myapplication.EmailDashboard.EmailDashboardFragment;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.SmartCaller.SmartCallerDashboardFragment;
-import com.example.deepak.myapplication.StudentDashboard.StudentDashboardFragment;
+import com.example.deepak.myapplication.StudentDashboard.StudentDashboard;
 import com.example.deepak.myapplication.Utility.Constant;
-import com.example.deepak.myapplication.Utility.ModalData;
-import com.example.deepak.myapplication.Utility.UserDataParser;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         inItView();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboardFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
 
 
 //        try {
@@ -67,7 +59,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        setUpDefaultCommonCode();
 
         //addBatches();
+       // addStudentsToBatch();
+    }
 
+    private void addStudentsToBatch() {
+        StudentDAO dao = new StudentDAO(this);
+        BatchDAO dao1 = new BatchDAO(this);
+        ArrayList<StudentDTO> list = dao.getAllStudentList();
+        Random r = new Random();
+        for (int i=0; i<list.size(); i++){
+            for (int j =0; j<5; j++){
+                dao1.saveToStudentBatchBridge(list.get(i).getId(), (r.nextInt(8)+1));
+            }
+        }
     }
 
     String[] batches = {"Android", "JAVA", "SQL Databse", "Azure", "Cloud", "JAVA", "Objective C", "MongDB"};
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new StudentDashboardFragment()).commit();
+                        .replace(R.id.main_frame_layout, new StudentDashboard()).commit();
                 break;
 
             case R.id.m_d_f_a_b_image_five:

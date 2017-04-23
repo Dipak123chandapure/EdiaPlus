@@ -18,7 +18,7 @@ public class CustomDatePickerDialog extends Dialog implements CalendarView.OnDat
     public CustomDatePickerDialog(Context context) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.date_picker_dialog_layout);
+        setContentView(R.layout.date_picker_dialog);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = (Gravity.CENTER);

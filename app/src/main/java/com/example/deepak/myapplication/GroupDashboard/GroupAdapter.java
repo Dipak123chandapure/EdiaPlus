@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
@@ -15,12 +16,12 @@ import com.example.deepak.myapplication.Utility.Utility;
 
 import java.util.ArrayList;
 
-public class GroupDashboardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 0;
     ArrayList<BatchDTO> mList;
     Context mContext;
 
-    public GroupDashboardRecyclerAdapter(Context mContext, ArrayList<BatchDTO> mList) {
+    public GroupAdapter(Context mContext, ArrayList<BatchDTO> mList) {
         this.mList = mList;
         this.mContext = mContext;
     }
@@ -37,34 +38,53 @@ public class GroupDashboardRecyclerAdapter extends RecyclerView.Adapter<Recycler
             headingViewHolder.circular_text.setText(data.getName().charAt(0) + "");
             int colour = Utility.getCircularTextBackground(data.getName().charAt(0));
             headingViewHolder.circular_text.getBackground().setColorFilter(colour, PorterDuff.Mode.SRC_ATOP);
-            headingViewHolder.name.setText(data.getName());
+            headingViewHolder.group_name.setText(data.getName());
         }
     }
 
     public int getItemCount() {
         return mList.size();
     }
-
     public int getItemViewType(int position) {
         return TYPE_ITEM;
     }
 
-    public class LeadListViewHolder extends RecyclerView.ViewHolder {
+    public interface GroupFroagmetCallback {
+        void onGroupItemClicked(int position);
+    }
+
+    GroupFroagmetCallback mGroupFroagmetCallback;
+
+    public void setGroupFroagmetCallback(GroupFroagmetCallback mGroupFroagmetCallback) {
+        this.mGroupFroagmetCallback = mGroupFroagmetCallback;
+    }
+
+    public class LeadListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected LinearLayout ll;
         protected TextView circular_text;
-        protected TextView name;
+        protected TextView group_name;
         protected TextView activity_date;
         protected TextView student_name;
-        protected ImageView menu;
+        protected ImageView menu_icon;
 
 
         public LeadListViewHolder(View v) {
             super(v);
+            ll = (LinearLayout) v.findViewById(R.id.ll);
             circular_text = (TextView) v.findViewById(R.id.circular_text);
-            name = (TextView) v.findViewById(R.id.name);
+            group_name = (TextView) v.findViewById(R.id.group_name);
             activity_date = (TextView) v.findViewById(R.id.activity_date);
             student_name = (TextView) v.findViewById(R.id.student_name);
-            menu = (ImageView) v.findViewById(R.id.menu);
+            menu_icon = (ImageView) v.findViewById(R.id.menu_icon);
 
+            ll.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (null != mGroupFroagmetCallback)
+                mGroupFroagmetCallback.onGroupItemClicked(getAdapterPosition());
         }
     }
 }

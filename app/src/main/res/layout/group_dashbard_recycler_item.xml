@@ -11,7 +11,8 @@
     android:paddingBottom="16dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingTop="12dp">
+    android:paddingTop="12dp"
+    android:id="@+id/ll">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -34,12 +35,12 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:id="@+id/menu"
+            android:id="@+id/menu_icon"
             android:src="@mipmap/menu_vertical_grey" />
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/group_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

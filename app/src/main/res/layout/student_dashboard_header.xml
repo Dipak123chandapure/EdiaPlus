@@ -13,11 +13,10 @@
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:src="@mipmap/search_grey"
-        android:id="@+id/s_d_h_b_l_search_icon"
-        />
+        android:id="@+id/search_icon" />
 
     <EditText
-        android:id="@+id/s_d_h_b_l_search_edit_text"
+        android:id="@+id/search_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -37,7 +36,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="8dp"
         android:src="@mipmap/group_grey"
-        android:id="@+id/s_d_h_b_l_group_icon"/>
+        android:id="@+id/group_icon"/>
 
     <ImageView
         android:layout_width="20dp"
@@ -45,6 +44,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="8dp"
         android:src="@mipmap/filter_grey"
-        android:id="@+id/s_d_h_b_l_filter_icon"/>
+        android:id="@+id/filter_icon"/>
 
 </LinearLayout>

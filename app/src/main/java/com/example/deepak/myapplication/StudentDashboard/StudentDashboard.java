@@ -24,7 +24,7 @@ import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
 import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
-import com.example.deepak.myapplication.GroupDashboard.GroupDashboardFragment;
+import com.example.deepak.myapplication.GroupDashboard.GroupDashboard;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.Utility.Constant;
@@ -33,24 +33,23 @@ import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandab
 import java.util.ArrayList;
 
 
-public class StudentDashboardFragment extends Fragment implements
-        StudentDashboardFilterFragment.OnFilterSeleted,
-        StudentDashboardStudentListAdapter.OnStudentListAdapterCallback, View.OnClickListener, TextWatcher {
+public class StudentDashboard extends Fragment implements
+        FilterFragment.OnFilterSeleted,
+        StudentAdapter.OnStudentAdapterCallback,
+        View.OnClickListener, TextWatcher {
 
-    RecyclerViewExpandableItemManager expMgr;
-    StudentDashboardStudentListAdapter adapter;
-    RecyclerView main_dashboard_recycler_view;
     ArrayList<StudentDTO> mList;
-    ImageView s_d_m_l_floating_button;
     String QUERY = null;
+    StudentAdapter adapter;
+    RecyclerView recycler_view;
 
-    ImageView s_d_h_b_l_filter_icon, s_d_h_b_l_group_icon, s_d_h_b_l_search_icon;
-    EditText s_d_h_b_l_search_edit_text;
+    ImageView search_icon, group_icon, filter_icon, floating_btn;
+    EditText search_et;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.student_dashboard_main_layout, container, false);
+        View view = inflater.inflate(R.layout.student_dashboard, container, false);
         inItView(view);
         mList = new ArrayList<>();
         setUpRecyclerView();
@@ -58,31 +57,30 @@ public class StudentDashboardFragment extends Fragment implements
     }
 
     private void inItView(View view) {
-        main_dashboard_recycler_view = (RecyclerView) view.findViewById(R.id.main_dashboard_recycler_view);
-        s_d_m_l_floating_button = (ImageView) view.findViewById(R.id.s_d_m_l_floating_button);
-        s_d_h_b_l_filter_icon = (ImageView) view.findViewById(R.id.s_d_h_b_l_filter_icon);
-        s_d_h_b_l_group_icon = (ImageView) view.findViewById(R.id.s_d_h_b_l_group_icon);
-        s_d_h_b_l_search_icon = (ImageView) view.findViewById(R.id.s_d_h_b_l_search_icon);
-        s_d_h_b_l_search_edit_text = (EditText) view.findViewById(R.id.s_d_h_b_l_search_edit_text);
+        recycler_view = (RecyclerView) view.findViewById(R.id.recycler_view);
+        floating_btn = (ImageView) view.findViewById(R.id.floating_btn);
+        filter_icon = (ImageView) view.findViewById(R.id.filter_icon);
+        group_icon = (ImageView) view.findViewById(R.id.group_icon);
+        search_icon = (ImageView) view.findViewById(R.id.search_icon);
+        search_et = (EditText) view.findViewById(R.id.search_et);
 
-
-        s_d_h_b_l_filter_icon.setOnClickListener(this);
-        s_d_h_b_l_group_icon.setOnClickListener(this);
-        s_d_h_b_l_search_icon.setOnClickListener(this);
-        s_d_h_b_l_search_edit_text.setOnClickListener(this);
-        s_d_m_l_floating_button.setOnClickListener(this);
+        filter_icon.setOnClickListener(this);
+        group_icon.setOnClickListener(this);
+        search_icon.setOnClickListener(this);
+        search_et.setOnClickListener(this);
+        floating_btn.setOnClickListener(this);
     }
 
     private void setUpRecyclerView() {
-        expMgr = new RecyclerViewExpandableItemManager(null);
-        main_dashboard_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerViewExpandableItemManager expMgr = new RecyclerViewExpandableItemManager(null);
+        recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         StudentDAO studentDAO = new StudentDAO(getActivity());
         mList = studentDAO.getStudentList(QUERY, 0);
-        adapter = new StudentDashboardStudentListAdapter(getActivity(), mList);
-        adapter.setOnStudentListAdapterCallback(this);
-        main_dashboard_recycler_view.setAdapter(expMgr.createWrappedAdapter(adapter));
-        ((SimpleItemAnimator) main_dashboard_recycler_view.getItemAnimator()).setSupportsChangeAnimations(false);
-        expMgr.attachRecyclerView(main_dashboard_recycler_view);
+        adapter = new StudentAdapter(mList);
+        adapter.setOnStudentAdapterCallback(this);
+        recycler_view.setAdapter(expMgr.createWrappedAdapter(adapter));
+        ((SimpleItemAnimator) recycler_view.getItemAnimator()).setSupportsChangeAnimations(false);
+        expMgr.attachRecyclerView(recycler_view);
     }
 
 
@@ -119,6 +117,7 @@ public class StudentDashboardFragment extends Fragment implements
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
                         .replace(R.id.main_frame_layout, fragment).commit();
                 break;
+
             case 2:
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + dto.getForm1Entity4()));
@@ -138,39 +137,38 @@ public class StudentDashboardFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.s_d_h_b_l_search_edit_text:
+            case R.id.search_et:
                 Log.d("rohit", "Clicked");
-                s_d_h_b_l_search_edit_text.setCursorVisible(true);
-                s_d_h_b_l_search_edit_text.addTextChangedListener(this);
+                search_et.setCursorVisible(true);
+                search_et.addTextChangedListener(this);
                 break;
 
-            case R.id.s_d_h_b_l_filter_icon:
-                StudentDashboardFilterFragment studentDashboardFilterFragment = new StudentDashboardFilterFragment();
-                studentDashboardFilterFragment.setOnFilterSeleted(this);
+            case R.id.filter_icon:
+                FilterFragment filterFragment = new FilterFragment();
+                filterFragment.setOnFilterSeleted(this);
                 getActivity().getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .add(R.id.main_frame_layout, studentDashboardFilterFragment).commit();
+                        .add(R.id.main_frame_layout, filterFragment).commit();
                 break;
 
-            case R.id.s_d_h_b_l_group_icon:
+            case R.id.group_icon:
                 getActivity().getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new GroupDashboardFragment()).commit();
+                        .replace(R.id.main_frame_layout, new GroupDashboard()).commit();
                 break;
 
-            case R.id.s_d_h_b_l_search_icon:
+            case R.id.search_icon:
                 break;
 
 
-            case R.id.s_d_m_l_floating_button:
+            case R.id.floating_btn:
 
-            getActivity().getSupportFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                    .replace(R.id.main_frame_layout, new AddStudentFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, new AddStudentFragment()).commit();
                 break;
 
         }
-
 
     }
 
@@ -187,10 +185,10 @@ public class StudentDashboardFragment extends Fragment implements
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s_d_h_b_l_search_edit_text.getText().toString().length() < 1)
+        if (search_et.getText().toString().length() < 1)
             QUERY = null;
         else
-            QUERY = StudentDAO.FORM_1_ENTITY_3 + " LIKE '%" + s_d_h_b_l_search_edit_text.getText().toString() + "%'";
+            QUERY = StudentDAO.FORM_1_ENTITY_3 + " LIKE '%" + search_et.getText().toString() + "%'";
 
         StudentDAO handler = new StudentDAO(getActivity());
         ArrayList<StudentDTO> list = handler.getStudentList(QUERY, 0);
@@ -209,6 +207,5 @@ public class StudentDashboardFragment extends Fragment implements
         mList.addAll(list);
         adapter.notifyDataSetChanged();
     }
-
 
 }

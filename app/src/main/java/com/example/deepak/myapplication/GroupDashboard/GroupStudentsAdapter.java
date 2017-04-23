@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ public class GroupStudentsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_student_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_dashboard_student_list_item, parent, false);
         return new LeadListViewHolder(view);
 
     }

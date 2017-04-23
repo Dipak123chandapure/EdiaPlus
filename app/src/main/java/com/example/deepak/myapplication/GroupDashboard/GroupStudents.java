@@ -9,27 +9,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 
 import java.util.ArrayList;
 
-public class Group_Details_Fragmet extends Fragment implements GroupStudentsAdapter.OnGroupStudentCallback {
+public class GroupStudents extends Fragment implements GroupStudentsAdapter.OnGroupStudentCallback {
     RecyclerView student_list_recycler;
     ArrayList<StudentDTO> mList;
     GroupStudentsAdapter adpter;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.group_details_layout, container, false);
+        View view = inflater.inflate(R.layout.group_dashbard_students, container, false);
         student_list_recycler = (RecyclerView) view.findViewById(R.id.student_list_recycler);
         setUpRecyclerView();
+        Log.d("rohit", "oncreate is called");
         return view;
     }
 
     private void setUpRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        mList = new StudentDAO(getActivity()).getStudentList(null, 0);
+        mList = new BatchDAO(getActivity()).getStudentsForBatch(1, 0);
         adpter = new GroupStudentsAdapter(getActivity(), mList);
         adpter.setOnGroupStudentCallback(this);
         student_list_recycler.setLayoutManager(manager);
@@ -48,5 +50,13 @@ public class Group_Details_Fragmet extends Fragment implements GroupStudentsAdap
                 adpter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void changeBatch(int batchID) {
+        mList.clear();
+        ArrayList<StudentDTO> list = new BatchDAO(getActivity()).getStudentsForBatch(batchID, 0);
+        mList.addAll(list);
+        Log.d("rohit", "mList "+mList.size());
+        adpter.notifyDataSetChanged();
     }
 }

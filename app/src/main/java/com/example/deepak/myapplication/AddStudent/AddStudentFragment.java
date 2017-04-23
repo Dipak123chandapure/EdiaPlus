@@ -16,7 +16,7 @@ import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.FormConstarins;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
-import com.example.deepak.myapplication.StudentDashboard.StudentDashboardFragment;
+import com.example.deepak.myapplication.StudentDashboard.StudentDashboard;
 import com.example.deepak.myapplication.Utility.Constant;
 import com.example.deepak.myapplication.Utility.UserDataParser;
 import com.example.deepak.myapplication.Utility.UserInfo;
@@ -45,7 +45,7 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
     Button add_edit_btn, cancel_btn;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_lead_fragment_layout, container, false);
+        View view = inflater.inflate(R.layout.add_student, container, false);
 
         inItView(view);
         inItForm();
@@ -384,7 +384,7 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
             case R.id.cancel_btn:
                 getActivity().getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new StudentDashboardFragment()).commit();
+                        .replace(R.id.main_frame_layout, new StudentDashboard()).commit();
                 break;
         }
 
@@ -431,7 +431,7 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
         getActivity().getSupportFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                .replace(R.id.main_frame_layout, new StudentDashboardFragment()).commit();
+                .replace(R.id.main_frame_layout, new StudentDashboard()).commit();
     }
 
     private boolean isAllValidEntries() {

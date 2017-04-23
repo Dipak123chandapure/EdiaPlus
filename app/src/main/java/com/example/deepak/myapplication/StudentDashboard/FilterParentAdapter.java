@@ -19,19 +19,19 @@ import java.util.ArrayList;
 
 
 
-public class StudentDashboardFilterParentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FilterParentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     JSONArray jsonArray;
     ArrayList<ArrayList<DropDownDataDTO>> list;
 
-    public StudentDashboardFilterParentAdapter(Context mContext, JSONArray jsonArray, ArrayList<ArrayList<DropDownDataDTO>> list) {
+    public FilterParentAdapter(Context mContext, JSONArray jsonArray, ArrayList<ArrayList<DropDownDataDTO>> list) {
         this.jsonArray = jsonArray;
         this.list = list;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_dashboard_filter_recycler_parent_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_dashboard_filter_parent_item, parent, false);
         return new LeadListViewHolder(view);
 
     }

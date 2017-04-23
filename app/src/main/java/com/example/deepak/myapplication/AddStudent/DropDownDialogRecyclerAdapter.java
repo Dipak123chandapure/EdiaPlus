@@ -26,7 +26,7 @@ public class DropDownDialogRecyclerAdapter extends RecyclerView.Adapter<Recycler
     }
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_lead_common_code_dialog_recycler_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dropdown_dialog_item, parent, false);
         return new LeadListViewHolder(view);
     }
 
