@@ -24,7 +24,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,8 +46,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"></android.support.v7.widget.RecyclerView>
-
-
             </LinearLayout>
 
             <TextView
@@ -59,8 +56,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/s_d_f_l_add_student_list_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="344dp"
-                android:visibility="gone">
+                android:layout_height="470dp">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -113,12 +109,12 @@
                         android:id="@+id/emal_body_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
                         android:background="@null"
                         android:gravity="top"
                         android:hint="Body"
                         android:paddingLeft="12dp"
                         android:paddingTop="12dp"
-                        android:layout_marginBottom="12dp"
                         android:textColor="@color/Grey_600"
                         android:textColorHint="@color/Grey_500"
                         android:textSize="14sp" />
@@ -136,7 +132,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
     </ScrollView>

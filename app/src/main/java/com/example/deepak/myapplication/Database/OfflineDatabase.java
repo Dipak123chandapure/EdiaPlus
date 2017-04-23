@@ -167,7 +167,6 @@ public class OfflineDatabase extends SQLiteOpenHelper {
     protected static final String SEND_ACTIVITY_JSON = "SEND_ACTIVITY_JSON";
 
 
-    protected static final String ACTIVITY_DATA = "ACTIVITY_DATA";
 
     protected static final String ACTIVITY_TABLE_CREATE = "create table "
             + ACTIVITY_TABLE + " ("
@@ -293,7 +292,6 @@ public class OfflineDatabase extends SQLiteOpenHelper {
             + " FOREIGN KEY ("+BATCH_ID+") REFERENCES "+BATCH_TABLE+"("+ID+"), "
             + " FOREIGN KEY ("+STUDENT_ID+") REFERENCES "+STUDENT_INFO_TABLE+"("+ID+")"
             + ");";
-
 
 
     public OfflineDatabase(Context context) {

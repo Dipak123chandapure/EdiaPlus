@@ -13,9 +13,11 @@ import android.widget.ImageView;
 
 import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardFragmnet;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
+import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
+import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.Database.OfflineDatabase;
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             m_d_f_a_b_image_five, m_d_f_a_b_image_six, m_d_f_a_b_image_seven;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -65,6 +66,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //        setUpDefaultCommonCode();
 
+        //addBatches();
+
+    }
+
+    String[] batches = {"Android", "JAVA", "SQL Databse", "Azure", "Cloud", "JAVA", "Objective C", "MongDB"};
+
+    private void addBatches() {
+        BatchDAO dao = new BatchDAO(this);
+        for (int i = 0; i < batches.length; i++) {
+            BatchDTO dto = new BatchDTO();
+            dto.setName(batches[i]);
+            dto.setDetails("this is a " + batches[i]);
+            dao.saveBatch(dto);
+        }
     }
 
     private void inItView() {
@@ -154,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Constant.FORM_FOUR_CHILD_THREE_COMMON_CODE, Constant.FORM_FOUR_CHILD_FOUR_COMMON_CODE,
     };
 
-    public void setUpDefaultCommonCode(){
+    public void setUpDefaultCommonCode() {
 //        DropDownDataDAO dao = new DropDownDataDAO(this);
 //        for (int i =0; i<12; i++){
 //            for (int j = 0; j<5; j++){
@@ -170,13 +185,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setUpDefaultData();
     }
-
-
-
-
-
-
-
 
 
     private void setUpDefaultData() {
@@ -198,21 +206,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             data.setForm1Entity3(firstName + lastName.charAt(0) + "@gmail.com");
             data.setForm1Entity4(mob_no);
 
-            data.setForm2Entity1ID(r.nextInt(4)+1);
-            data.setForm2Entity2ID(r.nextInt(4)+1);
-            data.setForm2Entity3ID(r.nextInt(4)+1);
-            data.setForm2Entity4ID(r.nextInt(4)+1);
+            data.setForm2Entity1ID(r.nextInt(4) + 1);
+            data.setForm2Entity2ID(r.nextInt(4) + 1);
+            data.setForm2Entity3ID(r.nextInt(4) + 1);
+            data.setForm2Entity4ID(r.nextInt(4) + 1);
 
-            data.setForm3Entity1ID(r.nextInt(4)+1);
-            data.setForm3Entity2ID(r.nextInt(4)+1);
-            data.setForm3Entity3ID(r.nextInt(4)+1);
+            data.setForm3Entity1ID(r.nextInt(4) + 1);
+            data.setForm3Entity2ID(r.nextInt(4) + 1);
+            data.setForm3Entity3ID(r.nextInt(4) + 1);
 
 
             Long date = getRandomDate();
             data.setCreatedOnMilli(date);
             data.setUpdatedONMilli(date);
-            data.setCreatedOn(date+"");
-            data.setUpdatedON(date+"");
+            data.setCreatedOn(date + "");
+            data.setUpdatedON(date + "");
             data.setSyncStatus("NEW");
 
             data.setStudentDataJSON(new Gson().toJson(data));
@@ -223,12 +231,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             data1.setModificationDate(date);
             data1.setCreatedDate(date);
 
-            data1.setForm1Entity1(firstName +" " +lastName);
+            data1.setForm1Entity1(firstName + " " + lastName);
             data1.setForm1Entity3(firstName + lastName.charAt(0) + "@gmail.com");
             data1.setForm1Entity4(mob_no);
 
             data1.setActivityComment("In the algorithm above, k (a parameter of the algorithm) is the number In the algorithm above,");
-            data1.setActvityTypeID(r.nextInt(5)+1);
+            data1.setActvityTypeID(r.nextInt(5) + 1);
             data1.setActivityBody("In the algorithm above, k (a parameter of the algorithm) is the number\n" +
                     "of clusters we want to find; and the cluster centroids μj represent our current\n" +
                     "guesses for the positions of the centers of the clusters. To initialize the cluster\n" +
@@ -236,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     "examples randomly, and set the cluster centroids to be equal to the values of");
 
             data1.setActivityAttachmentList(listString);
-            data1.setSmartCallDuration(r.nextInt(3)+"m "+r.nextInt(60)+"s");
+            data1.setSmartCallDuration(r.nextInt(3) + "m " + r.nextInt(60) + "s");
             data1.setActivityDataJSON(new Gson().toJson(data1));
 
             new ActivitiesDAO(this).addActivity(data1);
@@ -251,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int hours = new Random().nextInt(12);
         int min = new Random().nextInt(60);
 
-        calender.set(2017, month, date,hours,min);
+        calender.set(2017, month, date, hours, min);
         Log.d("rohit", "Date: " + fmt.format(calender.getTime()));
         Log.d("rohit", "Time: " + calender.getTime().getTime());
         return calender.getTime().getTime();
@@ -266,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Log.d("rohit", "file path" + filePath);
         }
     }
+
     OnMActivityResult mOnMActivityResult;
 
     public void setOnMActivityResult(OnMActivityResult mOnMActivityResult) {
