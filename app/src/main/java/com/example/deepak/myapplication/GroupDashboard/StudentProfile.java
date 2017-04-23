@@ -3,6 +3,8 @@ package com.example.deepak.myapplication.GroupDashboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +12,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardActivityListAdapter;
+import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
+import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.FormConstarins;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
+import com.example.deepak.myapplication.EmailDashboard.EmailAttchmentAdapter;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.Utility.Constant;
 import com.example.deepak.myapplication.Utility.UserDataParser;
@@ -26,7 +32,7 @@ import java.util.ArrayList;
  * Created by Deepak on 4/22/2017.
  */
 
-public class StudentProfile extends Fragment {
+public class StudentProfile extends Fragment implements EmailAttchmentAdapter.OnAttchmentRemoved {
 
     LinearLayout form1_ll, form2_ll, form3_ll, form4_ll;
     TextView form2_heading, form2entity1, form2entity2, form2entity3, form2entity4;
@@ -39,10 +45,16 @@ public class StudentProfile extends Fragment {
     ArrayList<DropDownDataDTO> form4entity1DTO,form4entity2DTO,form4entity3DTO,form4entity4DTO;
 
     FormConstarins form1constains,form2constains,form3constains,form4constains;
+    RecyclerView student_activities_recycler, student_attachment_recycler;
+
+    StudentDTO studentData;
+    ArrayList<ActivityDTO> mList;
+    ArrayList<String> list;
+    EmailAttchmentAdapter adapter1;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.group_dashboard_student_profile, container, false);
-        studentData = new StudentDAO(getActivity()).getStudentForNumber("9327668689");
+        studentData = new StudentDAO(getActivity()).getStudentForNumber("371386436");
         inItView(view);
         return view;
     }
@@ -82,10 +94,34 @@ public class StudentProfile extends Fragment {
         form4entity6 = (TextView) view.findViewById(R.id.form4entity6);
         form4entity7 = (TextView) view.findViewById(R.id.form4entity7);
 
+        student_activities_recycler = (RecyclerView) view.findViewById(R.id.student_activities_recycler);
+        student_attachment_recycler = (RecyclerView) view.findViewById(R.id.student_attachment_recycler);
         setData();
+        setRecyclerView();
     }
 
-    StudentDTO studentData;
+
+    private void setRecyclerView() {
+        mList= new ActivitiesDAO(getActivity()).getActivitiesForStudent(studentData);
+        Log.d("rohit", "size "+mList.size());
+        StudentProfileActivitiesAdapter adapter = new StudentProfileActivitiesAdapter(getActivity(), mList);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        student_activities_recycler.setLayoutManager(manager);
+        student_activities_recycler.setAdapter(adapter);
+
+        list = new ArrayList<>();
+        list.add("student 10th.pdf");
+        list.add("student 12th.pdf");
+        list.add("student test.pdf");
+        list.add("student dv.pdf");
+        adapter1 = new EmailAttchmentAdapter(getActivity(),list);
+        adapter1.setOnAttchmentRemoved(this);
+        LinearLayoutManager manager2 = new LinearLayoutManager(getActivity());
+        student_attachment_recycler.setLayoutManager(manager2);
+        student_attachment_recycler.setAdapter(adapter1);
+    }
+
+
 
     private void setData() {
 
@@ -271,5 +307,15 @@ public class StudentProfile extends Fragment {
         }
     }
 
+    @Override
+    public void onAttchmentRemoved(int poition) {
+        list.remove(poition);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter1.notifyDataSetChanged();
+            }
+        });
 
+    }
 }

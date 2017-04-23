@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
+import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.Database.OfflineDatabase;
 import com.google.gson.Gson;
 
@@ -82,6 +83,24 @@ public class ActivitiesDAO extends OfflineDatabase {
                 i++;
             }
         }
+        return list;
+    }
+
+    public ArrayList<ActivityDTO> getActivitiesForStudent(StudentDTO studentData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] coloumns = {ACTIVITY_DATA_JSON};
+        Cursor cursor = db.query(ACTIVITY_TABLE, coloumns, FORM_1_ENTITY_3 + " = '" + studentData.getForm1Entity3() + "'", null, null, null, null);
+        ArrayList<ActivityDTO> list = new ArrayList<>();
+
+        if (null != cursor) {
+            while (cursor.moveToNext()) {
+                String student = cursor.getString(cursor.getColumnIndex(ACTIVITY_DATA_JSON));
+                ActivityDTO dto = new Gson().fromJson(student, ActivityDTO.class);
+                list.add(dto);
+            }
+        }
+        cursor.close();
+        db.close();
         return list;
     }
 }
