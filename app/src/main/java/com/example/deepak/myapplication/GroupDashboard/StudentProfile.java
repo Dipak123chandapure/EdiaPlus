@@ -25,6 +25,7 @@ import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.Utility.Constant;
 import com.example.deepak.myapplication.Utility.UserDataParser;
 import com.example.deepak.myapplication.Utility.UserInfo;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -70,9 +71,9 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
         form1entity3 = (TextView) view.findViewById(R.id.form1entity3);
         form1entity4 = (TextView) view.findViewById(R.id.form1entity4);
 
-        form2constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_ONE_CONSTRAINS, getActivity());
-        form3constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_TWO_CONSTRAINS, getActivity());
-        form4constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_THREE_CONSTRAINS, getActivity());
+        form2constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_TWO_CONSTRAINS, getActivity());
+        form3constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_THREE_CONSTRAINS, getActivity());
+        form4constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_FOUR_CONSTRAINS, getActivity());
 
         student_activities_recycler = (RecyclerView) view.findViewById(R.id.student_activities_recycler);
         student_attachment_recycler = (RecyclerView) view.findViewById(R.id.student_attachment_recycler);
@@ -83,11 +84,18 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
     }
 
     private void setRecyclerView() {
+        setUpForm1();
         setUpForm2Recycler();
         setUpForm3Recycler();
         setUpForm4Recycler();
         setUpAttachmentRecycler();
         setUpActivitiesRecycler();
+    }
+
+    private void setUpForm1() {
+        form1entity1.setText(studentData.getForm1Entity1()+" "+studentData.getForm1Entity2());
+        form1entity3.setText(studentData.getForm1Entity3());
+        form1entity4.setText(studentData.getForm1Entity4());
     }
 
 
@@ -148,6 +156,7 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
         list.add(new StudentProfileFormDTO(form2constains.getCHILD_TWO_TITLE(), studentData.getForm2Entity2()));
         list.add(new StudentProfileFormDTO(form2constains.getCHILD_THREE_TITLE(), studentData.getForm2Entity3()));
         list.add(new StudentProfileFormDTO(form2constains.getCHILD_FOUR_TITLE(), studentData.getForm2Entity4()));
+        Log.d("rohit", "form21title "+form2constains.getCHILD_ONE_TITLE());
         if (list.size()>0) {
             form2_heading.setText(form2constains.getTITLE());
             StudentProfileFormAdapter adapter = new StudentProfileFormAdapter(getActivity(), list);
@@ -188,5 +197,10 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
             }
         });
 
+    }
+
+    public void changeStudent(StudentDTO sto) {
+        studentData = new StudentDAO(getActivity()).getStudentForNumber(sto.getForm1Entity4());
+        setRecyclerView();
     }
 }

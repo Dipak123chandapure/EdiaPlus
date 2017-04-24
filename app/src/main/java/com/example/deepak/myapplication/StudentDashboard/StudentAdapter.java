@@ -138,6 +138,8 @@ public class StudentAdapter extends AbstractExpandableItemAdapter<StudentAdapter
                 case R.id.image_five:
                     break;
                 case R.id.image_six:
+                    if (null != mOnStudentAdapterCallback)
+                        mOnStudentAdapterCallback.onChildItemClicekd(5,mList.get(groupPosition));
                     break;
             }
         }

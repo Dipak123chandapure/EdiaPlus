@@ -67,6 +67,7 @@ public class GroupStudentsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public interface OnGroupStudentCallback {
         void loadMore(int index);
+        void studentClicked(int position);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class GroupStudentsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
-    public class LeadListViewHolder extends RecyclerView.ViewHolder {
+    public class LeadListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         LinearLayout linearLayout;
         TextView s_d_r_g_i_circular_text;
         TextView s_d_r_g_i_campaign_name;
@@ -87,11 +88,21 @@ public class GroupStudentsAdapter extends RecyclerView.Adapter<RecyclerView.View
         public LeadListViewHolder(View v) {
             super(v);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
+            linearLayout.setOnClickListener(this);
             s_d_r_g_i_circular_text = (TextView) itemView.findViewById(R.id.s_d_r_g_i_circular_text);
             s_d_r_g_i_campaign_name = (TextView) itemView.findViewById(R.id.s_d_r_g_i_campaign_name);
             s_d_r_g_i_email_id = (TextView) itemView.findViewById(R.id.s_d_r_g_i_email_id);
             s_d_r_g_i_mobile_num = (TextView) itemView.findViewById(R.id.s_d_r_g_i_mobile_num);
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.linear_layout:
+                    if (null != mOnGroupStudentCallback)
+                        mOnGroupStudentCallback.studentClicked(getAdapterPosition());
+                    break;
+            }
+        }
     }
 }

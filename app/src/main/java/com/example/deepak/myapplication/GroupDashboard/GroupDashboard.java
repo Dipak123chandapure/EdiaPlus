@@ -8,10 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 
 
-public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback {
+public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback, GroupStudents.OnStudentClicked {
 
     ViewPager view_pager;
 
@@ -25,16 +26,20 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
 
     Groups fragment1;
     GroupStudents fragmet2;
+    StudentProfile fragment3;
 
     private void setUpViewPager() {
         FragmentPageradapter adapter = new FragmentPageradapter(getActivity().getSupportFragmentManager());
         fragment1 = new Groups();
         fragment1.setGroupFroagmetCallback(this);
         fragmet2 = new GroupStudents();
+        fragmet2.setOnStudentClicked(this);
+        fragment3 = new StudentProfile();
+
 
         adapter.addFragment(fragment1, "Group Fragment");
         adapter.addFragment(fragmet2, "Group Details");
-        adapter.addFragment(new StudentProfile(), "Group_Student");
+        adapter.addFragment(fragment3, "Group_Student");
         view_pager.setOffscreenPageLimit(2);
         view_pager.setAdapter(adapter);
     }
@@ -44,5 +49,12 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
         if (null != fragmet2)
             fragmet2.changeBatch(position+1);
         view_pager.setCurrentItem(1);
+    }
+
+    @Override
+    public void studentClicked(StudentDTO sto) {
+        if (null != fragment3)
+            fragment3.changeStudent(sto);
+        view_pager.setCurrentItem(2);
     }
 }

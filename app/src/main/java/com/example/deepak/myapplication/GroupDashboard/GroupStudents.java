@@ -52,11 +52,26 @@ public class GroupStudents extends Fragment implements GroupStudentsAdapter.OnGr
         });
     }
 
+
+    @Override
+    public void studentClicked(int position) {
+        if (null != mOnStudentClicked)
+            mOnStudentClicked.studentClicked(mList.get(position));
+    }
+
     public void changeBatch(int batchID) {
         mList.clear();
         ArrayList<StudentDTO> list = new BatchDAO(getActivity()).getStudentsForBatch(batchID, 0);
         mList.addAll(list);
         Log.d("rohit", "mList "+mList.size());
         adpter.notifyDataSetChanged();
+    }
+
+    OnStudentClicked mOnStudentClicked;
+    public void setOnStudentClicked(OnStudentClicked mOnStudentClicked){
+        this.mOnStudentClicked = mOnStudentClicked;
+    }
+    public interface OnStudentClicked{
+         void studentClicked(StudentDTO sto);
     }
 }

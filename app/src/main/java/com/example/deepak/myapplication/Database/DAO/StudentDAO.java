@@ -90,6 +90,8 @@ public class StudentDAO extends OfflineDatabase {
     }
 
 
+
+
     public ArrayList<StudentDTO> getAllStudentList(){
         int i =0;
         SQLiteDatabase db = this.getWritableDatabase();

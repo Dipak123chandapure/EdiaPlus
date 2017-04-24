@@ -9,19 +9,20 @@
         layout="@layout/student_dashboard_header"
         android:layout_width="match_parent"
         android:layout_height="52dp" />
+
     <TextView
+        android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/separator"
         android:layout_below="@+id/header_bar"
         android:background="@color/Grey_300"></TextView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/separator">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_below="@id/separator">
+    </android.support.v4.view.ViewPager>
 
     <ImageView
         android:id="@+id/floating_btn"
