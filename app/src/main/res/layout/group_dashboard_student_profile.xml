@@ -57,12 +57,30 @@
                 android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:elevation="2dp"
-                android:visibility="gone">
+                android:paddingBottom="8dp"
+                android:orientation="vertical">
 
-                <include
-                    layout="@layout/group_dashboard_form_two_details"
+                <TextView
+                    android:id="@+id/form2_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Form 2 Heading"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="12dp"/>
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></include>
+                    android:layout_height="0.5dp"
+                    android:background="@color/Grey_400" />
+
+
+                <android.support.v7.widget.RecyclerView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/form2_recycler">
+
+               </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -76,12 +94,28 @@
                 android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:elevation="2dp"
-                android:visibility="gone">
+                android:paddingBottom="8dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/form3_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Form 3 Heading"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="12dp"/>
 
-                <include
-                    layout="@layout/group_dashboard_form_three_details"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></include>
+                    android:layout_height="0.5dp"
+                    android:background="@color/Grey_400" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/form3_recycler">
+
+                </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -95,12 +129,29 @@
                 android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:elevation="2dp"
-                android:visibility="gone">
+                android:paddingBottom="8dp"
+                android:orientation="vertical">
 
-                <include
-                    layout="@layout/group_dashboard_form_four_details"
+                <TextView
+                    android:id="@+id/form4_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Form 4 Heading"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="12dp"/>
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></include>
+                    android:layout_height="0.5dp"
+                    android:background="@color/Grey_400" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/form4_recycler">
+
+                </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
 

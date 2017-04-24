@@ -25,13 +25,11 @@ import java.util.Locale;
 public class ActivityDashboardActivityListAdapter extends AbstractExpandableItemAdapter<MyGroupBatchesViewHolder, MyChildBatchViewHolder> implements View.OnClickListener {
     ArrayList<ActivityDTO> mList;
     Context mContext;
-    ArrayList<DropDownDataDTO> list;
 
     public ActivityDashboardActivityListAdapter(Context mContext, ArrayList<ActivityDTO> mList) {
         Log.d("rohit", "size "+mList.size());
         this.mContext = mContext;
         this.mList = mList;
-        list = new DropDownDataDAO(mContext).getFormData(Constant.ACTIVITY_DROPDOWN_VALUES);
         setHasStableIds(true);
     }
 
@@ -74,19 +72,10 @@ public class ActivityDashboardActivityListAdapter extends AbstractExpandableItem
         if (null != data) {
             holder.a_d_r_g_i_campain_name.setText(data.getForm1Entity1());
             holder.a_d_r_g_i_time.setText(dateFormatForMonthDay.format(data.getNextActionDate()));
-            holder.a_d_r_g_i_activity_title.setText(getActivityTitleForID(data.getActvityTypeID()));
+            holder.a_d_r_g_i_activity_title.setText(data.getActivityTitle());
             holder.a_d_r_g_i_activity_comment.setText(data.getActivityComment());
         }
 
-    }
-
-    private String getActivityTitleForID(int actvityTypeID) {
-        for (int i =0; i<list.size(); i++){
-            if (list.get(i).getId() == actvityTypeID)
-                return list.get(i).getTitle();
-        }
-
-        return "Unknown Activity";
     }
 
 

@@ -21,6 +21,7 @@ public class ActivityDTO implements Parcelable {
     private String smartCallDuration;
 
     private int actvityTypeID;
+    private String activityTitle;
     private String activitySubject;
     private String activityComment;
     private String activityBody;
@@ -45,6 +46,7 @@ public class ActivityDTO implements Parcelable {
         this.smartCallDuration = in.readString();
 
         this.actvityTypeID = in.readInt();
+        this.activityTitle = in.readString();
         this.activitySubject = in.readString();
         this.activityComment = in.readString();
         this.activityBody = in.readString();
@@ -76,6 +78,7 @@ public class ActivityDTO implements Parcelable {
         dest.writeString(this.smartCallDuration);
 
         dest.writeInt(this.actvityTypeID);
+        dest.writeString(this.activityTitle);
         dest.writeString(this.activitySubject);
         dest.writeString(this.activityComment);
         dest.writeString(this.activityBody);
@@ -236,5 +239,13 @@ public class ActivityDTO implements Parcelable {
 
     public void setSendActivityJSON(String sendActivityJSON) {
         this.sendActivityJSON = sendActivityJSON;
+    }
+
+    public String getActivityTitle() {
+        return activityTitle;
+    }
+
+    public void setActivityTitle(String activityTitle) {
+        this.activityTitle = activityTitle;
     }
 }

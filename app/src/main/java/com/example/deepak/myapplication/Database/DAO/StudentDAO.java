@@ -112,23 +112,109 @@ public class StudentDAO extends OfflineDatabase {
 
     }
 
+//    public StudentDTO getStudentForNumber(String number) {
+//
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String[] coloumns = {STUDENT_DATA_JSON};
+//        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_1_ENTITY_4 + " LIKE '%" + number + "%'", null, null, null, null);
+//        ArrayList<StudentDTO> list = new ArrayList<>();
+//        StudentDTO studentData = null;
+//        if (null != cursor) {
+//            if (cursor.getCount()>0) {
+//                cursor.moveToFirst();
+//                String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
+//                studentData = new Gson().fromJson(student, StudentDTO.class);
+//
+//
+//            }
+//        }
+//        return  studentData;
+//    }
+
+
     public StudentDTO getStudentForNumber(String number) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        String[] coloumns = {STUDENT_DATA_JSON};
-        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_1_ENTITY_4 + " LIKE '%" + number + "%'", null, null, null, null);
-        ArrayList<StudentDTO> list = new ArrayList<>();
-        StudentDTO studentData = null;
-        if (null != cursor) {
-            if (cursor.getCount()>0) {
-                cursor.moveToFirst();
-                String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
-                studentData = new Gson().fromJson(student, StudentDTO.class);
 
+        String sql = "SELECT " + "s." + STUDENT_DATA_JSON + ", "
+                + "f21." + TITLE+", "+ "f22." + TITLE+", "+ "f23." + TITLE+ ", f24." + TITLE + ", "
+                + "f31." + TITLE+", "+ "f32." + TITLE+", "+ "f33." + TITLE+ ", f34." + TITLE + ",  "
+                + "f41." + TITLE+", "+ "f42." + TITLE+", "+ "f43." + TITLE+ ", f44." + TITLE
 
-            }
+                + " FROM " + STUDENT_INFO_TABLE + " s "
+                + " LEFT JOIN " + FORM_2_ENTITY_1_TABLE + " f21 "
+                + " ON s." + FORM_2_ENTITY_1_ID + " = f21." + ID
+                + " LEFT JOIN " + FORM_2_ENTITY_2_TABLE + " f22 "
+                + " ON s." + FORM_2_ENTITY_2_ID + " = f22." + ID
+                + " LEFT JOIN " + FORM_2_ENTITY_3_TABLE + " f23 "
+                + " ON s." + FORM_2_ENTITY_3_ID + " = f23." + ID
+                + " LEFT JOIN " + FORM_2_ENTITY_4_TABLE + " f24 "
+                + " ON s." + FORM_2_ENTITY_4_ID + " = f24." + ID
+
+                + " LEFT JOIN " + FORM_3_ENTITY_1_TABLE + " f31 "
+                + " ON s." + FORM_3_ENTITY_1_ID + " = f31." + ID
+                + " LEFT JOIN " + FORM_3_ENTITY_2_TABLE + " f32 "
+                + " ON s." + FORM_3_ENTITY_2_ID + " = f32." + ID
+                + " LEFT JOIN " + FORM_3_ENTITY_3_TABLE + " f33 "
+                + " ON s." + FORM_3_ENTITY_3_ID + " = f33." + ID
+                + " LEFT JOIN " + FORM_3_ENTITY_4_TABLE + " f34 "
+                + " ON s." + FORM_3_ENTITY_4_ID + " = f34." + ID
+
+                + " LEFT JOIN " + FORM_4_ENTITY_1_TABLE + " f41 "
+                + " ON s." + FORM_4_ENTITY_1_ID + " = f41." + ID
+                + " LEFT JOIN " + FORM_4_ENTITY_2_TABLE + " f42 "
+                + " ON s." + FORM_4_ENTITY_2_ID + " = f42." + ID
+                + " LEFT JOIN " + FORM_4_ENTITY_3_TABLE + " f43 "
+                + " ON s." + FORM_4_ENTITY_3_ID + " = f43." + ID
+                + " LEFT JOIN " + FORM_4_ENTITY_4_TABLE + " f44 "
+                + " ON s." + FORM_4_ENTITY_4_ID + " = f44." + ID
+                
+                + " WHERE s." + FORM_1_ENTITY_4 + " = '" + number + "'";
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        StudentDTO dto  = new StudentDTO();
+        Log.d("rohit ", "cursor count" + cursor.getCount());
+        if (cursor != null && cursor.getCount()>0){
+            cursor.moveToFirst();
+            String studentdata = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
+            
+            String title21 = cursor.getString(1);
+            String title22 = cursor.getString(2);
+            String title23 = cursor.getString(3);
+            String title24 = cursor.getString(4);
+
+            String title31 = cursor.getString(5);
+            String title32 = cursor.getString(6);
+            String title33 = cursor.getString(7);
+            String title34 = cursor.getString(8);
+
+            String title41 = cursor.getString(9);
+            String title42 = cursor.getString(10);
+            String title43 = cursor.getString(11);
+            String title44 = cursor.getString(12);
+            
+
+            dto = new Gson().fromJson(studentdata, StudentDTO.class);
+            dto.setForm2Entity1(title21);
+            dto.setForm2Entity2(title22);
+            dto.setForm2Entity3(title23);
+            dto.setForm2Entity4(title24);
+
+            dto.setForm3Entity1(title31);
+            dto.setForm3Entity2(title32);
+            dto.setForm3Entity3(title33);
+            dto.setForm3Entity4(title34);
+
+            dto.setForm4Entity1(title41);
+            dto.setForm4Entity2(title42);
+            dto.setForm4Entity3(title43);
+            dto.setForm4Entity4(title44);
+            
+            
         }
-        return  studentData;
-
+        return dto;
     }
+
+
+
 }

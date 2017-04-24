@@ -28,10 +28,8 @@ import java.util.Locale;
 public class StudentProfileActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<ActivityDTO> mList;
-    ArrayList<DropDownDataDTO> list;
     public StudentProfileActivitiesAdapter(Context mContext, ArrayList<ActivityDTO> mList) {
         this.mList = mList;
-        list = new DropDownDataDAO(mContext).getFormData(Constant.ACTIVITY_DROPDOWN_VALUES);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class StudentProfileActivitiesAdapter extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         StudentProfileActivitiesAdapter.LeadListViewHolder mHolder = (StudentProfileActivitiesAdapter.LeadListViewHolder) holder;
         ActivityDTO data = mList.get(position);
-        mHolder.activity_title.setText(getActivityTitleForID(data.getActvityTypeID()));
+        mHolder.activity_title.setText(data.getActivityTitle());
         mHolder.date_time.setText(dateFormatForMonthDay.format(data.getCreatedDate()));
         mHolder.activity_comment.setText(data.getActivityComment());
 
@@ -60,14 +58,6 @@ public class StudentProfileActivitiesAdapter extends RecyclerView.Adapter<Recycl
             public void run() {
             }
         }).start();
-    }
-    private String getActivityTitleForID(int actvityTypeID) {
-        for (int i =0; i<list.size(); i++){
-            if (list.get(i).getId() == actvityTypeID)
-                return list.get(i).getTitle();
-        }
-
-        return "Unknown Activity";
     }
 
 
