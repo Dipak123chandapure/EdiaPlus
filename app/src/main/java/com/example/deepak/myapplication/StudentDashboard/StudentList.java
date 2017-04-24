@@ -10,15 +10,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
 import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
@@ -28,7 +23,6 @@ import com.example.deepak.myapplication.GroupDashboard.GroupDashboard;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.Utility.Constant;
-import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 
 import java.util.ArrayList;
 
@@ -38,12 +32,11 @@ import java.util.ArrayList;
 
 public class StudentList extends Fragment implements
         FilterFragment.OnFilterSeleted,
-        StudentAdapter.OnStudentAdapterCallback,
-        View.OnClickListener {
+        View.OnClickListener, StudentsListAdapter.OnGroupStudentCallback {
 
     ArrayList<StudentDTO> mList;
     String QUERY = null;
-    StudentAdapter adapter;
+    StudentsListAdapter adapter;
     RecyclerView recycler_view;
 
 
@@ -62,34 +55,16 @@ public class StudentList extends Fragment implements
     }
 
     private void setUpRecyclerView() {
-        RecyclerViewExpandableItemManager expMgr = new RecyclerViewExpandableItemManager(null);
         recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         StudentDAO studentDAO = new StudentDAO(getActivity());
         mList = studentDAO.getStudentList(QUERY, 0);
-        adapter = new StudentAdapter(mList);
-        adapter.setOnStudentAdapterCallback(this);
-        recycler_view.setAdapter(expMgr.createWrappedAdapter(adapter));
-        ((SimpleItemAnimator) recycler_view.getItemAnimator()).setSupportsChangeAnimations(false);
-        expMgr.attachRecyclerView(recycler_view);
+        adapter = new StudentsListAdapter(getActivity(), mList);
+        adapter.setOnGroupStudentCallback(this);
+        recycler_view.setAdapter(adapter);
     }
 
 
-    @Override
-    public void onLoadMore(int index) {
-        Log.d("rohit", "Load more is called");
-        StudentDAO handler = new StudentDAO(getActivity());
-        ArrayList<StudentDTO> list = handler.getStudentList(QUERY, index);
-        mList.addAll(list);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    @Override
-    public void onChildItemClicekd(int child_index, StudentDTO dto) {
+    public void onMenuChildItemClicekd(int child_index, StudentDTO dto) {
         switch (child_index) {
             case 0:
                 AddActivityDialog dialog = new AddActivityDialog(getActivity(), dto);
@@ -128,16 +103,38 @@ public class StudentList extends Fragment implements
         }
     }
 
-    public interface OnStudentSelected{
+    @Override
+    public void loadMore(int index) {
+        Log.d("rohit", "Load more is called");
+        StudentDAO handler = new StudentDAO(getActivity());
+        ArrayList<StudentDTO> list = handler.getStudentList(QUERY, index);
+        mList.addAll(list);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void studentClicked(int position) {
+        if (null != mOnStudentSelected)
+            mOnStudentSelected.onStudentClicked(mList.get(position));
+    }
+
+    public interface OnStudentSelected {
         void onStudentClicked(StudentDTO dto);
     }
+
     OnStudentSelected mOnStudentSelected;
-    public void setOnStudentSelected(OnStudentSelected mOnStudentSelected){
+
+    public void setOnStudentSelected(OnStudentSelected mOnStudentSelected) {
         this.mOnStudentSelected = mOnStudentSelected;
     }
 
 
-    @Override
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_et:

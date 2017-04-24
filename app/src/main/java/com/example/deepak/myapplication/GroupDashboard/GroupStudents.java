@@ -13,13 +13,14 @@ import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
+import com.example.deepak.myapplication.StudentDashboard.StudentsListAdapter;
 
 import java.util.ArrayList;
 
-public class GroupStudents extends Fragment implements GroupStudentsAdapter.OnGroupStudentCallback {
+public class GroupStudents extends Fragment implements StudentsListAdapter.OnGroupStudentCallback {
     RecyclerView student_list_recycler;
     ArrayList<StudentDTO> mList;
-    GroupStudentsAdapter adpter;
+    StudentsListAdapter adpter;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.group_dashbard_students, container, false);
@@ -32,7 +33,7 @@ public class GroupStudents extends Fragment implements GroupStudentsAdapter.OnGr
     private void setUpRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mList = new BatchDAO(getActivity()).getStudentsForBatch(1, 0);
-        adpter = new GroupStudentsAdapter(getActivity(), mList);
+        adpter = new StudentsListAdapter(getActivity(), mList);
         adpter.setOnGroupStudentCallback(this);
         student_list_recycler.setLayoutManager(manager);
         student_list_recycler.setAdapter(adpter);

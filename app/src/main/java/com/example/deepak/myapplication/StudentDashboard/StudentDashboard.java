@@ -28,7 +28,6 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
 
     ArrayList<StudentDTO> mList;
     String QUERY = null;
-    StudentAdapter adapter;
     RecyclerView recycler_view;
 
     ImageView search_icon, group_icon, filter_icon, floating_btn;

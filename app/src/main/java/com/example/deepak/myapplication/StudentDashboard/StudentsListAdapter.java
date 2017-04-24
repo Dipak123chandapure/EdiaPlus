@@ -1,4 +1,4 @@
-package com.example.deepak.myapplication.GroupDashboard;
+package com.example.deepak.myapplication.StudentDashboard;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -17,17 +17,17 @@ import java.util.ArrayList;
 
 
 
-public class GroupStudentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<StudentDTO> mList;
 
-    public GroupStudentsAdapter(Context mContext, ArrayList<StudentDTO> mList) {
+    public StudentsListAdapter(Context mContext, ArrayList<StudentDTO> mList) {
         this.mList = mList;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_dashboard_student_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_item, parent, false);
         return new LeadListViewHolder(view);
 
     }
@@ -37,13 +37,13 @@ public class GroupStudentsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         LeadListViewHolder mHolder = (LeadListViewHolder) holder;
         StudentDTO data = mList.get(position);
-        mHolder.s_d_r_g_i_campaign_name.setText(data.getForm1Entity1() + " " + data.getForm1Entity2());
-        mHolder.s_d_r_g_i_circular_text.setText(data.getForm1Entity1().charAt(0) + "");
+        mHolder.campaign_name.setText(data.getForm1Entity1() + " " + data.getForm1Entity2());
+        mHolder.circular_text.setText(data.getForm1Entity1().charAt(0) + "");
         int colour = Utility.getCircularTextBackground(data.getForm1Entity1().charAt(0));
 
-        mHolder.s_d_r_g_i_circular_text.getBackground().setColorFilter(colour, PorterDuff.Mode.SRC_ATOP);
-        mHolder.s_d_r_g_i_email_id.setText(data.getForm1Entity3());
-        mHolder.s_d_r_g_i_mobile_num.setText(data.getForm1Entity4());
+        mHolder.circular_text.getBackground().setColorFilter(colour, PorterDuff.Mode.SRC_ATOP);
+        mHolder.email_id.setText(data.getForm1Entity3());
+        mHolder.mobile_num.setText(data.getForm1Entity4());
 
         if (position == (mList.size() - 10))
             loadMore(mList.size());
@@ -81,18 +81,18 @@ public class GroupStudentsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class LeadListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         LinearLayout linearLayout;
-        TextView s_d_r_g_i_circular_text;
-        TextView s_d_r_g_i_campaign_name;
-        TextView s_d_r_g_i_email_id;
-        TextView s_d_r_g_i_mobile_num;
+        TextView circular_text;
+        TextView campaign_name;
+        TextView email_id;
+        TextView mobile_num;
         public LeadListViewHolder(View v) {
             super(v);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
             linearLayout.setOnClickListener(this);
-            s_d_r_g_i_circular_text = (TextView) itemView.findViewById(R.id.s_d_r_g_i_circular_text);
-            s_d_r_g_i_campaign_name = (TextView) itemView.findViewById(R.id.s_d_r_g_i_campaign_name);
-            s_d_r_g_i_email_id = (TextView) itemView.findViewById(R.id.s_d_r_g_i_email_id);
-            s_d_r_g_i_mobile_num = (TextView) itemView.findViewById(R.id.s_d_r_g_i_mobile_num);
+            circular_text = (TextView) itemView.findViewById(R.id.circular_text);
+            campaign_name = (TextView) itemView.findViewById(R.id.campaign_name);
+            email_id = (TextView) itemView.findViewById(R.id.email_id);
+            mobile_num = (TextView) itemView.findViewById(R.id.mobile_num);
         }
 
         @Override
