@@ -7,22 +7,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
-import com.example.deepak.myapplication.Database.OfflineDatabase;
+import com.example.deepak.myapplication.Database.AbstractDatabaseHelper;
+import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-/**
- * Created by Deepak on 4/19/2017.
- */
 
-public class StudentDAO extends OfflineDatabase {
+
+public class StudentDAO extends OfflineDatabaseHelper {
 
     public StudentDAO(Context context) {
         super(context);
     }
 
-    public void addStudent(StudentDTO studentDTO ){
+    public Long addStudent(StudentDTO studentDTO ){
         ContentValues cv = new ContentValues();
         cv.put(FORM_1_ENTITY_1, studentDTO.getForm1Entity1());
         cv.put(FORM_1_ENTITY_2, studentDTO.getForm1Entity2());
@@ -64,20 +63,25 @@ public class StudentDAO extends OfflineDatabase {
         SQLiteDatabase db = getWritableDatabase();
         long result = db.insert(STUDENT_INFO_TABLE, null, cv);
         Log.d("rohit", "add student result "+result);
+
         db.close();
+        return result;
     }
 
     public ArrayList<StudentDTO> getStudentList(String QUERY , int index){
         int i = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] coloumns = {STUDENT_DATA_JSON};
+        String[] coloumns = {ID, STUDENT_DATA_JSON};
         Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, QUERY, null, null, null, null);
         ArrayList<StudentDTO> list = new ArrayList<>();
         cursor.move(index);
         if (null != cursor) {
             while (cursor.moveToNext()) {
+                Long id = cursor.getLong(cursor.getColumnIndex(ID));
+//                Log.d("rohit", "id "+id);
                 String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
                 StudentDTO studentData = new Gson().fromJson(student, StudentDTO.class);
+                studentData.setId(id);
                 list.add(studentData);
                 if (i > 15) {
                     return list;
@@ -103,7 +107,7 @@ public class StudentDAO extends OfflineDatabase {
         if (null != cursor) {
             while (cursor.moveToNext()) {
                 String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
-                int id = cursor.getInt(cursor.getColumnIndex(ID));
+                Long id = cursor.getLong(cursor.getColumnIndex(ID));
                 StudentDTO studentData = new Gson().fromJson(student, StudentDTO.class);
                 studentData.setId(id);
                 list.add(studentData);
@@ -118,30 +122,10 @@ public class StudentDAO extends OfflineDatabase {
 
     }
 
-//    public StudentDTO getStudentForNumber(String number) {
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String[] coloumns = {STUDENT_DATA_JSON};
-//        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_1_ENTITY_4 + " LIKE '%" + number + "%'", null, null, null, null);
-//        ArrayList<StudentDTO> list = new ArrayList<>();
-//        StudentDTO studentData = null;
-//        if (null != cursor) {
-//            if (cursor.getCount()>0) {
-//                cursor.moveToFirst();
-//                String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
-//                studentData = new Gson().fromJson(student, StudentDTO.class);
-//
-//
-//            }
-//        }
-//        return  studentData;
-//    }
-
-
     public StudentDTO getStudentForNumber(String number) {
 
 
-        String sql = "SELECT " + "s." + STUDENT_DATA_JSON + ", "
+        String sql = "SELECT " + "s." + STUDENT_DATA_JSON + ", "+ "s." + ID + ", "
                 + "f21." + TITLE+", "+ "f22." + TITLE+", "+ "f23." + TITLE+ ", f24." + TITLE + ", "
                 + "f31." + TITLE+", "+ "f32." + TITLE+", "+ "f33." + TITLE+ ", f34." + TITLE + ",  "
                 + "f41." + TITLE+", "+ "f42." + TITLE+", "+ "f43." + TITLE+ ", f44." + TITLE
@@ -183,21 +167,22 @@ public class StudentDAO extends OfflineDatabase {
         if (cursor != null && cursor.getCount()>0){
             cursor.moveToFirst();
             String studentdata = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
+            Long id = cursor.getLong(1);
             
-            String title21 = cursor.getString(1);
-            String title22 = cursor.getString(2);
-            String title23 = cursor.getString(3);
-            String title24 = cursor.getString(4);
+            String title21 = cursor.getString(2);
+            String title22 = cursor.getString(3);
+            String title23 = cursor.getString(4);
+            String title24 = cursor.getString(5);
 
-            String title31 = cursor.getString(5);
-            String title32 = cursor.getString(6);
-            String title33 = cursor.getString(7);
-            String title34 = cursor.getString(8);
+            String title31 = cursor.getString(6);
+            String title32 = cursor.getString(7);
+            String title33 = cursor.getString(8);
+            String title34 = cursor.getString(9);
 
-            String title41 = cursor.getString(9);
-            String title42 = cursor.getString(10);
-            String title43 = cursor.getString(11);
-            String title44 = cursor.getString(12);
+            String title41 = cursor.getString(10);
+            String title42 = cursor.getString(11);
+            String title43 = cursor.getString(12);
+            String title44 = cursor.getString(13);
             
 
             dto = new Gson().fromJson(studentdata, StudentDTO.class);
@@ -215,6 +200,7 @@ public class StudentDAO extends OfflineDatabase {
             dto.setForm4Entity2(title42);
             dto.setForm4Entity3(title43);
             dto.setForm4Entity4(title44);
+            dto.setId(id);
             
             cursor.close();
         }

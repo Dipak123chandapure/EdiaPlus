@@ -6,13 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
-import com.example.deepak.myapplication.Database.OfflineDatabase;
+import com.example.deepak.myapplication.Database.AbstractDatabaseHelper;
+import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.example.deepak.myapplication.Utility.Constant;
 
 import java.util.ArrayList;
 
 
-public class DropDownDataDAO extends OfflineDatabase {
+public class DropDownDataDAO extends OfflineDatabaseHelper {
     public DropDownDataDAO(Context context) {
         super(context);
     }
@@ -168,8 +169,5 @@ public class DropDownDataDAO extends OfflineDatabase {
 
         db.close();
         return list;
-
     }
-
-
 }

@@ -2,17 +2,17 @@ package com.example.deepak.myapplication.Database.DTO;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
-/**
- * Created by Deepak on 4/21/2017.
- */
 
 public class ActivityDTO implements Parcelable {
+    private Long id;
 
     private String form1Entity1;
     private String form1Entity3;
     private String form1Entity4;
     private int activityParentID;
+    private Long studentID;
 
     private Long createdDate;
     private Long modificationDate;
@@ -34,11 +34,13 @@ public class ActivityDTO implements Parcelable {
 
     public ActivityDTO(){}
     protected ActivityDTO(Parcel in) {
+        this.id = in.readLong();
 
         this.form1Entity1 = in.readString();
         this.form1Entity3 = in.readString();
         this.form1Entity4 = in.readString();
         this.activityParentID = in.readInt();
+        this.studentID = in.readLong();
 
         this.createdDate = in.readLong();
         this.modificationDate = in.readLong();
@@ -67,10 +69,13 @@ public class ActivityDTO implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+
         dest.writeString(this.form1Entity1);
         dest.writeString(this.form1Entity3);
         dest.writeString(this.form1Entity4);
         dest.writeInt(this.activityParentID);
+        dest.writeLong(this.studentID);
 
         dest.writeLong(this.createdDate);
         dest.writeLong(this.modificationDate);
@@ -247,5 +252,21 @@ public class ActivityDTO implements Parcelable {
 
     public void setActivityTitle(String activityTitle) {
         this.activityTitle = activityTitle;
+    }
+
+    public Long getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(Long studentID) {
+        this.studentID = studentID;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

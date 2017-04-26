@@ -13,9 +13,11 @@ import android.widget.ImageView;
 
 import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardFragmnet;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
+import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
+import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.EmailDashboard.EmailDashboardFragment;
@@ -50,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inItView();
         getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
 
-
-
-
-
 //        try {
 //            JSONObject jsonObject = new JSONObject(new ModalData().getAllMasters());
 //            UserDataParser.parseAllMasters(new ModalData().getAllMasters(), this);
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Log.d("rohit ", "parsing exception " + e.toString());
 //            e.printStackTrace();
 //        }
-
+//
 //        setUpDefaultCommonCode();
 //
 //        addBatches();
@@ -93,7 +91,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             BatchDTO dto = new BatchDTO();
             dto.setName(batches[i]);
             dto.setDetails("this is a " + batches[i]);
-            dao.saveBatch(dto);
+            Long result = dao.saveBatch(dto);
+            dto.setId(result);
+            ArrayList<AttachmentDTO> list = new ArrayList<>();
+            for (int j=0; j<7; j++){
+                AttachmentDTO attachment = new AttachmentDTO();
+                attachment.setUrl("http://aruure_api_net.com/test.pdf");
+                if (i%2 == 0)
+                attachment.setSection("Batch Attachment one");
+                else attachment.setSection("Batch Attachment two");
+                list.add(attachment);
+            }
+            AttachmentDAO attachmentDAO = new AttachmentDAO(this);
+            attachmentDAO.saveAttachment(dto, list);
         }
     }
 
@@ -206,10 +216,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         StudentDAO handler = new StudentDAO(this);
         Random r = new Random();
-        ArrayList<String> list = new ArrayList<>();
-        list.add("https://www.recordingfile.location/file1.mp3");
-        list.add("https://www.recordingfile.location/file5.mp3");
-        String listString = new Gson().toJson(list);
         for (int i = 0; i < 1000; i++) {
             StudentDTO data = new StudentDTO();
             String firstName = firstNames[r.nextInt(firstNames.length)];
@@ -239,30 +245,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             data.setSyncStatus("NEW");
 
             data.setStudentDataJSON(new Gson().toJson(data));
-            handler.addStudent(data);
+            Long aLong = handler.addStudent(data);
+            data.setId(aLong);
 
-            ActivityDTO data1 = new ActivityDTO();
-            data1.setNextActionDate(date);
-            data1.setModificationDate(date);
-            data1.setCreatedDate(date);
+            ArrayList<AttachmentDTO> mlist = new ArrayList<>();
+            for (int j=0; j<7; j++){
+                AttachmentDTO attachment = new AttachmentDTO();
+                attachment.setUrl("http://aruure_api_net.com/test.pdf");
+                if (i%2 == 0)
+                    attachment.setSection("Student Result");
+                else attachment.setSection("Student Education");
 
-            data1.setForm1Entity1(firstName + " " + lastName);
-            data1.setForm1Entity3(firstName + lastName.charAt(0) + "@gmail.com");
-            data1.setForm1Entity4(mob_no);
+                mlist.add(attachment);
+            }
+            AttachmentDAO attachmentDAO = new AttachmentDAO(this);
+            attachmentDAO.saveAttachment(data, mlist);
 
-            data1.setActivityComment("In the algorithm above, k (a parameter of the algorithm) is the number In the algorithm above,");
-            data1.setActvityTypeID(r.nextInt(5) + 1);
-            data1.setActivityBody("In the algorithm above, k (a parameter of the algorithm) is the number\n" +
-                    "of clusters we want to find; and the cluster centroids μj represent our current\n" +
-                    "guesses for the positions of the centers of the clusters. To initialize the cluster\n" +
-                    "centroids (in step 1 of the algorithm above), we could choose k training\n" +
-                    "examples randomly, and set the cluster centroids to be equal to the values of");
 
-            data1.setActivityAttachmentList(listString);
-            data1.setSmartCallDuration(r.nextInt(3) + "m " + r.nextInt(60) + "s");
-            data1.setActivityDataJSON(new Gson().toJson(data1));
+            if (aLong >0 ) {
+                ActivityDTO data1 = new ActivityDTO();
+                data1.setNextActionDate(date);
+                data1.setModificationDate(date);
+                data1.setCreatedDate(date);
+                data1.setStudentID(aLong);
 
-            new ActivitiesDAO(this).addActivity(data1);
+                data1.setForm1Entity1(firstName + " " + lastName);
+                data1.setForm1Entity3(firstName + lastName.charAt(0) + "@gmail.com");
+                data1.setForm1Entity4(mob_no);
+
+                data1.setActivityComment("In the algorithm above, k (a parameter of the algorithm) is the number In the algorithm above,");
+                data1.setActvityTypeID(r.nextInt(5) + 1);
+                data1.setActivityBody("In the algorithm above, k (a parameter of the algorithm) is the number\n" +
+                        "of clusters we want to find; and the cluster centroids μj represent our current\n" +
+                        "guesses for the positions of the centers of the clusters. To initialize the cluster\n" +
+                        "centroids (in step 1 of the algorithm above), we could choose k training\n" +
+                        "examples randomly, and set the cluster centroids to be equal to the values of");
+
+                data1.setSmartCallDuration(r.nextInt(3) + "m " + r.nextInt(60) + "s");
+                data1.setActivityDataJSON(new Gson().toJson(data1));
+
+                Long id = new ActivitiesDAO(this).addActivity(data1);
+                data1.setId(id);
+
+
+                ArrayList<AttachmentDTO> alist = new ArrayList<>();
+                for (int j=0; j<3; j++){
+                    AttachmentDTO attachment = new AttachmentDTO();
+                    attachment.setUrl("http://aruure_api_net.com/test.pdf");
+                    if (i%2 == 0)
+                        attachment.setSection("Student Result");
+                    else attachment.setSection("Student Education");
+
+                    alist.add(attachment);
+                }
+                attachmentDAO.saveAttachment(data1, alist);
+            }
         }
     }
 

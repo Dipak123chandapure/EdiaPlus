@@ -8,25 +8,26 @@ import android.util.Log;
 
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
-import com.example.deepak.myapplication.Database.OfflineDatabase;
+import com.example.deepak.myapplication.Database.AbstractDatabaseHelper;
+import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ActivitiesDAO extends OfflineDatabase {
+public class ActivitiesDAO extends OfflineDatabaseHelper {
     public ActivitiesDAO(Context context) {
         super(context);
     }
 
-    public void addActivity(ActivityDTO activityDTO) {
-
+    public Long addActivity(ActivityDTO activityDTO) {
         Log.d("rohit", "inseting value : " + activityDTO.getActivityDataJSON());
         ContentValues cv = new ContentValues();
 
         cv.put(FORM_1_ENTITY_3, activityDTO.getForm1Entity3());
         cv.put(FORM_1_ENTITY_4, activityDTO.getForm1Entity4());
         cv.put(ACTIVITY_TYPE_ID, activityDTO.getActvityTypeID());
+        cv.put(STUDENT_ID, activityDTO.getStudentID());
 
         cv.put(ACTIVITY_DATE_TIME, activityDTO.getNextActionDate());
         cv.put(CREATED_ON, activityDTO.getCreatedDate());
@@ -42,6 +43,7 @@ public class ActivitiesDAO extends OfflineDatabase {
         long result = db.insert(ACTIVITY_TABLE, null, cv);
         Log.d("rohit", "result  : " + result);
         db.close();
+        return result;
     }
 
     public ArrayList<ActivityDTO> getActivities(long statingMilli, long endingMilli) {
@@ -109,8 +111,9 @@ public class ActivitiesDAO extends OfflineDatabase {
                 + " FROM " + ACTIVITY_TABLE + " a "
                 + " LEFT JOIN " + ACTIVITY_TYPE_TABLE + " at "
                 + " ON a." + ACTIVITY_TYPE_ID + " = at." + ID
-                + " WHERE a." + FORM_1_ENTITY_3 + " = '" + studentData.getForm1Entity3() + "'";
+                + " WHERE a." + STUDENT_ID + " = '" + studentData.getId() + "'";
 
+        Log.d("rohit", "id "+studentData.getId());
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -124,8 +127,9 @@ public class ActivitiesDAO extends OfflineDatabase {
                 dto.setActivityTitle(title);
                 list.add(dto);
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
         return list;
     }

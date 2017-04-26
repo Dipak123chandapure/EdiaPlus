@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class BatchDTO implements Parcelable {
 
     private String name;
-    private int id;
+    private Long id;
 
     private String details;
 
@@ -23,7 +23,7 @@ public class BatchDTO implements Parcelable {
     protected BatchDTO(Parcel in) {
         this.name = in.readString();
         this.details = in.readString();
-        this.id = in.readInt();
+        this.id = in.readLong();
 
     }
     @Override
@@ -35,7 +35,7 @@ public class BatchDTO implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(details);
-        dest.writeInt(id);
+        dest.writeLong(id);
     }
 
 
@@ -59,11 +59,11 @@ public class BatchDTO implements Parcelable {
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

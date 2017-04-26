@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardActivityListAdapter;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
+import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
@@ -171,12 +172,7 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
         }else form2_ll.setVisibility(View.GONE);
     }
     private void setUpActivitiesRecycler() {
-
-        list = new ArrayList<>();
-        list.add("student 10th.pdf");
-        list.add("student 12th.pdf");
-        list.add("student test.pdf");
-        list.add("student dv.pdf");
+        list = new AttachmentDAO(getActivity()).getAttachment(studentData);
         adapter1 = new EmailAttchmentAdapter(getActivity(),list);
         adapter1.setOnAttchmentRemoved(this);
         LinearLayoutManager manager2 = new LinearLayoutManager(getActivity());

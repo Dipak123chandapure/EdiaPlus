@@ -14,10 +14,6 @@ import com.example.deepak.myapplication.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by Deepak on 4/22/2017.
- */
-
 public class EmailAttchmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<String> mList;
@@ -37,8 +33,8 @@ public class EmailAttchmentAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (null != mList) {
             LeadListViewHolder headingViewHolder = (LeadListViewHolder) holder;
             String absoultePath = mList.get(position);
-            String filename= absoultePath.substring(absoultePath.lastIndexOf('/')+1, absoultePath.length());
-            headingViewHolder.file_name.setText(filename);
+            //String filename= absoultePath.substring(absoultePath.lastIndexOf('/')+1, absoultePath.length());
+            headingViewHolder.file_name.setText(absoultePath);
         }
     }
 
