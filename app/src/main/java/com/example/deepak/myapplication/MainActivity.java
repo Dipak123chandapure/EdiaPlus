@@ -23,7 +23,12 @@ import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.SmartCaller.SmartCallerDashboardFragment;
 import com.example.deepak.myapplication.StudentDashboard.StudentDashboard;
 import com.example.deepak.myapplication.Utility.Constant;
+import com.example.deepak.myapplication.Utility.ModalData;
+import com.example.deepak.myapplication.Utility.UserDataParser;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,13 +44,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView m_d_f_a_b_image_one, m_d_f_a_b_image_two, m_d_f_a_b_image_three, m_d_f_a_b_image_four,
             m_d_f_a_b_image_five, m_d_f_a_b_image_six, m_d_f_a_b_image_seven;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         inItView();
-
         getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
+
+
+
 
 
 //        try {
@@ -55,11 +61,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Log.d("rohit ", "parsing exception " + e.toString());
 //            e.printStackTrace();
 //        }
-//
-//        setUpDefaultCommonCode();
 
-        //addBatches();
-       // addStudentsToBatch();
+//        setUpDefaultCommonCode();
+//
+//        addBatches();
+//        addStudentsToBatch();
+    }
+
+    public class TodoItem {
+        public String Id;
+        public String Text;
     }
 
     private void addStudentsToBatch() {

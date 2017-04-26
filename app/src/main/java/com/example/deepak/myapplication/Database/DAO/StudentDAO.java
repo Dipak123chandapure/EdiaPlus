@@ -69,7 +69,7 @@ public class StudentDAO extends OfflineDatabase {
 
     public ArrayList<StudentDTO> getStudentList(String QUERY , int index){
         int i = 0;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String[] coloumns = {STUDENT_DATA_JSON};
         Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, QUERY, null, null, null, null);
         ArrayList<StudentDTO> list = new ArrayList<>();
@@ -79,12 +79,14 @@ public class StudentDAO extends OfflineDatabase {
                 String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
                 StudentDTO studentData = new Gson().fromJson(student, StudentDTO.class);
                 list.add(studentData);
-                if (i > 20) {
+                if (i > 15) {
                     return list;
                 }
                 i++;
             }
+            cursor.close();
         }
+        db.close();
         return list;
 
     }
@@ -94,7 +96,7 @@ public class StudentDAO extends OfflineDatabase {
 
     public ArrayList<StudentDTO> getAllStudentList(){
         int i =0;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String[] coloumns = {ID, STUDENT_DATA_JSON};
         Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_2_ENTITY_2_ID +" = '"+4+"'", null, null, null, null);
         ArrayList<StudentDTO> list = new ArrayList<>();
@@ -109,7 +111,9 @@ public class StudentDAO extends OfflineDatabase {
                 if (i>100)
                     return list;
             }
+            cursor.close();
         }
+        db.close();
         return list;
 
     }
@@ -212,8 +216,9 @@ public class StudentDAO extends OfflineDatabase {
             dto.setForm4Entity3(title43);
             dto.setForm4Entity4(title44);
             
-            
+            cursor.close();
         }
+        db.close();
         return dto;
     }
 

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -33,14 +34,10 @@ import java.util.ArrayList;
  * Created by Deepak on 4/22/2017.
  */
 
-public class StudentProfile extends Fragment implements EmailAttchmentAdapter.OnAttchmentRemoved {
+public class StudentProfile extends Fragment implements EmailAttchmentAdapter.OnAttchmentRemoved, View.OnTouchListener {
 
     LinearLayout form1_ll, form2_ll, form3_ll, form4_ll;
     TextView  form1entity1, form1entity3, form1entity4, form2_heading, form3_heading, form4_heading;
-
-    ArrayList<DropDownDataDTO> form2entity1DTO,form2entity2DTO,form2entity3DTO,form2entity4DTO;
-    ArrayList<DropDownDataDTO> form3entity1DTO,form3entity2DTO,form3entity3DTO,form3entity4DTO;
-    ArrayList<DropDownDataDTO> form4entity1DTO,form4entity2DTO,form4entity3DTO,form4entity4DTO;
 
     FormConstarins form2constains,form3constains,form4constains;
     RecyclerView student_activities_recycler, student_attachment_recycler, form2_recycler, form4_recycler, form3_recycler;
@@ -52,12 +49,12 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.group_dashboard_student_profile, container, false);
-        studentData = new StudentDAO(getActivity()).getStudentForNumber("371386436");
         inItView(view);
         return view;
     }
 
     private void inItView(View view) {
+
         form1_ll = (LinearLayout) view.findViewById(R.id.form1_ll);
         form2_ll = (LinearLayout) view.findViewById(R.id.form2_ll);
         form3_ll = (LinearLayout) view.findViewById(R.id.form3_ll);
@@ -76,10 +73,18 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
         form4constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_FOUR_CONSTRAINS, getActivity());
 
         student_activities_recycler = (RecyclerView) view.findViewById(R.id.student_activities_recycler);
+        student_activities_recycler.setOnTouchListener(this);
         student_attachment_recycler = (RecyclerView) view.findViewById(R.id.student_attachment_recycler);
+        student_attachment_recycler.setOnTouchListener(this);
+
         form2_recycler = (RecyclerView) view.findViewById(R.id.form2_recycler);
+        form2_recycler.setOnTouchListener(this);
         form3_recycler = (RecyclerView) view.findViewById(R.id.form3_recycler);
+        form3_recycler.setOnTouchListener(this);
         form4_recycler = (RecyclerView) view.findViewById(R.id.form4_recycler);
+        form4_recycler.setOnTouchListener(this);
+
+        if (null != studentData)
         setRecyclerView();
     }
 
@@ -202,5 +207,10 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
     public void changeStudent(StudentDTO sto) {
         studentData = new StudentDAO(getActivity()).getStudentForNumber(sto.getForm1Entity4());
         setRecyclerView();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
     }
 }

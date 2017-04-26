@@ -5,7 +5,6 @@ import android.os.Parcelable;
 public class StudentDTO implements Parcelable {
 
 
-
     private int id;
 
     private String form1Entity1;

@@ -39,6 +39,4 @@
         <service android:name=".SmartCaller.SmartCallerService"></service>
     </application>
 
-
-
 </manifest>

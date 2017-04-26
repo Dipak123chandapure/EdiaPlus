@@ -29,7 +29,6 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_item, parent, false);
         return new LeadListViewHolder(view);
-
     }
 
 
@@ -45,7 +44,7 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mHolder.email_id.setText(data.getForm1Entity3());
         mHolder.mobile_num.setText(data.getForm1Entity4());
 
-        if (position == (mList.size() - 10))
+        if (position == (mList.size() - 5))
             loadMore(mList.size());
     }
 

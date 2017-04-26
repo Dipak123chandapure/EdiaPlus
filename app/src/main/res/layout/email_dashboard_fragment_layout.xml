@@ -56,7 +56,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/s_d_f_l_add_student_list_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="470dp">
+                android:layout_height="470dp"
+                android:visibility="gone">
 
             </android.support.v7.widget.RecyclerView>
 
