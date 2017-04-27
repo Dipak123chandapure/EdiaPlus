@@ -128,6 +128,11 @@ public class StudentList extends Fragment implements
                 }
 
                 break;
+
+            case R.id.menu_activity:
+                AddActivityDialog dialog = new AddActivityDialog(getActivity(), dto);
+                dialog.show();
+                break;
         }
     }
 
