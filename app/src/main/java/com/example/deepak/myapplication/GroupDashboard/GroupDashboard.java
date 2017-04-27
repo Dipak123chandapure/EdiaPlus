@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
+import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
+import com.example.deepak.myapplication.Utility.Constant;
 
 
 public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback, GroupStudents.OnStudentClicked {
@@ -45,9 +48,18 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
     }
 
     @Override
-    public void onGroupItemClicked(int position) {
+    public void onGroupItemClicked(BatchDTO dto) {
         if (null != fragmet2)
-            fragmet2.changeBatch(position+1);
+           fragmet2.changeBatch(dto);
+//        SMSDashboardFragment smsFragment = new SMSDashboardFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString(Constant.SMS_TYPE, Constant.SMS_GROUP_CLIENT);
+//        bundle.putParcelable(Constant.SMS_BATCH_DTO, dto);
+//        smsFragment.setArguments(bundle);
+//        getActivity().getSupportFragmentManager().beginTransaction().
+//                setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+//                .replace(R.id.main_frame_layout, smsFragment ).commit();
+
         view_pager.setCurrentItem(1);
     }
 

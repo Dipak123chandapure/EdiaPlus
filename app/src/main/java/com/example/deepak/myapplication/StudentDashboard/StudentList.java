@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -67,26 +68,8 @@ public class StudentList extends Fragment implements
                 dialog.show();
                 break;
             case 1:
-                SMSDashboardFragment fragment = new SMSDashboardFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
-                ArrayList<StudentDTO> list = new ArrayList<>();
-                list.add(dto);
-                //bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
-                fragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, fragment).commit();
-                break;
 
-            case 2:
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + dto.getForm1Entity4()));
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                    getActivity().startActivity(intent);
-                }
 
-                break;
             case 3:
                 break;
             case 4:
@@ -117,6 +100,35 @@ public class StudentList extends Fragment implements
     public void studentClicked(int position) {
         if (null != mOnStudentSelected)
             mOnStudentSelected.onStudentClicked(mList.get(position));
+    }
+
+    @Override
+    public void popupMenuClicked(MenuItem menuItem, StudentDTO dto) {
+        switch (menuItem.getItemId()){
+           case R.id.menu_sms:
+               SMSDashboardFragment fragment = new SMSDashboardFragment();
+               Bundle bundle = new Bundle();
+               bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+               ArrayList<StudentDTO> list = new ArrayList<>();
+               list.add(dto);
+               bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
+               fragment.setArguments(bundle);
+               getActivity().getSupportFragmentManager().beginTransaction().
+                       setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                       .replace(R.id.main_frame_layout, fragment).commit();
+               break;
+
+
+
+            case R.id.menu_call:
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + dto.getForm1Entity4()));
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    getActivity().startActivity(intent);
+                }
+
+                break;
+        }
     }
 
     public interface OnStudentSelected {

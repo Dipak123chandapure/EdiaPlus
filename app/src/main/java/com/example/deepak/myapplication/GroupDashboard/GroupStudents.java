@@ -7,10 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
+import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.StudentDashboard.StudentsListAdapter;
@@ -32,7 +34,7 @@ public class GroupStudents extends Fragment implements StudentsListAdapter.OnGro
 
     private void setUpRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        mList = new BatchDAO(getActivity()).getStudentsForBatch(1, 0);
+        mList = new BatchDAO(getActivity()).getStudentsForBatch(1L, 0);
         adpter = new StudentsListAdapter(getActivity(), mList);
         adpter.setOnGroupStudentCallback(this);
         student_list_recycler.setLayoutManager(manager);
@@ -60,9 +62,14 @@ public class GroupStudents extends Fragment implements StudentsListAdapter.OnGro
             mOnStudentClicked.studentClicked(mList.get(position));
     }
 
-    public void changeBatch(int batchID) {
+    @Override
+    public void popupMenuClicked(MenuItem menuItem, StudentDTO dto) {
+
+    }
+
+    public void changeBatch(BatchDTO batch) {
         mList.clear();
-        ArrayList<StudentDTO> list = new BatchDAO(getActivity()).getStudentsForBatch(batchID, 0);
+        ArrayList<StudentDTO> list = new BatchDAO(getActivity()).getStudentsForBatch(batch.getId(), 0);
         mList.addAll(list);
         Log.d("rohit", "mList "+mList.size());
         adpter.notifyDataSetChanged();

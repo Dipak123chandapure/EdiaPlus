@@ -14,61 +14,24 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 
-
 public class StudentDAO extends OfflineDatabaseHelper {
 
     public StudentDAO(Context context) {
         super(context);
     }
 
-    public Long addStudent(StudentDTO studentDTO ){
-        ContentValues cv = new ContentValues();
-        cv.put(FORM_1_ENTITY_1, studentDTO.getForm1Entity1());
-        cv.put(FORM_1_ENTITY_2, studentDTO.getForm1Entity2());
-        cv.put(FORM_1_ENTITY_3, studentDTO.getForm1Entity3());
-        cv.put(FORM_1_ENTITY_4, studentDTO.getForm1Entity4());
+    public Long addStudent(StudentDTO studentDTO) {
 
-        cv.put(FORM_2_ENTITY_1_ID, studentDTO.getForm2Entity1ID());
-        cv.put(FORM_2_ENTITY_2_ID, studentDTO.getForm2Entity2ID());
-        cv.put(FORM_2_ENTITY_3_ID, studentDTO.getForm2Entity3ID());
-        cv.put(FORM_2_ENTITY_4_ID, studentDTO.getForm2Entity4ID());
-
-        if(0 != studentDTO.getForm3Entity1ID())
-        cv.put(FORM_3_ENTITY_1_ID, studentDTO.getForm3Entity1ID());
-        if(0 != studentDTO.getForm3Entity2ID())
-        cv.put(FORM_3_ENTITY_2_ID, studentDTO.getForm3Entity2ID());
-        if(0 != studentDTO.getForm3Entity3ID())
-        cv.put(FORM_3_ENTITY_3_ID, studentDTO.getForm3Entity3ID());
-        if(0 != studentDTO.getForm3Entity4ID())
-        cv.put(FORM_3_ENTITY_4_ID, studentDTO.getForm3Entity4ID());
-
-        if(0 != studentDTO.getForm4Entity1ID())
-        cv.put(FORM_4_ENTITY_1_ID, studentDTO.getForm4Entity1ID());
-        if(0 != studentDTO.getForm4Entity2ID())
-        cv.put(FORM_4_ENTITY_2_ID, studentDTO.getForm4Entity2ID());
-        if(0 != studentDTO.getForm4Entity3ID())
-        cv.put(FORM_4_ENTITY_3_ID, studentDTO.getForm4Entity3ID());
-        if(0 != studentDTO.getForm4Entity4ID())
-        cv.put(FORM_4_ENTITY_4_ID, studentDTO.getForm4Entity4ID());
-
-        cv.put(CREATED_ON, studentDTO.getUpdatedON());
-        cv.put(CREATED_ON_MILLI, studentDTO.getCreatedOnMilli());
-        cv.put(UPDATED_ON, studentDTO.getUpdatedON());
-        cv.put(UPDATED_ON_MILLI, studentDTO.getUpdatedONMilli());
-
-        cv.put(STUDENT_DATA_JSON, studentDTO.getStudentDataJSON());
-        cv.put(SEND_DATA_JSON, studentDTO.getSendDataJSON());
-        cv.put(SYNC_STATUS, studentDTO.getSyncStatus());
-
+        ContentValues cv = getContentValue(studentDTO);
         SQLiteDatabase db = getWritableDatabase();
         long result = db.insert(STUDENT_INFO_TABLE, null, cv);
-        Log.d("rohit", "add student result "+result);
+        Log.d("rohit", "add student result " + result);
 
         db.close();
         return result;
     }
 
-    public ArrayList<StudentDTO> getStudentList(String QUERY , int index){
+    public ArrayList<StudentDTO> getStudentList(String QUERY, int index) {
         int i = 0;
         SQLiteDatabase db = this.getReadableDatabase();
         String[] coloumns = {ID, STUDENT_DATA_JSON};
@@ -96,13 +59,11 @@ public class StudentDAO extends OfflineDatabaseHelper {
     }
 
 
-
-
-    public ArrayList<StudentDTO> getAllStudentList(){
-        int i =0;
+    public ArrayList<StudentDTO> getAllStudentList() {
+        int i = 0;
         SQLiteDatabase db = this.getReadableDatabase();
         String[] coloumns = {ID, STUDENT_DATA_JSON};
-        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_2_ENTITY_2_ID +" = '"+4+"'", null, null, null, null);
+        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_2_ENTITY_2_ID + " = '" + 4 + "'", null, null, null, null);
         ArrayList<StudentDTO> list = new ArrayList<>();
         if (null != cursor) {
             while (cursor.moveToNext()) {
@@ -112,7 +73,7 @@ public class StudentDAO extends OfflineDatabaseHelper {
                 studentData.setId(id);
                 list.add(studentData);
                 i++;
-                if (i>100)
+                if (i > 100)
                     return list;
             }
             cursor.close();
@@ -125,10 +86,10 @@ public class StudentDAO extends OfflineDatabaseHelper {
     public StudentDTO getStudentForNumber(String number) {
 
 
-        String sql = "SELECT " + "s." + STUDENT_DATA_JSON + ", "+ "s." + ID + ", "
-                + "f21." + TITLE+", "+ "f22." + TITLE+", "+ "f23." + TITLE+ ", f24." + TITLE + ", "
-                + "f31." + TITLE+", "+ "f32." + TITLE+", "+ "f33." + TITLE+ ", f34." + TITLE + ",  "
-                + "f41." + TITLE+", "+ "f42." + TITLE+", "+ "f43." + TITLE+ ", f44." + TITLE
+        String sql = "SELECT " + "s." + STUDENT_DATA_JSON + ", " + "s." + ID + ", "
+                + "f21." + TITLE + ", " + "f22." + TITLE + ", " + "f23." + TITLE + ", f24." + TITLE + ", "
+                + "f31." + TITLE + ", " + "f32." + TITLE + ", " + "f33." + TITLE + ", f34." + TITLE + ",  "
+                + "f41." + TITLE + ", " + "f42." + TITLE + ", " + "f43." + TITLE + ", f44." + TITLE
 
                 + " FROM " + STUDENT_INFO_TABLE + " s "
                 + " LEFT JOIN " + FORM_2_ENTITY_1_TABLE + " f21 "
@@ -157,18 +118,18 @@ public class StudentDAO extends OfflineDatabaseHelper {
                 + " ON s." + FORM_4_ENTITY_3_ID + " = f43." + ID
                 + " LEFT JOIN " + FORM_4_ENTITY_4_TABLE + " f44 "
                 + " ON s." + FORM_4_ENTITY_4_ID + " = f44." + ID
-                
+
                 + " WHERE s." + FORM_1_ENTITY_4 + " = '" + number + "'";
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
-        StudentDTO dto  = new StudentDTO();
+        StudentDTO dto = new StudentDTO();
         Log.d("rohit ", "cursor count" + cursor.getCount());
-        if (cursor != null && cursor.getCount()>0){
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             String studentdata = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
             Long id = cursor.getLong(1);
-            
+
             String title21 = cursor.getString(2);
             String title22 = cursor.getString(3);
             String title23 = cursor.getString(4);
@@ -183,7 +144,7 @@ public class StudentDAO extends OfflineDatabaseHelper {
             String title42 = cursor.getString(11);
             String title43 = cursor.getString(12);
             String title44 = cursor.getString(13);
-            
+
 
             dto = new Gson().fromJson(studentdata, StudentDTO.class);
             dto.setForm2Entity1(title21);
@@ -201,7 +162,7 @@ public class StudentDAO extends OfflineDatabaseHelper {
             dto.setForm4Entity3(title43);
             dto.setForm4Entity4(title44);
             dto.setId(id);
-            
+
             cursor.close();
         }
         db.close();
@@ -209,5 +170,55 @@ public class StudentDAO extends OfflineDatabaseHelper {
     }
 
 
+    public void updateStudent(StudentDTO student) {
+        ContentValues cv = getContentValue(student);
+        SQLiteDatabase db = getWritableDatabase();
+        int result = db.update(STUDENT_INFO_TABLE, cv, ID + " = " + student.getId(), null);
 
+        Log.d("rohit", "add student result " + result);
+        db.close();
+    }
+
+
+    private ContentValues getContentValue(StudentDTO studentDTO) {
+        ContentValues cv = new ContentValues();
+        cv.put(FORM_1_ENTITY_1, studentDTO.getForm1Entity1());
+        cv.put(FORM_1_ENTITY_2, studentDTO.getForm1Entity2());
+        cv.put(FORM_1_ENTITY_3, studentDTO.getForm1Entity3());
+        cv.put(FORM_1_ENTITY_4, studentDTO.getForm1Entity4());
+
+        cv.put(FORM_2_ENTITY_1_ID, studentDTO.getForm2Entity1ID());
+        cv.put(FORM_2_ENTITY_2_ID, studentDTO.getForm2Entity2ID());
+        cv.put(FORM_2_ENTITY_3_ID, studentDTO.getForm2Entity3ID());
+        cv.put(FORM_2_ENTITY_4_ID, studentDTO.getForm2Entity4ID());
+
+        if (0 != studentDTO.getForm3Entity1ID())
+            cv.put(FORM_3_ENTITY_1_ID, studentDTO.getForm3Entity1ID());
+        if (0 != studentDTO.getForm3Entity2ID())
+            cv.put(FORM_3_ENTITY_2_ID, studentDTO.getForm3Entity2ID());
+        if (0 != studentDTO.getForm3Entity3ID())
+            cv.put(FORM_3_ENTITY_3_ID, studentDTO.getForm3Entity3ID());
+        if (0 != studentDTO.getForm3Entity4ID())
+            cv.put(FORM_3_ENTITY_4_ID, studentDTO.getForm3Entity4ID());
+
+        if (0 != studentDTO.getForm4Entity1ID())
+            cv.put(FORM_4_ENTITY_1_ID, studentDTO.getForm4Entity1ID());
+        if (0 != studentDTO.getForm4Entity2ID())
+            cv.put(FORM_4_ENTITY_2_ID, studentDTO.getForm4Entity2ID());
+        if (0 != studentDTO.getForm4Entity3ID())
+            cv.put(FORM_4_ENTITY_3_ID, studentDTO.getForm4Entity3ID());
+        if (0 != studentDTO.getForm4Entity4ID())
+            cv.put(FORM_4_ENTITY_4_ID, studentDTO.getForm4Entity4ID());
+
+        cv.put(CREATED_ON, studentDTO.getUpdatedON());
+        cv.put(CREATED_ON_MILLI, studentDTO.getCreatedOnMilli());
+        cv.put(UPDATED_ON, studentDTO.getUpdatedON());
+        cv.put(UPDATED_ON_MILLI, studentDTO.getUpdatedONMilli());
+
+        cv.put(STUDENT_DATA_JSON, studentDTO.getStudentDataJSON());
+        cv.put(SEND_DATA_JSON, studentDTO.getSendDataJSON());
+        cv.put(SYNC_STATUS, studentDTO.getSyncStatus());
+
+        return cv;
+    }
 }

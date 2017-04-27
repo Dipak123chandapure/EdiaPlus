@@ -50,7 +50,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public interface GroupFroagmetCallback {
-        void onGroupItemClicked(int position);
+        void onGroupItemClicked(BatchDTO dto);
     }
 
     GroupFroagmetCallback mGroupFroagmetCallback;
@@ -84,7 +84,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @Override
         public void onClick(View v) {
             if (null != mGroupFroagmetCallback)
-                mGroupFroagmetCallback.onGroupItemClicked(getAdapterPosition());
+                mGroupFroagmetCallback.onGroupItemClicked(mList.get(getAdapterPosition()));
         }
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_sms"
+        android:title="SMS"
+        android:icon="@mipmap/chat_grey"/>
+    <item
+        android:id="@+id/menu_email"
+        android:icon="@mipmap/email_grey"
+        android:title="Email"/>
+    <item
+        android:id="@+id/menu_activity"
+        android:title="Activity"
+        android:icon="@mipmap/notification_grey"
+        />
+    <item
+        android:id="@+id/menu_call"
+        android:title="Call"
+        android:icon="@mipmap/smart_caller_grey"/>
+    <item
+        android:id="@+id/menu_edit"
+        android:title="Edit"
+        android:icon="@mipmap/edit_grey"/>
+</menu>

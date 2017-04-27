@@ -21,6 +21,7 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
     protected static final String FORM_1_ENTITY_2 = "FORM_1_ENTITY_2";
     public static final String FORM_1_ENTITY_3 = "FORM_1_ENTITY_3";
     protected static final String FORM_1_ENTITY_4 = "FORM_1_ENTITY_4";
+    protected static final String BATCH_ID = "BATCH_ID";
 
     protected static final String CREATED_ON = "CREATED_ON";
     protected static final String UPDATED_ON = "UPDATED_ON";
@@ -190,6 +191,9 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
             + ");";
 
 
+
+
+
     protected static final String FORM_2_ENTITY_1_ID = "FORM_2_ENTITY_1_ID";
     protected static final String FORM_2_ENTITY_2_ID = "FORM_2_ENTITY_2_ID";
     protected static final String FORM_2_ENTITY_3_ID = "FORM_2_ENTITY_3_ID";
@@ -205,11 +209,8 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
     protected static final String FORM_4_ENTITY_3_ID = "FORM_4_ENTITY_3_ID";
     protected static final String FORM_4_ENTITY_4_ID = "FORM_4_ENTITY_4_ID";
 
-
     protected static final String STUDENT_DATA_JSON = "STUDENT_DATA_JSON";
     protected static final String SEND_DATA_JSON = "SEND_DATA_JSON";
-
-
 
     protected static final String STUDENT_TABLE_CREATE = "create table "
             + STUDENT_INFO_TABLE + " ("
@@ -276,7 +277,7 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
 
     //batch-student-bridge table
     protected static final String BATCH_STUDENT_BRIDGE_TABLE = "BATCH_STUDENT_BRIDGE_TABLE";
-    protected static final String BATCH_ID = "BATCH_ID";
+
 
 
     protected static final String BATCH_STUDENT_BRIDGE_TABLE_CREATE = "create table "
@@ -286,6 +287,30 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
             + " FOREIGN KEY ("+BATCH_ID+") REFERENCES "+BATCH_TABLE+"("+ID+"), "
             + " FOREIGN KEY ("+STUDENT_ID+") REFERENCES "+STUDENT_INFO_TABLE+"("+ID+")"
             + ");";
+
+
+
+    protected static final String BATCH_ACTIVITIES_TABLE = "BATCH_ACTIVITIES_TABLE";
+    protected static final String BATCH_ACTIVITIES_TABLE_CREATE = "create table "
+            + BATCH_ACTIVITIES_TABLE + " ("
+            + ID + " integer primary key autoincrement, "
+            + ACTIVITY_TYPE_ID + " integer, "
+            + IS_DONE + " text,"
+            + BATCH_ID + " integer,"
+
+            + ACTIVITY_DATE_TIME + " text, "
+            + CREATED_ON + " text, "
+            + UPDATED_ON + " text, "
+
+            + SEND_ACTIVITY_JSON + " text, "
+            + ACTIVITY_DATA_JSON + " text, "
+            + SYNC_STATUS + " text, "
+
+            + " FOREIGN KEY ("+ACTIVITY_TYPE_ID+") REFERENCES "+ACTIVITY_TYPE_TABLE+"("+ID+") ON DELETE CASCADE"
+            + " FOREIGN KEY ("+BATCH_ID+") REFERENCES "+BATCH_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
+
+
 
     protected static final String STUDENT_ATTACHMENT_TABLE = "STUDENT_ATTACHMENT_TABLE";
     protected static final String SECTION = "SECTION";

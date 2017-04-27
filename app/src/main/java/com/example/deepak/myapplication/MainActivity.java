@@ -3,6 +3,7 @@ package com.example.deepak.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardFragmnet;
+import com.example.deepak.myapplication.Application.App;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         inItView();
         getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
+        App.getInstance().setLiveContext(this);
 
 //        try {
 //            JSONObject jsonObject = new JSONObject(new ModalData().getAllMasters());
@@ -159,9 +162,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.m_d_f_a_b_image_five:
+                 SMSDashboardFragment smsFragment = new SMSDashboardFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.SMS_TYPE, Constant.SMS_NO_CLIENT);
+                smsFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new SMSDashboardFragment()).commit();
+                        .replace(R.id.main_frame_layout, smsFragment ).commit();
                 break;
             case R.id.m_d_f_a_b_image_six:
                 getSupportFragmentManager().beginTransaction().

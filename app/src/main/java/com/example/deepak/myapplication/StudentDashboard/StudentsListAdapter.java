@@ -2,19 +2,26 @@ package com.example.deepak.myapplication.StudentDashboard;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.Utility.Utility;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-
+import java.util.zip.Inflater;
 
 
 public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -67,6 +74,7 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public interface OnGroupStudentCallback {
         void loadMore(int index);
         void studentClicked(int position);
+        void popupMenuClicked(MenuItem menuItem, StudentDTO dto);
     }
 
     @Override
@@ -84,6 +92,7 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView campaign_name;
         TextView email_id;
         TextView mobile_num;
+        ImageView menu_icon;
         public LeadListViewHolder(View v) {
             super(v);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
@@ -92,6 +101,8 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             campaign_name = (TextView) itemView.findViewById(R.id.campaign_name);
             email_id = (TextView) itemView.findViewById(R.id.email_id);
             mobile_num = (TextView) itemView.findViewById(R.id.mobile_num);
+            menu_icon = (ImageView) itemView.findViewById(R.id.menu_icon);
+            menu_icon.setOnClickListener(this);
         }
 
         @Override
@@ -101,6 +112,26 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (null != mOnGroupStudentCallback)
                         mOnGroupStudentCallback.studentClicked(getAdapterPosition());
                     break;
+
+                case R.id.menu_icon:
+                    PopupMenu popup = new PopupMenu(v.getContext(), v);
+                    popup.inflate(R.menu.studeny_menu);
+
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            if (null != mOnGroupStudentCallback){
+                                mOnGroupStudentCallback.popupMenuClicked(item, mList.get(getAdapterPosition()));
+                            }
+                            return false;
+                        }
+                    });
+
+                    popup.show();
+
+                    break;
+
             }
         }
     }
