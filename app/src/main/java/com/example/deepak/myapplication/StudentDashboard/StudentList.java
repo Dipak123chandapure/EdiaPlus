@@ -104,27 +104,32 @@ public class StudentList extends Fragment implements
 
     @Override
     public void popupMenuClicked(MenuItem menuItem, StudentDTO dto) {
-        switch (menuItem.getItemId()){
-           case R.id.menu_sms:
-               SMSDashboardFragment fragment = new SMSDashboardFragment();
-               Bundle bundle = new Bundle();
-               bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
-               ArrayList<StudentDTO> list = new ArrayList<>();
-               list.add(dto);
-               bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
-               fragment.setArguments(bundle);
-               getActivity().getSupportFragmentManager().beginTransaction().
-                       setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                       .replace(R.id.main_frame_layout, fragment).commit();
-               break;
-
+        switch (menuItem.getItemId()) {
+            case R.id.menu_sms:
+                SMSDashboardFragment fragment = new SMSDashboardFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+                ArrayList<StudentDTO> list = new ArrayList<>();
+                list.add(dto);
+                bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
+                fragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, fragment).commit();
+                break;
 
 
             case R.id.menu_call:
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + dto.getForm1Entity4()));
+                Log.d("rohit", "action call");
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                     getActivity().startActivity(intent);
+                } else {
+                    ActivityCompat.requestPermissions(
+                            getActivity(),
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            1);
                 }
 
                 break;
@@ -145,7 +150,6 @@ public class StudentList extends Fragment implements
     public void setOnStudentSelected(OnStudentSelected mOnStudentSelected) {
         this.mOnStudentSelected = mOnStudentSelected;
     }
-
 
 
     public void onClick(View v) {

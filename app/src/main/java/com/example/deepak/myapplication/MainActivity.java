@@ -3,6 +3,7 @@ package com.example.deepak.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -141,14 +142,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.m_d_f_a_b_image_one:
+
                 break;
             case R.id.m_d_f_a_b_image_two:
+
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
                         .replace(R.id.main_frame_layout, new SmartCallerDashboardFragment()).commit();
                 break;
 
             case R.id.m_d_f_a_b_image_three:
+
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
                         .replace(R.id.main_frame_layout, new ActivityDashboardFragmnet()).commit();
@@ -162,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.m_d_f_a_b_image_five:
+
                  SMSDashboardFragment smsFragment = new SMSDashboardFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.SMS_TYPE, Constant.SMS_NO_CLIENT);
@@ -171,16 +176,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .replace(R.id.main_frame_layout, smsFragment ).commit();
                 break;
             case R.id.m_d_f_a_b_image_six:
+
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
                         .replace(R.id.main_frame_layout, new EmailDashboardFragment()).commit();
                 break;
             case R.id.m_d_f_a_b_image_seven:
+
                 break;
         }
 
         hideKeyboard();
     }
+
 
     String firstNames[] = {"Rohan", "Sohan", "Mohan", "Rohit", "Deepak", "Kunal", "Girish", "Shirish",
             "Sonali", "Kunal", "Manohar", "Haridas", "Shankar", "Santosh", "Rana", "Samir",
@@ -275,10 +283,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 data1.setModificationDate(date);
                 data1.setCreatedDate(date);
                 data1.setStudentID(aLong);
-
-                data1.setForm1Entity1(firstName + " " + lastName);
-                data1.setForm1Entity3(firstName + lastName.charAt(0) + "@gmail.com");
-                data1.setForm1Entity4(mob_no);
 
                 data1.setActivityComment("In the algorithm above, k (a parameter of the algorithm) is the number In the algorithm above,");
                 data1.setActvityTypeID(r.nextInt(5) + 1);

@@ -174,8 +174,6 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
             + ACTIVITY_TYPE_ID + " integer, "
             + IS_DONE + " text,"
 
-            + FORM_1_ENTITY_3 + " text,"
-            + FORM_1_ENTITY_4 + " text,"
             + STUDENT_ID + " integer,"
 
             + ACTIVITY_DATE_TIME + " text, "
@@ -353,5 +351,6 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
     public AbstractDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
 
 }

@@ -1,13 +1,13 @@
 package com.example.deepak.myapplication.SMSDashbard;
 
-import android.content.DialogInterface;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,26 +159,42 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
         NetworkExecuter.sendSms(clientList, msg_text.getText().toString(), new NetworkExecuter.OnNetworkResponse() {
             public void onSuccess(String response) {
                 setUpActivities();
-                Utility.hideProgressDialog(sProgressDialog);
-                Utility.showSuccessDialogWithFinish(getActivity(), "Successfully Send", "Successfully send sms", new SweetAlertDialog.OnSweetClickListener() {
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismiss();
-                        getActivity().getSupportFragmentManager().beginTransaction().
-                                setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                                .replace(R.id.main_frame_layout, new StudentDashboard()).commit();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.hideProgressDialog(sProgressDialog);
+                        Utility.showSuccessDialogWithFinish(getActivity(), "Successfully Send", "Successfully send sms", new SweetAlertDialog.OnSweetClickListener() {
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                getActivity().getSupportFragmentManager().beginTransaction().
+                                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                                        .replace(R.id.main_frame_layout, new StudentDashboard()).commit();
 
+                            }
+                        });
                     }
                 });
+
             }
 
             public void onFailure(VolleyError response) {
-                Utility.hideProgressDialog(sProgressDialog);
-                Utility.showErrorDialog(getActivity(), "Network Error", "Please try after some time");
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Utility.hideProgressDialog(sProgressDialog);
+                        Utility.showErrorDialog(getActivity(), "Network Error", "Please try after some time");
+                    }
+                });
+
             }
 
+            @UiThread
             public void onNoConnction() {
-                Utility.hideProgressDialog(sProgressDialog);
-                Utility.showNoInternetDialogWithFinish();
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Utility.hideProgressDialog(sProgressDialog);
+                        Utility.showNoInternetDialogWithFinish(getActivity());
+                    }
+                });
             }
         });
     }
@@ -203,7 +219,7 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
                 new ActivitiesDAO(getActivity()).addActivity(activity);
 
                 student.setUpdatedONMilli(now.getTimeInMillis());
-                student.setUpdatedON(now.getTimeInMillis()+"");
+                student.setUpdatedON(now.getTimeInMillis() + "");
                 student.setCkecked(false);
                 student.setStudentDataJSON(new Gson().toJson(student));
 

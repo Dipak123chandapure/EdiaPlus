@@ -24,8 +24,6 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
         Log.d("rohit", "inseting value : " + activityDTO.getActivityDataJSON());
         ContentValues cv = new ContentValues();
 
-        cv.put(FORM_1_ENTITY_3, activityDTO.getForm1Entity3());
-        cv.put(FORM_1_ENTITY_4, activityDTO.getForm1Entity4());
         cv.put(ACTIVITY_TYPE_ID, activityDTO.getActvityTypeID());
         cv.put(STUDENT_ID, activityDTO.getStudentID());
 
@@ -48,10 +46,13 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
 
     public ArrayList<ActivityDTO> getActivities(long statingMilli, long endingMilli) {
 
-        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "at." + TITLE
+        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "a." + ID + ", " + "at." + TITLE+ ", "
+                + "s." + FORM_1_ENTITY_1 +", " + "s." + FORM_1_ENTITY_2+", " + "s." + FORM_1_ENTITY_3+", " + "s." + FORM_1_ENTITY_4
                 + " FROM " + ACTIVITY_TABLE + " a "
                 + " LEFT JOIN " + ACTIVITY_TYPE_TABLE + " at "
                 + " ON a." + ACTIVITY_TYPE_ID + " = at." + ID
+                + " LEFT JOIN " + STUDENT_INFO_TABLE + " s "
+                + " ON a." + STUDENT_ID + " = s." + ID
                 + " WHERE a." + ACTIVITY_DATE_TIME + " < '" + endingMilli + "' AND a." + ACTIVITY_DATE_TIME + " >= '"+ statingMilli + "'"
                 + " ORDER BY "+ACTIVITY_DATE_TIME + " DESC";
 
@@ -63,9 +64,19 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
             while (cursor.moveToNext()) {
                 String student = cursor.getString(cursor.getColumnIndex(ACTIVITY_DATA_JSON));
                 String title = cursor.getString(cursor.getColumnIndex(TITLE));
-                ActivityDTO studentData = new Gson().fromJson(student, ActivityDTO.class);
-                studentData.setActivityTitle(title);
-                list.add(studentData);
+                Long id= cursor.getLong(cursor.getColumnIndex(ID));
+                String form1entity1 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_1));
+                String form1entity2 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_2));
+                String form1entity3 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_3));
+                String form1entity4 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_4));
+
+                ActivityDTO activity = new Gson().fromJson(student, ActivityDTO.class);
+                activity.setForm1Entity1(form1entity1+" "+form1entity2);
+                activity.setForm1Entity3(form1entity3);
+                activity.setForm1Entity4(form1entity4);
+                activity.setActivityTitle(title);
+                activity.setId(id);
+                list.add(activity);
             }
         }
         cursor.close();
@@ -78,11 +89,15 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
     public ArrayList<ActivityDTO> getActivities(int index) {
         int i = 0;
 
-        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "at." + TITLE
+        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "a." + ID + ", " + "at." + TITLE+ ", "
+                + "s." + FORM_1_ENTITY_1 +", " + "s." + FORM_1_ENTITY_2+", " + "s." + FORM_1_ENTITY_3+", " + "s." + FORM_1_ENTITY_4
                 + " FROM " + ACTIVITY_TABLE + " a "
                 + " LEFT JOIN " + ACTIVITY_TYPE_TABLE + " at "
                 + " ON a." + ACTIVITY_TYPE_ID + " = at." + ID
-                + " WHERE a." + ACTIVITY_DATE_TIME + " < '" + new Date().getTime() + "'"
+                + " LEFT JOIN " + STUDENT_INFO_TABLE + " s "
+                + " ON a." + STUDENT_ID + " = s." + ID
+                + " WHERE a." + ACTIVITY_DATE_TIME + " < '" + new Date().getTime() + "' AND "
+                + " a." + ACTIVITY_TYPE_ID + " IN ('" + 3+"', '"+4+"', '"+5 + "') "
                 + " ORDER BY "+ACTIVITY_DATE_TIME + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -94,9 +109,19 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
             while (cursor.moveToNext()) {
                 String student = cursor.getString(cursor.getColumnIndex(ACTIVITY_DATA_JSON));
                 String title = cursor.getString(cursor.getColumnIndex(TITLE));
-                ActivityDTO studentData = new Gson().fromJson(student, ActivityDTO.class);
-                studentData.setActivityTitle(title);
-                list.add(studentData);
+                Long id= cursor.getLong(cursor.getColumnIndex(ID));
+                String form1entity1 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_1));
+                String form1entity2 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_2));
+                String form1entity3 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_3));
+                String form1entity4 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_4));
+
+                ActivityDTO activity = new Gson().fromJson(student, ActivityDTO.class);
+                activity.setForm1Entity1(form1entity1+" "+form1entity2);
+                activity.setForm1Entity3(form1entity3);
+                activity.setForm1Entity4(form1entity4);
+                activity.setActivityTitle(title);
+                activity.setId(id);
+                list.add(activity);
                 if (i > 20) {
                     return list;
                 }
@@ -133,4 +158,6 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
         db.close();
         return list;
     }
+
+
 }

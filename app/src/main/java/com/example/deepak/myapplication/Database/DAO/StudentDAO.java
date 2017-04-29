@@ -41,7 +41,6 @@ public class StudentDAO extends OfflineDatabaseHelper {
         if (null != cursor) {
             while (cursor.moveToNext()) {
                 Long id = cursor.getLong(cursor.getColumnIndex(ID));
-//                Log.d("rohit", "id "+id);
                 String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
                 StudentDTO studentData = new Gson().fromJson(student, StudentDTO.class);
                 studentData.setId(id);
@@ -221,4 +220,6 @@ public class StudentDAO extends OfflineDatabaseHelper {
 
         return cv;
     }
+
+
 }

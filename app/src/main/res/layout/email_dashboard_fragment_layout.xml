@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/sms_dashboard_header_bar_layout"
+        layout="@layout/email_dashboard_header"
         android:layout_width="match_parent"
         android:layout_height="52dp" />
 

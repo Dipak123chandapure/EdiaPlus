@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.Utility.Utility;
@@ -73,7 +75,9 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public interface OnGroupStudentCallback {
         void loadMore(int index);
+
         void studentClicked(int position);
+
         void popupMenuClicked(MenuItem menuItem, StudentDTO dto);
     }
 
@@ -86,28 +90,33 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    public class LeadListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class LeadListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         LinearLayout linearLayout;
         TextView circular_text;
         TextView campaign_name;
         TextView email_id;
         TextView mobile_num;
         ImageView menu_icon;
+        MaterialRippleLayout ripple;
+
         public LeadListViewHolder(View v) {
             super(v);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
-            linearLayout.setOnClickListener(this);
             circular_text = (TextView) itemView.findViewById(R.id.circular_text);
             campaign_name = (TextView) itemView.findViewById(R.id.campaign_name);
+            ripple = (MaterialRippleLayout) itemView.findViewById(R.id.ripple_layout);
+            linearLayout.setOnLongClickListener(this);
+            linearLayout.setOnClickListener(this);
             email_id = (TextView) itemView.findViewById(R.id.email_id);
             mobile_num = (TextView) itemView.findViewById(R.id.mobile_num);
             menu_icon = (ImageView) itemView.findViewById(R.id.menu_icon);
             menu_icon.setOnClickListener(this);
         }
 
-        @Override
+
         public void onClick(View v) {
-            switch (v.getId()){
+            Log.d("rohit", "material ripple clicked"+v.getId()+" "+R.id.ripple_layout);
+            switch (v.getId()) {
                 case R.id.linear_layout:
                     if (null != mOnGroupStudentCallback)
                         mOnGroupStudentCallback.studentClicked(getAdapterPosition());
@@ -116,12 +125,9 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 case R.id.menu_icon:
                     PopupMenu popup = new PopupMenu(v.getContext(), v);
                     popup.inflate(R.menu.studeny_menu);
-
-
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            if (null != mOnGroupStudentCallback){
+                            if (null != mOnGroupStudentCallback) {
                                 mOnGroupStudentCallback.popupMenuClicked(item, mList.get(getAdapterPosition()));
                             }
                             return false;
@@ -133,6 +139,12 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     break;
 
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Log.d("rohit", "material ripple clicked");
+            return false;
         }
     }
 }

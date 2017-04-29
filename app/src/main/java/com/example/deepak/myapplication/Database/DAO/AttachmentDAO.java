@@ -66,16 +66,22 @@ public class AttachmentDAO extends OfflineDatabaseHelper {
     }
 
 
-    public ArrayList<String> getAttachment(StudentDTO dto){
-        ArrayList<String> list = new ArrayList<>();
+    public ArrayList<AttachmentDTO> getAttachment(StudentDTO dto){
+        ArrayList<AttachmentDTO> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String[] coloumns = { ATTACHMENT_URL};
+        String[] coloumns = {ID,SECTION, ATTACHMENT_URL};
         Cursor cursor = db.query(STUDENT_ATTACHMENT_TABLE, coloumns, STUDENT_ID +" = '"+dto.getId()+"'", null, null, null, null);
 
         if (null != cursor && cursor.getCount()>0) {
             while (cursor.moveToNext()) {
                 String url = cursor.getString(cursor.getColumnIndex(ATTACHMENT_URL));
-                list.add(url);
+                int id = cursor.getInt(cursor.getColumnIndex(ID));
+                String section = cursor.getString(cursor.getColumnIndex(SECTION));
+                AttachmentDTO attachment = new AttachmentDTO();
+                attachment.setUrl(url);
+                attachment.setId(id);
+                attachment.setSection(section);
+                list.add(attachment);
             }
             cursor.close();
         }
@@ -92,6 +98,26 @@ public class AttachmentDAO extends OfflineDatabaseHelper {
 
     public ArrayList<String> getAttachment(ActivityDTO dto){
         ArrayList<String> list = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.d("rohit","activity id "+dto.getId());
+        String[] coloumns = {ATTACHMENT_URL};
+        Cursor cursor = db.query(ACTIVITIES_ATTACHMENT_TABLE, coloumns, ACTIVITY_ID +" = '"+dto.getId()+"'", null, null, null, null);
+        if (null != cursor && cursor.getCount()>0) {
+            while (cursor.moveToNext()) {
+                String url = cursor.getString(cursor.getColumnIndex(ATTACHMENT_URL));
+                list.add(url);
+            }
+            cursor.close();
+        }
+        Log.d("rohit","size "+list.size());
+        db.close();
         return list;
+    }
+
+    public void removeAttachment(AttachmentDTO attachment) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result =  db.delete(STUDENT_ATTACHMENT_TABLE, ID +" = '"+attachment.getId()+"' ", null);
+        Log.d("rohit", "deleteted result"+result);
+        db.close();
     }
 }

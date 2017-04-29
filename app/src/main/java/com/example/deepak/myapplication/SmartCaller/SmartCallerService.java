@@ -74,7 +74,7 @@ public class SmartCallerService extends Service implements View.OnTouchListener,
         params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.TYPE_TOAST,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
 
@@ -150,16 +150,10 @@ public class SmartCallerService extends Service implements View.OnTouchListener,
 
     private void updateLeadAndAddActvity(StudentDTO studentData) {
         if (null != studentData) {
-//            DatabaseHandler handler = new DatabaseHandler(this);
-//            studentData.setModificationDate(callStartingTime);
-//            studentData.setToalActivitieCount(studentData.getToalActivitieCount() + 1);
-//            studentData.setTotalCallSmartCallActivitiesCount(studentData.getTotalCallSmartCallActivitiesCount() + 1);
-//            studentData.setDialedCallSmartCallActivitiesCount(studentData.getDialedCallSmartCallActivitiesCount() + 1);
-//            studentData.setLastSmartCallActivitityID(SmartCallUtil.getIDForCallType(callType));
-//            studentData.setLastSmartCallActivitityDate(callStartingTime);
-//            studentData.setLastSmartCallActivitityIncallTime(SmartCallUtil.getCallDuration(callEndingTime, callStartingTime));
-//            studentData.setStudentDataJSON(null);
-//            studentData.setStudentDataJSON(new Gson().toJson(studentData));
+            StudentDAO handler = new StudentDAO(this);
+            studentData.setUpdatedONMilli(callStartingTime);
+            studentData.setUpdatedON(callStartingTime+"");
+            studentData.setStudentDataJSON(new Gson().toJson(studentData));
 
             ActivityDTO activityData = new ActivityDTO();
             activityData.setCreatedDate(callStartingTime);
@@ -170,12 +164,13 @@ public class SmartCallerService extends Service implements View.OnTouchListener,
             activityData.setActvityTypeID(SmartCallUtil.getIDForCallType(callType));
             activityData.setSmartCallDuration(SmartCallUtil.getCallDuration(callEndingTime, callStartingTime));
             activityData.setIsDone(1);
+            activityData.setStudentID(studentData.getId());
             activityData.setNextActionDate(callStartingTime);
             activityData.setActivityDataJSON(new Gson().toJson(activityData));
-//            activityData.setGroupID(studentData.getGroupID());
+
             ActivitiesDAO dao = new ActivitiesDAO(this);
             dao.addActivity(activityData);
-         //   handler.updateStudent(studentData);
+            handler.updateStudent(studentData);
         }
     }
 

@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_gravity="center"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/Grey_500"
+        android:textSize="18sp"
+        android:text="Please Select Student" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:id="@+id/scroll_view">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -57,17 +66,17 @@
                 android:layout_marginTop="8dp"
                 android:background="#ffffff"
                 android:elevation="2dp"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/form2_heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Form 2 Heading"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"/>
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Form 2 Heading" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -76,11 +85,11 @@
 
 
                 <android.support.v7.widget.RecyclerView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:id="@+id/form2_recycler">
+                    android:id="@+id/form2_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-               </android.support.v7.widget.RecyclerView>
+                </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -94,16 +103,17 @@
                 android:layout_marginTop="8dp"
                 android:background="#ffffff"
                 android:elevation="2dp"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
                 <TextView
                     android:id="@+id/form3_heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Form 3 Heading"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"/>
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Form 3 Heading" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -111,9 +121,9 @@
                     android:background="@color/Grey_400" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/form3_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/form3_recycler">
+                    android:layout_height="wrap_content">
 
                 </android.support.v7.widget.RecyclerView>
 
@@ -129,17 +139,17 @@
                 android:layout_marginTop="8dp"
                 android:background="#ffffff"
                 android:elevation="2dp"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/form4_heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Form 4 Heading"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"/>
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Form 4 Heading" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -147,9 +157,9 @@
                     android:background="@color/Grey_400" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/form4_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/form4_recycler">
+                    android:layout_height="wrap_content">
 
                 </android.support.v7.widget.RecyclerView>
 
@@ -166,13 +176,28 @@
                 android:background="#ffffff"
                 android:elevation="2dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Attachments"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Attachments" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:id="@+id/add_attachment_icon"
+                        android:src="@mipmap/add_grey"/>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -202,10 +227,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Activities"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"/>
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Activities" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -225,4 +250,6 @@
 
     </ScrollView>
 
-</LinearLayout>
+
+
+</RelativeLayout>

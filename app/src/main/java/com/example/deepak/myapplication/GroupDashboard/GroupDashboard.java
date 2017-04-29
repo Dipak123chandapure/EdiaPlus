@@ -1,18 +1,28 @@
 package com.example.deepak.myapplication.GroupDashboard;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.Utility.Constant;
+
+import java.util.ArrayList;
 
 
 public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback, GroupStudents.OnStudentClicked {
@@ -51,16 +61,25 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
     public void onGroupItemClicked(BatchDTO dto) {
         if (null != fragmet2)
            fragmet2.changeBatch(dto);
-//        SMSDashboardFragment smsFragment = new SMSDashboardFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString(Constant.SMS_TYPE, Constant.SMS_GROUP_CLIENT);
-//        bundle.putParcelable(Constant.SMS_BATCH_DTO, dto);
-//        smsFragment.setArguments(bundle);
-//        getActivity().getSupportFragmentManager().beginTransaction().
-//                setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-//                .replace(R.id.main_frame_layout, smsFragment ).commit();
 
         view_pager.setCurrentItem(1);
+    }
+
+    @Override
+    public void onGroupMenuIconClicked(MenuItem item, BatchDTO dto) {
+        switch (item.getItemId()) {
+            case R.id.menu_sms:
+                SMSDashboardFragment smsFragment = new SMSDashboardFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.SMS_TYPE, Constant.SMS_GROUP_CLIENT);
+                bundle.putParcelable(Constant.SMS_BATCH_DTO, dto);
+                smsFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, smsFragment).commit();
+                break;
+        }
+
     }
 
     @Override

@@ -88,8 +88,8 @@ public class Utility {
     }
 
 
-    public static void showNoInternetDialogWithFinish() {
-        new SweetAlertDialog(App.getInstance().getLiveContext(), SweetAlertDialog.ERROR_TYPE)
+    public static void showNoInternetDialogWithFinish(final Context context) {
+        new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("No internet connction")
                 .setContentText("please check your internet connection")
                 .setConfirmText("Ok")

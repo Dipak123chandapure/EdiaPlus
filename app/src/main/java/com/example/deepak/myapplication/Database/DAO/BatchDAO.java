@@ -9,12 +9,8 @@ import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
-/**
- * Created by Deepak on 4/22/2017.
- */
 
 public class BatchDAO extends OfflineDatabaseHelper {
     public BatchDAO(Context context) {

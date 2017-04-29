@@ -8,11 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+
+import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
+import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.Utility.Utility;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemViewHolder;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -60,7 +65,7 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
     }
 
     SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
-    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat sdf1 = new SimpleDateFormat("EEE, dd-MMM-yyyy");
 
     public void onBindGroupViewHolder(MyGroupBatchesViewHolder holder, final int groupPosition, int viewType) {
         if (groupPosition != 0) {
@@ -76,18 +81,48 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
 
         }
 
-        holder.circular_text.setText(mList.get(groupPosition).getForm1Entity1().charAt(0) + "");
-        int colour = Utility.getCircularTextBackground(mList.get(groupPosition).getForm1Entity1().charAt(0));
-        holder.circular_text.getBackground().setColorFilter(colour, PorterDuff.Mode.SRC_ATOP);
+        int colour;
+        if (null != mList.get(groupPosition).getForm1Entity1()) {
+            holder.circular_text.setText(mList.get(groupPosition).getForm1Entity1().charAt(0) + "");
+            colour = Utility.getCircularTextBackground(mList.get(groupPosition).getForm1Entity1().charAt(0));
+        } else {
+            holder.circular_text.setText("U");
+            colour = Utility.getCircularTextBackground('U');
+        }
+        if (mList.get(groupPosition).getActvityTypeID() == 4) {
+            holder.student_name.setTextColor(mContext.getResources().getColor(R.color.Red_400));
+            holder.mob_no.setTextColor(mContext.getResources().getColor(R.color.Red_300));
+            holder.time_duartion.setTextColor(mContext.getResources().getColor(R.color.Red_200));
+        }else {
+            holder.student_name.setTextColor(mContext.getResources().getColor(R.color.Grey_700));
+            holder.mob_no.setTextColor(mContext.getResources().getColor(R.color.Grey_600));
+            holder.time_duartion.setTextColor(mContext.getResources().getColor(R.color.Grey_500));
+        }
 
+        holder.circular_text.getBackground().setColorFilter(colour, PorterDuff.Mode.SRC_ATOP);
         holder.student_name.setText(mList.get(groupPosition).getForm1Entity1());
         holder.mob_no.setText(mList.get(groupPosition).getForm1Entity4());
-
         holder.time_duartion.setText(sdf.format(mList.get(groupPosition).getCreatedDate()) + " (" + mList.get(groupPosition).getSmartCallDuration() + ")");
 
+        holder.call_type_image.setImageResource(getIconForCallType(mList.get(groupPosition).getActvityTypeID()));
         if (groupPosition == (mList.size() - 10))
             loadMore(mList.size());
 
+    }
+
+    private int getIconForCallType(int actvityTypeID) {
+        switch (actvityTypeID) {
+            case 3:
+                return R.mipmap.call_made_grey;
+            case 4:
+                return R.mipmap.call_missed_grey;
+
+            case 5:
+                return R.mipmap.call_received_grey;
+
+            default:
+                return 0;
+        }
     }
 
     private void loadMore(final int index) {
@@ -99,12 +134,14 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
         }).start();
     }
 
-
-    int mGroup_position;
-
+    
     @Override
     public void onBindChildViewHolder(MyChildBatchViewHolder holder, final int groupPosition, final int childPosition, int viewType) {
-        this.mGroup_position = groupPosition;
+        holder.image_one.setOnClickListener(new ChilClickListener(groupPosition, 0));
+        holder.image_two.setOnClickListener(new ChilClickListener(groupPosition, 1));
+        holder.image_three.setOnClickListener(new ChilClickListener(groupPosition, 2));
+        holder.image_four.setOnClickListener(new ChilClickListener(groupPosition, 3));
+        holder.image_five.setOnClickListener(new ChilClickListener(groupPosition, 4));
     }
 
     @Override
@@ -116,7 +153,22 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
     public void onClick(View v) {
 
     }
+    public class ChilClickListener implements View.OnClickListener {
+        int childPosition, groupPosition;
 
+        public ChilClickListener(int groupPosition, int childPosition) {
+            this.childPosition = childPosition;
+            this.groupPosition = groupPosition;
+        }
+
+        public void onClick(View v) {
+            if (null != mOnSmartCallerListAdapterCallback) {
+                ActivityDTO activity = mList.get(groupPosition);
+                StudentDTO student = new StudentDAO(mContext).getStudentForNumber(activity.getForm1Entity4());
+                mOnSmartCallerListAdapterCallback.onChildItemClicked(childPosition, student);
+            }
+        }
+    }
 
     OnSmartCallerListAdapterCallback mOnSmartCallerListAdapterCallback;
 
@@ -127,6 +179,7 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
 
     public interface OnSmartCallerListAdapterCallback {
         void onLoadMore(int index);
+        void onChildItemClicked(int position, StudentDTO sto);
     }
 }
 
@@ -138,7 +191,6 @@ class MyGroupBatchesViewHolder extends AbstractExpandableItemViewHolder {
     TextView mob_no;
     TextView time_duartion;
     ImageView call_type_image;
-    ImageView sim_type_image;
 
     public MyGroupBatchesViewHolder(View itemView) {
         super(itemView);
@@ -149,27 +201,26 @@ class MyGroupBatchesViewHolder extends AbstractExpandableItemViewHolder {
         mob_no = (TextView) itemView.findViewById(R.id.mob_no);
         time_duartion = (TextView) itemView.findViewById(R.id.time_duartion);
         call_type_image = (ImageView) itemView.findViewById(R.id.call_type_image);
-        sim_type_image = (ImageView) itemView.findViewById(R.id.sim_type_image);
     }
 }
 
 class MyChildBatchViewHolder extends AbstractExpandableItemViewHolder {
-    LinearLayout linearLayout;
-    ImageView lead_dashboard_recycler_child_item_alert;
-    ImageView lead_dashboard_recycler_child_item_email;
-    ImageView lead_dashboard_recycler_child_item_sms;
-    ImageView lead_dashboard_recycler_child_item_call;
-    ImageView lead_dashboard_recycler_child_item_details;
+
+    ImageView image_one;
+    ImageView image_two;
+    ImageView image_three;
+    ImageView image_four;
+    ImageView image_five;
 
 
     public MyChildBatchViewHolder(View itemView) {
         super(itemView);
-        //linearLayout = (LinearLayout) itemView.findViewById(R.id.batches_ll_child_item);
-//        lead_dashboard_recycler_child_item_alert = (ImageView) itemView.findViewById(R.id.lead_dashboard_recycler_child_item_alert);
-//        lead_dashboard_recycler_child_item_email = (ImageView) itemView.findViewById(R.id.lead_dashboard_recycler_child_item_email);
-//        lead_dashboard_recycler_child_item_sms = (ImageView) itemView.findViewById(R.id.lead_dashboard_recycler_child_item_sms);
-//        lead_dashboard_recycler_child_item_call = (ImageView) itemView.findViewById(R.id.lead_dashboard_recycler_child_item_call);
-//        lead_dashboard_recycler_child_item_details = (ImageView) itemView.findViewById(R.id.lead_dashboard_recycler_child_item_details);
+
+        image_one = (ImageView) itemView.findViewById(R.id.image_one);
+        image_two = (ImageView) itemView.findViewById(R.id.image_two);
+        image_three = (ImageView) itemView.findViewById(R.id.image_three);
+        image_four = (ImageView) itemView.findViewById(R.id.image_four);
+        image_five = (ImageView) itemView.findViewById(R.id.image_five);
 
     }
 }

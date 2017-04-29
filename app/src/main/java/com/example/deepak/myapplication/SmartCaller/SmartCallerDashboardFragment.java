@@ -15,6 +15,8 @@ import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
+import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
+import com.example.deepak.myapplication.Utility.Constant;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 
 import java.util.ArrayList;
@@ -60,6 +62,41 @@ public class SmartCallerDashboardFragment extends Fragment implements SmartCalle
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onChildItemClicked(int position, StudentDTO sto) {
+        switch (position){
+            case 0:
+                SMSDashboardFragment fragment = new SMSDashboardFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+                ArrayList<StudentDTO> list = new ArrayList<>();
+                list.add(sto);
+                bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
+                fragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, fragment).commit();
+                break;
+
+            case 1:
+
+                break;
+
+            case 2:
+
+                break;
+
+            case 3:
+
+                break;
+
+            case 4:
+
+                break;
+
+        }
     }
 
 

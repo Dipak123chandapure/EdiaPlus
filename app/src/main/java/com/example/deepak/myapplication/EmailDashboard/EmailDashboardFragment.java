@@ -1,8 +1,11 @@
 package com.example.deepak.myapplication.EmailDashboard;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
+import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
+import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.MainActivity;
 import com.example.deepak.myapplication.R;
@@ -134,17 +140,28 @@ public class EmailDashboardFragment extends Fragment implements View.OnClickList
     }
 
     private void showFileChooser() {
-        new MaterialFilePicker()
-                .withActivity(getActivity())
-                .withRequestCode(10)
-                .start();
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            new MaterialFilePicker()
+                    .withActivity(getActivity())
+                    .withRequestCode(10)
+                    .start();
+        } else {
+            ActivityCompat.requestPermissions(
+                    getActivity(),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
+        }
+
     }
 
-    ArrayList<String> atttacmentList = new ArrayList<>();
+    ArrayList<AttachmentDTO> atttacmentList = new ArrayList<>();
 
     public void onMActivityResult(Intent data) {
         String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-        atttacmentList.add(filePath);
+        AttachmentDTO attachment = new AttachmentDTO();
+        attachment.setSection("test section");
+        attachment.setUrl(filePath);
+        atttacmentList.add(attachment);
         adapter2.notifyDataSetChanged();
         Log.d("rohit", "file path" + filePath.substring(filePath.lastIndexOf("/") + 1));
     }

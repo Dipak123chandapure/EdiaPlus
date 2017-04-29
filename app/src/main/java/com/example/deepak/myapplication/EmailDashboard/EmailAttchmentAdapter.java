@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 
@@ -16,9 +17,9 @@ import java.util.ArrayList;
 
 public class EmailAttchmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    ArrayList<String> mList;
+    ArrayList<AttachmentDTO> mList;
 
-    public EmailAttchmentAdapter(Context mContext, ArrayList<String> mList) {
+    public EmailAttchmentAdapter(Context mContext, ArrayList<AttachmentDTO> mList) {
         this.mList = mList;
     }
 
@@ -32,7 +33,7 @@ public class EmailAttchmentAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (null != mList) {
             LeadListViewHolder headingViewHolder = (LeadListViewHolder) holder;
-            String absoultePath = mList.get(position);
+            String absoultePath = mList.get(position).getUrl();
             //String filename= absoultePath.substring(absoultePath.lastIndexOf('/')+1, absoultePath.length());
             headingViewHolder.file_name.setText(absoultePath);
         }

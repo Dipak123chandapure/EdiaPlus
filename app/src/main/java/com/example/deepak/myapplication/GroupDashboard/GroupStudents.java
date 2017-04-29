@@ -1,7 +1,12 @@
 package com.example.deepak.myapplication.GroupDashboard;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +15,16 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
+import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.StudentDashboard.StudentsListAdapter;
+import com.example.deepak.myapplication.Utility.Constant;
 
 import java.util.ArrayList;
 
@@ -41,7 +50,7 @@ public class GroupStudents extends Fragment implements StudentsListAdapter.OnGro
         student_list_recycler.setAdapter(adpter);
     }
 
-    @Override
+
     public void loadMore(int index) {
         Log.d("rohit", "Load more is called");
         StudentDAO handler = new StudentDAO(getActivity());
@@ -64,7 +73,41 @@ public class GroupStudents extends Fragment implements StudentsListAdapter.OnGro
 
     @Override
     public void popupMenuClicked(MenuItem menuItem, StudentDTO dto) {
+        switch (menuItem.getItemId()) {
+            case R.id.menu_sms:
+                SMSDashboardFragment fragment = new SMSDashboardFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+                ArrayList<StudentDTO> list = new ArrayList<>();
+                list.add(dto);
+                bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
+                fragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, fragment).commit();
+                break;
 
+
+            case R.id.menu_call:
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + dto.getForm1Entity4()));
+                Log.d("rohit", "action call");
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    getActivity().startActivity(intent);
+                } else {
+                    ActivityCompat.requestPermissions(
+                            getActivity(),
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            1);
+                }
+
+                break;
+
+            case R.id.menu_activity:
+                AddActivityDialog dialog = new AddActivityDialog(getActivity(), dto);
+                dialog.show();
+                break;
+        }
     }
 
     public void changeBatch(BatchDTO batch) {

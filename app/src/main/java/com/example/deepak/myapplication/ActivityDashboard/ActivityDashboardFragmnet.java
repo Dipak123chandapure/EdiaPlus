@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
+import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
+import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
+import com.example.deepak.myapplication.Utility.Constant;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 
@@ -26,7 +29,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class ActivityDashboardFragmnet extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener {
+public class ActivityDashboardFragmnet extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, ActivityDashboardActivityListAdapter.OnActivityListCallBachk {
 
     RecyclerViewExpandableItemManager expMgr;
     ActivityDashboardActivityListAdapter adapter;
@@ -64,12 +67,12 @@ public class ActivityDashboardFragmnet extends Fragment implements View.OnClickL
         expMgr = new RecyclerViewExpandableItemManager(null);
         a_d_f_l_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new ActivityDashboardActivityListAdapter(getActivity(), mList);
+        adapter.setmOnActivityListCallBachk(this);
         a_d_f_l_recycler_view.setAdapter(expMgr.createWrappedAdapter(adapter));
         ((SimpleItemAnimator) a_d_f_l_recycler_view.getItemAnimator()).setSupportsChangeAnimations(false);
         expMgr.attachRecyclerView(a_d_f_l_recycler_view);
     }
 
-    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.a_d_f_l_expand_calender_image:
@@ -91,7 +94,6 @@ public class ActivityDashboardFragmnet extends Fragment implements View.OnClickL
         }
     }
 
-    @Override
     public void onDayClick(Date dateClicked) {
 
         a_d_f_l_date_indicator_text.setText(dateFormatForMonthDay.format(dateClicked));
@@ -109,8 +111,42 @@ public class ActivityDashboardFragmnet extends Fragment implements View.OnClickL
         changeCalenderVisibility();
     }
 
-    @Override
+
     public void onMonthScroll(Date firstDayOfNewMonth) {
         a_d_f_l_date_indicator_text.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+    }
+
+    public void onChildItemClicked(int position, StudentDTO dto) {
+        switch (position){
+            case 0:
+                SMSDashboardFragment fragment = new SMSDashboardFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+                ArrayList<StudentDTO> list = new ArrayList<>();
+                list.add(dto);
+                bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
+                fragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, fragment).commit();
+                break;
+
+            case 1:
+
+                break;
+
+            case 2:
+
+                break;
+
+            case 3:
+
+                break;
+
+            case 4:
+
+                break;
+
+        }
     }
 }
