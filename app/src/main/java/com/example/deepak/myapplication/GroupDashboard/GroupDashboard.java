@@ -1,38 +1,34 @@
 package com.example.deepak.myapplication.GroupDashboard;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
+import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.Utility.Constant;
 
-import java.util.ArrayList;
 
-
-public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback, GroupStudents.OnStudentClicked {
+public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback, GroupStudents.OnStudentClicked, View.OnClickListener, AddGroupDialog.OnBatchaAdded {
 
     ViewPager view_pager;
-
+    ImageView floating_btn;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.group_dashboard, container, false);
         view_pager = (ViewPager) view.findViewById(R.id.view_pager);
+        floating_btn = (ImageView) view.findViewById(R.id.floating_btn);
+        floating_btn.setOnClickListener(this);
         setUpViewPager();
         return view;
     }
@@ -42,7 +38,7 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
     StudentProfile fragment3;
 
     private void setUpViewPager() {
-        FragmentPageradapter adapter = new FragmentPageradapter(getActivity().getSupportFragmentManager());
+        CustomFragmentPageradapter adapter = new CustomFragmentPageradapter(getActivity().getSupportFragmentManager());
         fragment1 = new Groups();
         fragment1.setGroupFroagmetCallback(this);
         fragmet2 = new GroupStudents();
@@ -87,5 +83,21 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
         if (null != fragment3)
             fragment3.changeStudent(sto);
         view_pager.setCurrentItem(2);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.floating_btn:
+                AddGroupDialog dialog = new AddGroupDialog(getActivity());
+                dialog.setOnBatchaAdded(this);
+                dialog.show();
+                break;
+        }
+    }
+
+    @Override
+    public void onBatchAdded(BatchDTO batch) {
+        fragment1.addBatch(batch);
     }
 }

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
-import com.example.deepak.myapplication.GroupDashboard.FragmentPageradapter;
+import com.example.deepak.myapplication.GroupDashboard.CustomFragmentPageradapter;
 import com.example.deepak.myapplication.GroupDashboard.StudentProfile;
 import com.example.deepak.myapplication.R;
 
@@ -37,7 +37,7 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
 
 
     private void setUpViewPager() {
-        FragmentPageradapter adapter = new FragmentPageradapter(getActivity().getSupportFragmentManager());
+        CustomFragmentPageradapter adapter = new CustomFragmentPageradapter(getActivity().getSupportFragmentManager());
         fragment1 = new StudentList();
         fragment3 = new StudentProfile();
         fragment1.setOnStudentSelected(this);

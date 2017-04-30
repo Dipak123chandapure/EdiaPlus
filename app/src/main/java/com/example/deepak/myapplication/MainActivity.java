@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardFragmnet;
 import com.example.deepak.myapplication.Application.App;
+import com.example.deepak.myapplication.ChartDashboard.Chart_Dashboard_Fragment;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
@@ -142,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.m_d_f_a_b_image_one:
+                getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, new Chart_Dashboard_Fragment()).commit();
 
                 break;
             case R.id.m_d_f_a_b_image_two:

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/email_dashboard_header"
+        android:layout_width="match_parent"
+        android:layout_height="52dp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#6c6864"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bar_chart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="#9c9386"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Bar Chart"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/line_chart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Line Chart"
+                android:textColor="#ffffff" />
+
+
+            <TextView
+                android:id="@+id/pie_chart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Pie Chart"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <com.example.deepak.myapplication.ChartDashboard.NonSwipableViewPager
+        android:id="@+id/chart_fragmnet_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+    </com.example.deepak.myapplication.ChartDashboard.NonSwipableViewPager>
+
+</LinearLayout>

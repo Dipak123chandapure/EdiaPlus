@@ -41,4 +41,9 @@ public class Groups extends Fragment {
     public void setGroupFroagmetCallback(GroupAdapter.GroupFroagmetCallback mGroupFroagmetCallback){
         this.mGroupFroagmetCallback = mGroupFroagmetCallback;
     }
+
+    public void addBatch(BatchDTO batch) {
+        mList.add(0,batch);
+        adapter.notifyDataSetChanged();
+    }
 }

@@ -78,4 +78,5 @@ public class Constant {
 
     public static final String SMS_CLIENT_LIST = "SMS_CLIENT_LIST";
     public static final String SMS_BATCH_DTO = "SMS_BATCH_DTO";
+    public static final String ADD_BATCH_TYPE = "ADD_BATCH_TYPE";
 }
