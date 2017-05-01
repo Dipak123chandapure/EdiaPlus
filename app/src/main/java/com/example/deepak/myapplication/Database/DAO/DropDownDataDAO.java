@@ -18,143 +18,29 @@ public class DropDownDataDAO extends OfflineDatabaseHelper {
         super(context);
     }
 
-    public void saveFormData(String TYPE, DropDownDataDTO dropDownDataDTO) {
+    public Long saveFormData(String TYPE, DropDownDataDTO dropDownDataDTO) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TITLE, dropDownDataDTO.getTitle());
         cv.put(DETAILS, dropDownDataDTO.getDetails());
         cv.put(IS_SYSTEM_VALUE, dropDownDataDTO.getSystemValue());
         cv.put(IS_VIRTUALLY_DELETED, dropDownDataDTO.getVirtuallyDeleted());
-        Long result = -1L;
-
-        switch (TYPE) {
-            case Constant.FORM_TWO_CHILD_ONE_COMMON_CODE:
-                result = db.insert(FORM_2_ENTITY_1_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_TWO_CHILD_TWO_COMMON_CODE:
-                result = db.insert(FORM_2_ENTITY_2_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_TWO_CHILD_THREE_COMMON_CODE:
-                result = db.insert(FORM_2_ENTITY_3_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_TWO_CHILD_FOUR_COMMON_CODE:
-                result = db.insert(FORM_2_ENTITY_4_TABLE, null, cv);
-                break;
-
-
-            case Constant.FORM_THREE_CHILD_ONE_COMMON_CODE:
-                result = db.insert(FORM_3_ENTITY_1_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_THREE_CHILD_TWO_COMMON_CODE:
-                result = db.insert(FORM_3_ENTITY_2_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_THREE_CHILD_THREE_COMMON_CODE:
-                result = db.insert(FORM_3_ENTITY_3_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_THREE_CHILD_FOUR_COMMON_CODE:
-                result = db.insert(FORM_3_ENTITY_4_TABLE, null, cv);
-                break;
-
-
-            case Constant.FORM_FOUR_CHILD_ONE_COMMON_CODE:
-                result = db.insert(FORM_4_ENTITY_1_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_FOUR_CHILD_TWO_COMMON_CODE:
-                result = db.insert(FORM_4_ENTITY_2_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_FOUR_CHILD_THREE_COMMON_CODE:
-                result = db.insert(FORM_4_ENTITY_3_TABLE, null, cv);
-                break;
-
-            case Constant.FORM_FOUR_CHILD_FOUR_COMMON_CODE:
-                result = db.insert(FORM_4_ENTITY_4_TABLE, null, cv);
-                break;
-
-            case Constant.ACTIVITY_DROPDOWN_VALUES:
-                result = db.insert(ACTIVITY_TYPE_TABLE, null, cv);
-                break;
-        }
+        Long result = db.insert(getTableName(TYPE), null, cv);
         Log.d("rohit", "result "+result);
         db.close();
+        return result;
     }
 
     public ArrayList<DropDownDataDTO> getFormData(String TYPE){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = null;
-
-        switch (TYPE){
-            case Constant.FORM_TWO_CHILD_ONE_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_2_ENTITY_1_TABLE, null);
-                break;
-
-            case Constant.FORM_TWO_CHILD_TWO_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_2_ENTITY_2_TABLE, null);
-                break;
-
-            case Constant.FORM_TWO_CHILD_THREE_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_2_ENTITY_3_TABLE, null);
-                break;
-
-            case Constant.FORM_TWO_CHILD_FOUR_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_2_ENTITY_4_TABLE, null);
-                break;
-
-
-
-            case Constant.FORM_THREE_CHILD_ONE_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_3_ENTITY_1_TABLE, null);
-                break;
-
-            case Constant.FORM_THREE_CHILD_TWO_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_3_ENTITY_2_TABLE, null);
-                break;
-
-            case Constant.FORM_THREE_CHILD_THREE_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_3_ENTITY_3_TABLE, null);
-                break;
-
-            case Constant.FORM_THREE_CHILD_FOUR_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_3_ENTITY_4_TABLE, null);
-                break;
-
-
-
-            case Constant.FORM_FOUR_CHILD_ONE_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_4_ENTITY_1_TABLE, null);
-                break;
-
-            case Constant.FORM_FOUR_CHILD_TWO_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_4_ENTITY_2_TABLE, null);
-                break;
-
-            case Constant.FORM_FOUR_CHILD_THREE_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_4_ENTITY_3_TABLE, null);
-                break;
-
-            case Constant.FORM_FOUR_CHILD_FOUR_COMMON_CODE:
-                cursor = db.rawQuery("SELECT * FROM "+FORM_4_ENTITY_4_TABLE, null);
-                break;
-
-            case Constant.ACTIVITY_DROPDOWN_VALUES:
-                cursor = db.rawQuery("SELECT * FROM "+ACTIVITY_TYPE_TABLE, null);
-                break;
-        }
+        Cursor cursor = db.rawQuery("SELECT * FROM "+getTableName(TYPE), null);
         ArrayList<DropDownDataDTO> list = new ArrayList<>();
-
         if (cursor!= null){
             if (cursor.getCount()>0){
                 cursor.moveToFirst();
                 do {
                     DropDownDataDTO dropDownDataDTO = new DropDownDataDTO();
-                    dropDownDataDTO.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                    dropDownDataDTO.setId(cursor.getLong(cursor.getColumnIndex(ID)));
                     dropDownDataDTO.setDetails(cursor.getString(cursor.getColumnIndex(DETAILS)));
                     dropDownDataDTO.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
                     dropDownDataDTO.setVirtuallyDeleted(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(IS_SYSTEM_VALUE))));
@@ -169,5 +55,70 @@ public class DropDownDataDAO extends OfflineDatabaseHelper {
 
         db.close();
         return list;
+    }
+
+    public void deleteFormData(String TYPE, DropDownDataDTO value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(getTableName(TYPE), ID+" = '"+value.getId()+"'", null);
+        Log.d("rohit", "result "+result);
+        db.close();
+    }
+
+    public void updateFormData(String type, DropDownDataDTO selectedItem) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(TITLE, selectedItem.getTitle());
+        cv.put(DETAILS, selectedItem.getDetails());
+        cv.put(IS_SYSTEM_VALUE, selectedItem.getSystemValue());
+        cv.put(IS_VIRTUALLY_DELETED, selectedItem.getVirtuallyDeleted());
+        int result = db.update(getTableName(type), cv, ID+" = '"+selectedItem.getId()+"'", null);
+        Log.d("rohit", "result "+result);
+    }
+
+    private String getTableName(String TYPE) {
+        switch (TYPE) {
+            case Constant.FORM_2_CHILD_1:
+                return FORM_2_ENTITY_1_TABLE;
+
+            case Constant.FORM_2_CHILD_2:
+                return FORM_2_ENTITY_2_TABLE;
+
+            case Constant.FORM_2_CHILD_3:
+                return FORM_2_ENTITY_3_TABLE;
+
+            case Constant.FORM_2_CHILD_4:
+                return  FORM_2_ENTITY_4_TABLE;
+
+
+            case Constant.FORM_3_CHILD_1:
+                return FORM_3_ENTITY_1_TABLE;
+
+            case Constant.FORM_3_CHILD_2:
+                return FORM_3_ENTITY_2_TABLE;
+
+            case Constant.FORM_3_CHILD_3:
+                return FORM_3_ENTITY_3_TABLE;
+
+            case Constant.FORM_3_CHILD_4:
+                return FORM_3_ENTITY_4_TABLE;
+
+
+            case Constant.FORM_4_CHILD_1:
+                return  FORM_4_ENTITY_1_TABLE;
+
+            case Constant.FORM_4_CHILD_2:
+                return  FORM_4_ENTITY_2_TABLE;
+
+            case Constant.FORM_4_CHILD_3:
+                return  FORM_4_ENTITY_3_TABLE;
+
+            case Constant.FORM_4_CHILD_4:
+                return  FORM_4_ENTITY_4_TABLE;
+
+            case Constant.ACTIVITY_DROPDOWN_VALUES:
+                return ACTIVITY_TYPE_TABLE;
+
+            default:return null;
+        }
     }
 }

@@ -29,19 +29,18 @@ import java.util.zip.Inflater;
 public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<StudentDTO> mList;
+    OnGroupStudentCallback mOnGroupStudentCallback;
 
     public StudentsListAdapter(Context mContext, ArrayList<StudentDTO> mList) {
         this.mList = mList;
     }
 
-    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_item, parent, false);
         return new LeadListViewHolder(view);
     }
 
 
-    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         LeadListViewHolder mHolder = (LeadListViewHolder) holder;
         StudentDTO data = mList.get(position);
@@ -53,21 +52,17 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mHolder.email_id.setText(data.getForm1Entity3());
         mHolder.mobile_num.setText(data.getForm1Entity4());
 
-        if (position == (mList.size() - 5))
+        if (position == (mList.size() - 25))
             loadMore(mList.size());
     }
 
     private void loadMore(final int index) {
         new Thread(new Runnable() {
-            @Override
             public void run() {
                 mOnGroupStudentCallback.loadMore(index);
             }
         }).start();
     }
-
-
-    OnGroupStudentCallback mOnGroupStudentCallback;
 
     public void setOnGroupStudentCallback(OnGroupStudentCallback mOnGroupStudentCallback) {
         this.mOnGroupStudentCallback = mOnGroupStudentCallback;
@@ -75,9 +70,7 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public interface OnGroupStudentCallback {
         void loadMore(int index);
-
         void studentClicked(int position);
-
         void popupMenuClicked(MenuItem menuItem, StudentDTO dto);
     }
 

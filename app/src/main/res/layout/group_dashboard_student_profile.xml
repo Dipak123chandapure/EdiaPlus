@@ -76,7 +76,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="10dp"
-                    android:text="Form 2 Heading" />
+                    android:text="Student Details" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -93,83 +93,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/form3_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/form2_ll"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:background="#ffffff"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="8dp">
-
-                <TextView
-                    android:id="@+id/form3_heading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Form 3 Heading" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/Grey_400" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/form3_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </android.support.v7.widget.RecyclerView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/form4_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/form3_ll"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:background="#ffffff"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="8dp">
-
-                <TextView
-                    android:id="@+id/form4_heading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Form 4 Heading" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/Grey_400" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/form4_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </android.support.v7.widget.RecyclerView>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/attachment_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/form4_ll"
+                android:layout_below="@+id/form2_ll"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
@@ -247,9 +176,6 @@
 
         </RelativeLayout>
 
-
     </ScrollView>
-
-
 
 </RelativeLayout>

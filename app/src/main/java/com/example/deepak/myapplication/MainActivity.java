@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardFragmnet;
+import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
 import com.example.deepak.myapplication.Application.App;
 import com.example.deepak.myapplication.ChartDashboard.Chart_Dashboard_Fragment;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
@@ -24,8 +25,10 @@ import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
+import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.example.deepak.myapplication.EmailDashboard.EmailDashboardFragment;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
+import com.example.deepak.myapplication.Settings.SettingsFragment;
 import com.example.deepak.myapplication.SmartCaller.SmartCallerDashboardFragment;
 import com.example.deepak.myapplication.StudentDashboard.StudentDashboard;
 import com.example.deepak.myapplication.Utility.Constant;
@@ -45,8 +48,6 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     FrameLayout main_frame_layout;
-
-
     ImageView m_d_f_a_b_image_one, m_d_f_a_b_image_two, m_d_f_a_b_image_three, m_d_f_a_b_image_four,
             m_d_f_a_b_image_five, m_d_f_a_b_image_six, m_d_f_a_b_image_seven;
 
@@ -54,62 +55,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         inItView();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
         App.getInstance().setLiveContext(this);
 
-//        try {
-//            JSONObject jsonObject = new JSONObject(new ModalData().getAllMasters());
-//            UserDataParser.parseAllMasters(new ModalData().getAllMasters(), this);
-//        } catch (JSONException e) {
-//            Log.d("rohit ", "parsing exception " + e.toString());
-//            e.printStackTrace();
-//        }
-//
-//        setUpDefaultCommonCode();
-//
-//        addBatches();
-//        addStudentsToBatch();
+        if (null != getIntent() && null != getIntent().getStringExtra(Constant.LAUNCHING_FRAGMENT)) {
+            addFragment(getIntent());
+        } else
+            getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
+
+        OfflineDatabaseHelper helper = new OfflineDatabaseHelper(this);
+    }
+
+    private void addFragment(Intent intent) {
+        String LAUNCHING_FRAGMENT = intent.getStringExtra(Constant.LAUNCHING_FRAGMENT);
+        StudentDTO student = null;
+        String mob_no;
+
+        switch (LAUNCHING_FRAGMENT) {
+            case Constant.SMART_CALLER_DASHBOARD_FRAGMENT:
+                getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new SmartCallerDashboardFragment()).commit();
+                break;
+            case Constant.SMS_DASHBOARD_FRAGMENT:
+                student = intent.getParcelableExtra(Constant.STUDENT_LIST);
+                SMSDashboardFragment fragment = new SMSDashboardFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+                ArrayList<StudentDTO> list = new ArrayList<>();
+                list.add(student);
+                bundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list);
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .add(R.id.main_frame_layout, fragment).commit();
+                break;
+
+            case Constant.EMAIL_DASHBOARD_FRAGMENT:
+                student = intent.getParcelableExtra(Constant.STUDENT_LIST);
+                EmailDashboardFragment fragment1 = new EmailDashboardFragment();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+                ArrayList<StudentDTO> list1 = new ArrayList<>();
+                list1.add(student);
+                bundle1.putParcelableArrayList(Constant.SMS_CLIENT_LIST, list1);
+                fragment1.setArguments(bundle1);
+                getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .add(R.id.main_frame_layout, fragment1).commit();
+
+                break;
+            case Constant.ADD_STUDENT_DASHBOARD_FRAGMENT:
+                mob_no = intent.getParcelableExtra(Constant.STUDENT_MOB);
+                AddStudentFragment addStudent = new AddStudentFragment();
+                Bundle bundle3 = new Bundle();
+                bundle3.putString(Constant.STUDENT_MOB, mob_no);
+                addStudent.setArguments(bundle3);
+                getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, addStudent).commit();
+
+                break;
+
+            case Constant.EDIT_STUDENT_DASHBOARD_FRAGMENT:
+                student = intent.getParcelableExtra(Constant.STUDENT_LIST);
+                AddStudentFragment addStudent1 = new AddStudentFragment();
+                Bundle bundle4 = new Bundle();
+                bundle4.putParcelable(Constant.STUDENT_LIST, student);
+                addStudent1.setArguments(bundle4);
+                getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, addStudent1).commit();
+
+                break;
+        }
+
     }
 
     public class TodoItem {
         public String Id;
         public String Text;
-    }
-
-    private void addStudentsToBatch() {
-        StudentDAO dao = new StudentDAO(this);
-        BatchDAO dao1 = new BatchDAO(this);
-        ArrayList<StudentDTO> list = dao.getAllStudentList();
-        Random r = new Random();
-        for (int i=0; i<list.size(); i++){
-            for (int j =0; j<5; j++){
-                dao1.saveToStudentBatchBridge(list.get(i).getId(), (r.nextInt(8)+1));
-            }
-        }
-    }
-
-    String[] batches = {"Android", "JAVA", "SQL Databse", "Azure", "Cloud", "JAVA", "Objective C", "MongDB"};
-
-    private void addBatches() {
-        BatchDAO dao = new BatchDAO(this);
-        for (int i = 0; i < batches.length; i++) {
-            BatchDTO dto = new BatchDTO();
-            dto.setName(batches[i]);
-            dto.setDetails("this is a " + batches[i]);
-            Long result = dao.saveBatch(dto);
-            dto.setId(result);
-            ArrayList<AttachmentDTO> list = new ArrayList<>();
-            for (int j=0; j<7; j++){
-                AttachmentDTO attachment = new AttachmentDTO();
-                attachment.setUrl("http://aruure_api_net.com/test.pdf");
-                if (i%2 == 0)
-                attachment.setSection("Batch Attachment one");
-                else attachment.setSection("Batch Attachment two");
-                list.add(attachment);
-            }
-            AttachmentDAO attachmentDAO = new AttachmentDAO(this);
-            attachmentDAO.saveAttachment(dto, list);
-        }
     }
 
     private void inItView() {
@@ -171,13 +189,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.m_d_f_a_b_image_five:
 
-                 SMSDashboardFragment smsFragment = new SMSDashboardFragment();
+                SMSDashboardFragment smsFragment = new SMSDashboardFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.SMS_TYPE, Constant.SMS_NO_CLIENT);
                 smsFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, smsFragment ).commit();
+                        .replace(R.id.main_frame_layout, smsFragment).commit();
                 break;
             case R.id.m_d_f_a_b_image_six:
 
@@ -186,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .replace(R.id.main_frame_layout, new EmailDashboardFragment()).commit();
                 break;
             case R.id.m_d_f_a_b_image_seven:
+                getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, new SettingsFragment()).commit();
 
                 break;
         }
@@ -193,130 +214,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hideKeyboard();
     }
 
-
-    String firstNames[] = {"Rohan", "Sohan", "Mohan", "Rohit", "Deepak", "Kunal", "Girish", "Shirish",
-            "Sonali", "Kunal", "Manohar", "Haridas", "Shankar", "Santosh", "Rana", "Samir",
-            "Ronit", "John", "Jacky", "Alexander", "Omkar", "Swatee", "Sonali", "Aditi"};
-
-    String lastNames[] = {"Kumar", "Khanna", "Raut", "Bond", "Pandy", "Bandewar", "Ranawat", "Deshmukh",
-            "Kapur", "Khan", "Ranjan", "Chandapure", "Kalkatwad", "Kadpewad", "Gundawar", "Nayar",
-            "Bhamidipati", "Sinhan", "Chaan", "Great", "Mirzapure", "Raut", "shirsagr", "Narkar"};
-
-    String TYPE[] = {
-            Constant.FORM_TWO_CHILD_ONE_COMMON_CODE, Constant.FORM_TWO_CHILD_TWO_COMMON_CODE,
-            Constant.FORM_TWO_CHILD_THREE_COMMON_CODE, Constant.FORM_TWO_CHILD_FOUR_COMMON_CODE,
-
-            Constant.FORM_THREE_CHILD_ONE_COMMON_CODE, Constant.FORM_THREE_CHILD_TWO_COMMON_CODE,
-            Constant.FORM_THREE_CHILD_THREE_COMMON_CODE, Constant.FORM_THREE_CHILD_FOUR_COMMON_CODE,
-
-            Constant.FORM_FOUR_CHILD_ONE_COMMON_CODE, Constant.FORM_FOUR_CHILD_TWO_COMMON_CODE,
-            Constant.FORM_FOUR_CHILD_THREE_COMMON_CODE, Constant.FORM_FOUR_CHILD_FOUR_COMMON_CODE,
-    };
-
-    public void setUpDefaultCommonCode() {
-//        DropDownDataDAO dao = new DropDownDataDAO(this);
-//        for (int i =0; i<12; i++){
-//            for (int j = 0; j<5; j++){
-//                DropDownDataDTO dropDownDataDTO = new DropDownDataDTO();
-//                dropDownDataDTO.setTitle("parent "+ i +"test "+j);
-//                dropDownDataDTO.setDetails("parent "+ i +"test "+j);
-//                dropDownDataDTO.setSystemValue(false);
-//                dropDownDataDTO.setVirtuallyDeleted(false);
-//                dao.saveFormData(TYPE[i], dropDownDataDTO);
-//            }
-//        }
-
-
-        setUpDefaultData();
-    }
-
-
-    private void setUpDefaultData() {
-
-        StudentDAO handler = new StudentDAO(this);
-        Random r = new Random();
-        for (int i = 0; i < 1000; i++) {
-            StudentDTO data = new StudentDTO();
-            String firstName = firstNames[r.nextInt(firstNames.length)];
-            String lastName = lastNames[r.nextInt(lastNames.length)];
-            String mob_no = r.nextInt(1000000000) + "";
-
-            data.setForm1Entity1(firstName);
-            data.setForm1Entity2(lastName);
-            data.setForm1Entity3(firstName + lastName.charAt(0) + "@gmail.com");
-            data.setForm1Entity4(mob_no);
-
-            data.setForm2Entity1ID(r.nextInt(4) + 1);
-            data.setForm2Entity2ID(r.nextInt(4) + 1);
-            data.setForm2Entity3ID(r.nextInt(4) + 1);
-            data.setForm2Entity4ID(r.nextInt(4) + 1);
-
-            data.setForm3Entity1ID(r.nextInt(4) + 1);
-            data.setForm3Entity2ID(r.nextInt(4) + 1);
-            data.setForm3Entity3ID(r.nextInt(4) + 1);
-
-
-            Long date = getRandomDate();
-            data.setCreatedOnMilli(date);
-            data.setUpdatedONMilli(date);
-            data.setCreatedOn(date + "");
-            data.setUpdatedON(date + "");
-            data.setSyncStatus("NEW");
-
-            data.setStudentDataJSON(new Gson().toJson(data));
-            Long aLong = handler.addStudent(data);
-            data.setId(aLong);
-
-            ArrayList<AttachmentDTO> mlist = new ArrayList<>();
-            for (int j=0; j<7; j++){
-                AttachmentDTO attachment = new AttachmentDTO();
-                attachment.setUrl("http://aruure_api_net.com/test.pdf");
-                if (i%2 == 0)
-                    attachment.setSection("Student Result");
-                else attachment.setSection("Student Education");
-
-                mlist.add(attachment);
-            }
-            AttachmentDAO attachmentDAO = new AttachmentDAO(this);
-            attachmentDAO.saveAttachment(data, mlist);
-
-
-            if (aLong >0 ) {
-                ActivityDTO data1 = new ActivityDTO();
-                data1.setNextActionDate(date);
-                data1.setModificationDate(date);
-                data1.setCreatedDate(date);
-                data1.setStudentID(aLong);
-
-                data1.setActivityComment("In the algorithm above, k (a parameter of the algorithm) is the number In the algorithm above,");
-                data1.setActvityTypeID(r.nextInt(5) + 1);
-                data1.setActivityBody("In the algorithm above, k (a parameter of the algorithm) is the number\n" +
-                        "of clusters we want to find; and the cluster centroids μj represent our current\n" +
-                        "guesses for the positions of the centers of the clusters. To initialize the cluster\n" +
-                        "centroids (in step 1 of the algorithm above), we could choose k training\n" +
-                        "examples randomly, and set the cluster centroids to be equal to the values of");
-
-                data1.setSmartCallDuration(r.nextInt(3) + "m " + r.nextInt(60) + "s");
-                data1.setActivityDataJSON(new Gson().toJson(data1));
-
-                Long id = new ActivitiesDAO(this).addActivity(data1);
-                data1.setId(id);
-
-
-                ArrayList<AttachmentDTO> alist = new ArrayList<>();
-                for (int j=0; j<3; j++){
-                    AttachmentDTO attachment = new AttachmentDTO();
-                    attachment.setUrl("http://aruure_api_net.com/test.pdf");
-                    if (i%2 == 0)
-                        attachment.setSection("Student Result");
-                    else attachment.setSection("Student Education");
-
-                    alist.add(attachment);
-                }
-                attachmentDAO.saveAttachment(data1, alist);
-            }
-        }
-    }
 
     private Long getRandomDate() {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd hh mm", Locale.getDefault());

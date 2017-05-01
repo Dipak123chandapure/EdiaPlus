@@ -45,7 +45,7 @@ public class StudentDAO extends OfflineDatabaseHelper {
                 StudentDTO studentData = new Gson().fromJson(student, StudentDTO.class);
                 studentData.setId(id);
                 list.add(studentData);
-                if (i > 15) {
+                if (i > 40) {
                     return list;
                 }
                 i++;
@@ -122,10 +122,11 @@ public class StudentDAO extends OfflineDatabaseHelper {
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
-        StudentDTO dto = new StudentDTO();
+        StudentDTO dto = null;
         Log.d("rohit ", "cursor count" + cursor.getCount());
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
+            dto = new StudentDTO();
             String studentdata = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
             Long id = cursor.getLong(1);
 
@@ -191,22 +192,22 @@ public class StudentDAO extends OfflineDatabaseHelper {
         cv.put(FORM_2_ENTITY_3_ID, studentDTO.getForm2Entity3ID());
         cv.put(FORM_2_ENTITY_4_ID, studentDTO.getForm2Entity4ID());
 
-        if (0 != studentDTO.getForm3Entity1ID())
+        if (null != studentDTO.getForm3Entity1ID())
             cv.put(FORM_3_ENTITY_1_ID, studentDTO.getForm3Entity1ID());
-        if (0 != studentDTO.getForm3Entity2ID())
+        if (null != studentDTO.getForm3Entity2ID())
             cv.put(FORM_3_ENTITY_2_ID, studentDTO.getForm3Entity2ID());
-        if (0 != studentDTO.getForm3Entity3ID())
+        if (null != studentDTO.getForm3Entity3ID())
             cv.put(FORM_3_ENTITY_3_ID, studentDTO.getForm3Entity3ID());
-        if (0 != studentDTO.getForm3Entity4ID())
+        if (null != studentDTO.getForm3Entity4ID())
             cv.put(FORM_3_ENTITY_4_ID, studentDTO.getForm3Entity4ID());
 
-        if (0 != studentDTO.getForm4Entity1ID())
+        if (null != studentDTO.getForm4Entity1ID())
             cv.put(FORM_4_ENTITY_1_ID, studentDTO.getForm4Entity1ID());
-        if (0 != studentDTO.getForm4Entity2ID())
+        if (null != studentDTO.getForm4Entity2ID())
             cv.put(FORM_4_ENTITY_2_ID, studentDTO.getForm4Entity2ID());
-        if (0 != studentDTO.getForm4Entity3ID())
+        if (null != studentDTO.getForm4Entity3ID())
             cv.put(FORM_4_ENTITY_3_ID, studentDTO.getForm4Entity3ID());
-        if (0 != studentDTO.getForm4Entity4ID())
+        if (null != studentDTO.getForm4Entity4ID())
             cv.put(FORM_4_ENTITY_4_ID, studentDTO.getForm4Entity4ID());
 
         cv.put(CREATED_ON, studentDTO.getUpdatedON());

@@ -20,7 +20,7 @@ public class ActivityDTO implements Parcelable {
 
     private String smartCallDuration;
 
-    private int actvityTypeID;
+    private Long actvityTypeID;
     private String activityTitle;
     private String activitySubject;
     private String activityComment;
@@ -47,7 +47,7 @@ public class ActivityDTO implements Parcelable {
         this.nextActionDate = in.readLong();
         this.smartCallDuration = in.readString();
 
-        this.actvityTypeID = in.readInt();
+        this.actvityTypeID = in.readLong();
         this.activityTitle = in.readString();
         this.activitySubject = in.readString();
         this.activityComment = in.readString();
@@ -82,7 +82,7 @@ public class ActivityDTO implements Parcelable {
         dest.writeLong(this.nextActionDate);
         dest.writeString(this.smartCallDuration);
 
-        dest.writeInt(this.actvityTypeID);
+        dest.writeLong(this.actvityTypeID);
         dest.writeString(this.activityTitle);
         dest.writeString(this.activitySubject);
         dest.writeString(this.activityComment);
@@ -133,11 +133,11 @@ public class ActivityDTO implements Parcelable {
         this.nextActionDate = nextActionDate;
     }
 
-    public int getActvityTypeID() {
+    public Long getActvityTypeID() {
         return actvityTypeID;
     }
 
-    public void setActvityTypeID(int actvityTypeID) {
+    public void setActvityTypeID(long actvityTypeID) {
         this.actvityTypeID = actvityTypeID;
     }
 

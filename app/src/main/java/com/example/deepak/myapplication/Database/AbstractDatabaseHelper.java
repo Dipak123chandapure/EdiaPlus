@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
+
 
 public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
 
@@ -29,10 +31,10 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
     protected static final String UPDATED_ON_MILLI = "UPDATED_ON_MILLI";
 
     //statusTable, source table, priority table
-    protected static final String FORM_2_ENTITY_1_TABLE = "STATUS_TABLE";
-    protected static final String FORM_2_ENTITY_2_TABLE = "SOURCE_TABLE";
-    protected static final String FORM_2_ENTITY_3_TABLE = "PRIORITY_TABLE";
-    protected static final String FORM_2_ENTITY_4_TABLE = "FORM_2_ENTITY_1_TABLE";
+    protected static final String FORM_2_ENTITY_1_TABLE = "FORM_2_ENTITY_1_TABLE";
+    protected static final String FORM_2_ENTITY_2_TABLE = "FORM_2_ENTITY_2_TABLE";
+    protected static final String FORM_2_ENTITY_3_TABLE = "FORM_2_ENTITY_3_TABLE";
+    protected static final String FORM_2_ENTITY_4_TABLE = "FORM_2_ENTITY_4_TABLE";
 
     protected static final String FORM_3_ENTITY_1_TABLE = "FORM_3_ENTITY_1_TABLE";
     protected static final String FORM_3_ENTITY_2_TABLE = "FORM_3_ENTITY_2_TABLE";
@@ -44,107 +46,169 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
     protected static final String FORM_4_ENTITY_3_TABLE = "FORM_4_ENTITY_3_TABLE";
     protected static final String FORM_4_ENTITY_4_TABLE = "FORM_4_ENTITY_4_TABLE";
 
+    protected static final String PARENT_DROP_DOWN_TABLE = "PARENT_DROP_DOWN_TABLE";
+    protected static final String PARENT_DROP_DOWN_TABLE_ONE = "PARENT_DROP_DOWN_TABLE_ONE";
+    protected static final String TABLE_NAME = "TABLE_NAME";
+    protected static final String PARENT_ID = "PARENT_ID";
+    protected static final String DATABASE_KEY = "DATABASE_KEY";
+
     protected static final String TITLE = "TITLE";
     protected static final String DETAILS = "DETAILS";
     protected static final String IS_SYSTEM_VALUE = "IS_SYSTEM_VALUE";
     protected static final String IS_VIRTUALLY_DELETED = "IS_VIRTUALLY_DELETED";
+    protected static final String IS_NEED_SHOWN = "IS_NEED_SHOWN";
+    protected static final String IS_COMPULSORY = "IS_COMPULSORY";
+    protected static final String IS_DROP_DOWN_TYPE = "IS_DROP_DOWN_TYPE";
+
+
+    protected static final String PARENT_DROP_DOWN_TABLE_CREATE = "create table "
+            + PARENT_DROP_DOWN_TABLE + " ("
+
+            + ID + " integer primary key autoincrement, "
+            + IS_SYSTEM_VALUE + " text not null, "
+            + IS_DROP_DOWN_TYPE+" text not null, "
+            + IS_COMPULSORY +" text not null, "
+            + IS_NEED_SHOWN +" text not null, "
+
+            + TITLE + " text not null, "
+            + TABLE_NAME + " text not null, "
+            + DATABASE_KEY + " text not null, "
+            + DETAILS + " text, "
+
+            + IS_VIRTUALLY_DELETED + " text" + ");";
 
 
     protected static final String FORM_2_ENTITY_1_TABLE_CREATE = "create table "
             + FORM_2_ENTITY_1_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer,"
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_2_ENTITY_2_TABLE_CREATE = "create table "
             + FORM_2_ENTITY_2_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer,"
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_2_ENTITY_3_TABLE_CREATE = "create table "
             + FORM_2_ENTITY_3_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer,"
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_2_ENTITY_4_TABLE_CREATE = "create table "
             + FORM_2_ENTITY_4_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_3_ENTITY_1_TABLE_CREATE = "create table "
             + FORM_3_ENTITY_1_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_3_ENTITY_2_TABLE_CREATE = "create table "
             + FORM_3_ENTITY_2_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_3_ENTITY_3_TABLE_CREATE = "create table "
             + FORM_3_ENTITY_3_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_3_ENTITY_4_TABLE_CREATE = "create table "
             + FORM_3_ENTITY_4_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_4_ENTITY_1_TABLE_CREATE = "create table "
             + FORM_4_ENTITY_1_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_4_ENTITY_2_TABLE_CREATE = "create table "
             + FORM_4_ENTITY_2_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
-            + DETAILS + " text not null, "
+            + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_4_ENTITY_3_TABLE_CREATE = "create table "
             + FORM_4_ENTITY_3_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
             + DETAILS + " text not null, "
-            + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_SYSTEM_VALUE + " text,"
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
     protected static final String FORM_4_ENTITY_4_TABLE_CREATE = "create table "
             + FORM_4_ENTITY_4_TABLE + " ("
             + ID + " integer primary key autoincrement, "
             + TITLE + " text not null, "
             + DETAILS + " text not null, "
-            + IS_SYSTEM_VALUE + " text not null,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_SYSTEM_VALUE + " text,"
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
 
     //actionTypeTable
@@ -155,7 +219,10 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
             + TITLE + " text not null, "
             + DETAILS + " text, "
             + IS_SYSTEM_VALUE + " text,"
-            + IS_VIRTUALLY_DELETED + " text" + ");";
+            + IS_VIRTUALLY_DELETED + " text, "
+            + PARENT_ID + " integer, "
+            + " FOREIGN KEY ("+PARENT_ID+") REFERENCES "+PARENT_DROP_DOWN_TABLE+"("+ID+") ON DELETE CASCADE"
+            + ");";
 
 
 
@@ -187,9 +254,6 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
             + " FOREIGN KEY ("+ACTIVITY_TYPE_ID+") REFERENCES "+ACTIVITY_TYPE_TABLE+"("+ID+") ON DELETE CASCADE"
             + " FOREIGN KEY ("+STUDENT_ID+") REFERENCES "+STUDENT_INFO_TABLE+"("+ID+") ON DELETE CASCADE"
             + ");";
-
-
-
 
 
     protected static final String FORM_2_ENTITY_1_ID = "FORM_2_ENTITY_1_ID";
@@ -249,13 +313,13 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
             + " FOREIGN KEY ("+FORM_2_ENTITY_4_ID+") REFERENCES "+FORM_2_ENTITY_4_TABLE+"("+ID+"), "
 
             + " FOREIGN KEY ("+FORM_3_ENTITY_1_ID+") REFERENCES "+FORM_3_ENTITY_1_TABLE+"("+ID+"), "
-            + " FOREIGN KEY ("+FORM_3_ENTITY_2_ID+") REFERENCES "+FORM_3_ENTITY_1_TABLE+"("+ID+"), "
-            + " FOREIGN KEY ("+FORM_3_ENTITY_3_ID+") REFERENCES "+FORM_3_ENTITY_1_TABLE+"("+ID+"), "
+            + " FOREIGN KEY ("+FORM_3_ENTITY_2_ID+") REFERENCES "+FORM_3_ENTITY_2_TABLE+"("+ID+"), "
+            + " FOREIGN KEY ("+FORM_3_ENTITY_3_ID+") REFERENCES "+FORM_3_ENTITY_3_TABLE+"("+ID+"), "
             + " FOREIGN KEY ("+FORM_3_ENTITY_4_ID+") REFERENCES "+FORM_3_ENTITY_4_TABLE+"("+ID+"), "
 
             + " FOREIGN KEY ("+FORM_4_ENTITY_1_ID+") REFERENCES "+FORM_4_ENTITY_1_TABLE+"("+ID+"), "
-            + " FOREIGN KEY ("+FORM_4_ENTITY_2_ID+") REFERENCES "+FORM_4_ENTITY_1_TABLE+"("+ID+"), "
-            + " FOREIGN KEY ("+FORM_4_ENTITY_3_ID+") REFERENCES "+FORM_4_ENTITY_1_TABLE+"("+ID+"), "
+            + " FOREIGN KEY ("+FORM_4_ENTITY_2_ID+") REFERENCES "+FORM_4_ENTITY_2_TABLE+"("+ID+"), "
+            + " FOREIGN KEY ("+FORM_4_ENTITY_3_ID+") REFERENCES "+FORM_4_ENTITY_3_TABLE+"("+ID+"), "
             + " FOREIGN KEY ("+FORM_4_ENTITY_4_ID+") REFERENCES "+FORM_4_ENTITY_4_TABLE+"("+ID+") "
             + ");";
 
@@ -351,6 +415,4 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
     public AbstractDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
-
 }

@@ -23,11 +23,13 @@ import com.example.deepak.myapplication.ActivityDashboard.ActivityDashboardActiv
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
+import com.example.deepak.myapplication.Database.DAO.ParentDropDownDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.FormConstarins;
+import com.example.deepak.myapplication.Database.DTO.ParentDropDownDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.EmailDashboard.EmailAttchmentAdapter;
 import com.example.deepak.myapplication.MainActivity;
@@ -43,18 +45,12 @@ import java.util.ArrayList;
 
 import static android.R.attr.data;
 
-/**
- * Created by Deepak on 4/22/2017.
- */
 
 public class StudentProfile extends Fragment implements EmailAttchmentAdapter.OnAttchmentRemoved, View.OnTouchListener, MainActivity.OnMActivityResult, View.OnClickListener {
+    LinearLayout form1_ll;
+    TextView form1entity1, form1entity3, form1entity4;
 
-    LinearLayout form1_ll, form2_ll, form3_ll, form4_ll;
-    TextView form1entity1, form1entity3, form1entity4, form2_heading, form3_heading, form4_heading;
-
-    FormConstarins form2constains, form3constains, form4constains;
-    RecyclerView student_activities_recycler, student_attachment_recycler, form2_recycler, form4_recycler, form3_recycler;
-
+    RecyclerView student_activities_recycler, student_attachment_recycler, form2_recycler;
     ImageView add_attachment_icon;
     ScrollView scroll_view;
 
@@ -62,6 +58,7 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
     ArrayList<ActivityDTO> mList;
     ArrayList<AttachmentDTO> attachmentList;
     EmailAttchmentAdapter adapter1;
+    ArrayList<ParentDropDownDTO> parentList;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.group_dashboard_student_profile, container, false);
@@ -72,24 +69,13 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
     }
 
     private void inItView(View view) {
-
         form1_ll = (LinearLayout) view.findViewById(R.id.form1_ll);
-        form2_ll = (LinearLayout) view.findViewById(R.id.form2_ll);
-        form3_ll = (LinearLayout) view.findViewById(R.id.form3_ll);
-        form4_ll = (LinearLayout) view.findViewById(R.id.form4_ll);
-
-        form2_heading = (TextView) view.findViewById(R.id.form2_heading);
-        form3_heading = (TextView) view.findViewById(R.id.form3_heading);
-        form4_heading = (TextView) view.findViewById(R.id.form4_heading);
 
         form1entity1 = (TextView) view.findViewById(R.id.form1entity1);
         form1entity3 = (TextView) view.findViewById(R.id.form1entity3);
         form1entity4 = (TextView) view.findViewById(R.id.form1entity4);
 
-        form2constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_TWO_CONSTRAINS, getActivity());
-        form3constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_THREE_CONSTRAINS, getActivity());
-        form4constains = UserInfo.getInstance().getFormConstarins(UserDataParser.FORM_FOUR_CONSTRAINS, getActivity());
-
+        parentList = new ParentDropDownDAO(getActivity()).getParentsDropDown();
         student_activities_recycler = (RecyclerView) view.findViewById(R.id.student_activities_recycler);
         student_activities_recycler.setOnTouchListener(this);
         student_attachment_recycler = (RecyclerView) view.findViewById(R.id.student_attachment_recycler);
@@ -97,10 +83,6 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
 
         form2_recycler = (RecyclerView) view.findViewById(R.id.form2_recycler);
         form2_recycler.setOnTouchListener(this);
-        form3_recycler = (RecyclerView) view.findViewById(R.id.form3_recycler);
-        form3_recycler.setOnTouchListener(this);
-        form4_recycler = (RecyclerView) view.findViewById(R.id.form4_recycler);
-        form4_recycler.setOnTouchListener(this);
 
         add_attachment_icon = (ImageView) view.findViewById(R.id.add_attachment_icon);
         add_attachment_icon.setOnClickListener(this);
@@ -114,8 +96,6 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
     private void setRecyclerView() {
         setUpForm1();
         setUpForm2Recycler();
-        setUpForm3Recycler();
-        setUpForm4Recycler();
         setUpAttachmentRecycler();
         setUpActivitiesRecycler();
     }
@@ -127,73 +107,50 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
     }
 
 
-    private void setUpForm4Recycler() {
-
-        ArrayList<StudentProfileFormDTO> list = new ArrayList<>();
-        if (0 != studentData.getForm4Entity1ID())
-            list.add(new StudentProfileFormDTO(form4constains.getCHILD_ONE_TITLE(), studentData.getForm2Entity1()));
-        if (0 != studentData.getForm4Entity2ID())
-            list.add(new StudentProfileFormDTO(form4constains.getCHILD_TWO_TITLE(), studentData.getForm4Entity2()));
-        if (0 != studentData.getForm4Entity3ID())
-            list.add(new StudentProfileFormDTO(form4constains.getCHILD_THREE_TITLE(), studentData.getForm4Entity3()));
-        if (0 != studentData.getForm4Entity4ID())
-            list.add(new StudentProfileFormDTO(form4constains.getCHILD_FOUR_TITLE(), studentData.getForm4Entity4()));
-        if (null != studentData.getForm4Entity5() && 0 != studentData.getForm4Entity5().length())
-            list.add(new StudentProfileFormDTO(form4constains.getCHILD_FIVE_TITLE(), studentData.getForm4Entity5()));
-        if (null != studentData.getForm4Entity6() && 0 != studentData.getForm4Entity6().length())
-            list.add(new StudentProfileFormDTO(form4constains.getCHILD_SIX_TITLE(), studentData.getForm4Entity6() + ""));
-        if (null != studentData.getForm4Entity7() && 0 != studentData.getForm4Entity7().length())
-            list.add(new StudentProfileFormDTO(form4constains.getCHILD_SEVEN_TITLE(), studentData.getForm4Entity7() + ""));
-        if (list.size() > 0) {
-            form4_heading.setText(form4constains.getTITLE());
-            StudentProfileFormAdapter adapter = new StudentProfileFormAdapter(getActivity(), list);
-            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-            form4_recycler.setLayoutManager(manager);
-            form4_recycler.setAdapter(adapter);
-        } else form4_ll.setVisibility(View.GONE);
-    }
-
-    private void setUpForm3Recycler() {
-
-        ArrayList<StudentProfileFormDTO> list = new ArrayList<>();
-        if (0 != studentData.getForm3Entity1ID())
-            list.add(new StudentProfileFormDTO(form3constains.getCHILD_ONE_TITLE(), studentData.getForm3Entity1()));
-        if (0 != studentData.getForm3Entity2ID())
-            list.add(new StudentProfileFormDTO(form3constains.getCHILD_TWO_TITLE(), studentData.getForm3Entity2()));
-        if (0 != studentData.getForm3Entity3ID())
-            list.add(new StudentProfileFormDTO(form3constains.getCHILD_THREE_TITLE(), studentData.getForm3Entity3()));
-        if (0 != studentData.getForm3Entity4ID())
-            list.add(new StudentProfileFormDTO(form3constains.getCHILD_FOUR_TITLE(), studentData.getForm3Entity4()));
-        if (null != studentData.getForm3Entity5() && 0 != studentData.getForm3Entity5().length())
-            list.add(new StudentProfileFormDTO(form3constains.getCHILD_FIVE_TITLE(), studentData.getForm3Entity5()));
-        if (null != studentData.getForm3Entity6() && 0 != studentData.getForm3Entity6().length())
-            list.add(new StudentProfileFormDTO(form3constains.getCHILD_SIX_TITLE(), studentData.getForm3Entity6()));
-        if (null != studentData.getForm3Entity7() && 0 != studentData.getForm3Entity7().length())
-            list.add(new StudentProfileFormDTO(form3constains.getCHILD_SEVEN_TITLE(), studentData.getForm3Entity7()));
-
-        if (list.size() > 0) {
-            form3_heading.setText(form3constains.getTITLE());
-            StudentProfileFormAdapter adapter = new StudentProfileFormAdapter(getActivity(), list);
-            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-            form3_recycler.setLayoutManager(manager);
-            form3_recycler.setAdapter(adapter);
-        } else form3_ll.setVisibility(View.GONE);
-    }
-
     private void setUpForm2Recycler() {
         ArrayList<StudentProfileFormDTO> list = new ArrayList<>();
-        list.add(new StudentProfileFormDTO(form2constains.getCHILD_ONE_TITLE(), studentData.getForm2Entity1()));
-        list.add(new StudentProfileFormDTO(form2constains.getCHILD_TWO_TITLE(), studentData.getForm2Entity2()));
-        list.add(new StudentProfileFormDTO(form2constains.getCHILD_THREE_TITLE(), studentData.getForm2Entity3()));
-        list.add(new StudentProfileFormDTO(form2constains.getCHILD_FOUR_TITLE(), studentData.getForm2Entity4()));
-        Log.d("rohit", "form21title " + form2constains.getCHILD_ONE_TITLE());
-        if (list.size() > 0) {
-            form2_heading.setText(form2constains.getTITLE());
-            StudentProfileFormAdapter adapter = new StudentProfileFormAdapter(getActivity(), list);
-            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-            form2_recycler.setLayoutManager(manager);
-            form2_recycler.setAdapter(adapter);
-        } else form2_ll.setVisibility(View.GONE);
+        list.add(new StudentProfileFormDTO(parentList.get(4).getTitle(), studentData.getForm2Entity1()));
+        list.add(new StudentProfileFormDTO(parentList.get(5).getTitle(), studentData.getForm2Entity2()));
+        list.add(new StudentProfileFormDTO(parentList.get(6).getTitle(), studentData.getForm2Entity3()));
+        list.add(new StudentProfileFormDTO(parentList.get(7).getTitle(), studentData.getForm2Entity4()));
+
+        if (null != studentData.getForm3Entity1ID())
+            list.add(new StudentProfileFormDTO(parentList.get(8).getTitle(), studentData.getForm3Entity1()));
+        if (null != studentData.getForm3Entity2ID())
+            list.add(new StudentProfileFormDTO(parentList.get(9).getTitle(), studentData.getForm3Entity2()));
+        if (null != studentData.getForm3Entity3ID())
+            list.add(new StudentProfileFormDTO(parentList.get(10).getTitle(), studentData.getForm3Entity3()));
+        if (null != studentData.getForm3Entity4ID())
+            list.add(new StudentProfileFormDTO(parentList.get(11).getTitle(), studentData.getForm3Entity4()));
+        if (null != studentData.getForm3Entity5() && 0 != studentData.getForm3Entity5().length())
+            list.add(new StudentProfileFormDTO(parentList.get(12).getTitle(), studentData.getForm3Entity5()));
+        if (null != studentData.getForm3Entity6() && 0 != studentData.getForm3Entity6().length())
+            list.add(new StudentProfileFormDTO(parentList.get(13).getTitle(), studentData.getForm3Entity6()));
+        if (null != studentData.getForm3Entity7() && 0 != studentData.getForm3Entity7().length())
+            list.add(new StudentProfileFormDTO(parentList.get(14).getTitle(), studentData.getForm3Entity7()));
+
+
+        if (null != studentData.getForm4Entity1ID())
+            list.add(new StudentProfileFormDTO(parentList.get(15).getTitle(), studentData.getForm2Entity1()));
+        if (null != studentData.getForm4Entity2ID())
+            list.add(new StudentProfileFormDTO(parentList.get(16).getTitle(), studentData.getForm4Entity2()));
+        if (null != studentData.getForm4Entity3ID())
+            list.add(new StudentProfileFormDTO(parentList.get(17).getTitle(), studentData.getForm4Entity3()));
+        if (null != studentData.getForm4Entity4ID())
+            list.add(new StudentProfileFormDTO(parentList.get(18).getTitle(), studentData.getForm4Entity4()));
+        if (null != studentData.getForm4Entity5() && 0 != studentData.getForm4Entity5().length())
+            list.add(new StudentProfileFormDTO(parentList.get(19).getTitle(), studentData.getForm4Entity5()));
+        if (null != studentData.getForm4Entity6() && 0 != studentData.getForm4Entity6().length())
+            list.add(new StudentProfileFormDTO(parentList.get(20).getTitle(), studentData.getForm4Entity6() + ""));
+        if (null != studentData.getForm4Entity7() && 0 != studentData.getForm4Entity7().length())
+            list.add(new StudentProfileFormDTO(parentList.get(21).getTitle(), studentData.getForm4Entity7() + ""));
+
+
+        StudentProfileFormAdapter adapter = new StudentProfileFormAdapter(getActivity(), list);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        form2_recycler.setLayoutManager(manager);
+        form2_recycler.setAdapter(adapter);
+
     }
 
     private void setUpActivitiesRecycler() {
@@ -207,7 +164,6 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
 
     private void setUpAttachmentRecycler() {
         mList = new ActivitiesDAO(getActivity()).getActivitiesForStudent(studentData);
-        Log.d("rohit", "size " + mList.size());
         StudentProfileActivitiesAdapter adapter = new StudentProfileActivitiesAdapter(getActivity(), mList);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         student_activities_recycler.setLayoutManager(manager);

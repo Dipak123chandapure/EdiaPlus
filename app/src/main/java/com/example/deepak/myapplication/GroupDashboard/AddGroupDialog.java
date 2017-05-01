@@ -48,7 +48,7 @@ public class AddGroupDialog extends Dialog implements View.OnClickListener {
 
     public void inIiView(){
         title_et = (EditText) findViewById(R.id.title_et);
-        details_et = (EditText) findViewById(R.id.details_et);
+        //details_et = (EditText) findViewById(R.id.details_et);
         add_btn = (TextView) findViewById(R.id.add_btn);
         cancel_btn = (TextView) findViewById(R.id.cancel_btn);
 

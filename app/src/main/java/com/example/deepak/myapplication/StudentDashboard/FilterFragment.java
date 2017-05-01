@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.R;
+import com.example.deepak.myapplication.Settings.AddEditDropDownDialog;
 import com.example.deepak.myapplication.Utility.UserDataParser;
 import com.example.deepak.myapplication.Utility.UserInfo;
 
@@ -24,7 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class FilterFragment extends Fragment
-        implements FilterParentAdapter.OnFilterParentItemSelected, View.OnClickListener, AddDropDownDialog.OnDropDownValueAdded {
+        implements FilterParentAdapter.OnFilterParentItemSelected, View.OnClickListener {
 
     RecyclerView s_d_f_f_l_parent_recycler, s_d_f_f_l_child_recycler;
     FilterChildAdapter adapter;
@@ -32,17 +33,14 @@ public class FilterFragment extends Fragment
     ArrayList<ArrayList<DropDownDataDTO>> list;
     String TYPE;
     int position;
-    ImageView s_d_f_F_l_check_mark,  add_drop_down_child;
+    ImageView s_d_f_F_l_check_mark;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.student_dashboard_filte, container, false);
         s_d_f_f_l_parent_recycler = (RecyclerView) view.findViewById(R.id.s_d_f_f_l_parent_recycler);
         s_d_f_f_l_child_recycler = (RecyclerView) view.findViewById(R.id.s_d_f_f_l_child_recycler);
         s_d_f_F_l_check_mark = (ImageView) view.findViewById(R.id.s_d_f_F_l_check_mark);
-        add_drop_down_child = (ImageView) view.findViewById(R.id.add_drop_down_child);
-
         s_d_f_F_l_check_mark.setOnClickListener(this);
-        add_drop_down_child.setOnClickListener(this);
 
         getDataForRecyclerView();
         setUpParentRecycler();
@@ -149,14 +147,6 @@ public class FilterFragment extends Fragment
                 break;
 
 
-            case R.id.add_drop_down_child:
-                AddDropDownDialog dialog = new AddDropDownDialog(getActivity(),TYPE,position );
-                dialog.setOnDropDownValueAdded(this);
-                dialog.show();
-                break;
-
-
-
         }
     }
 
@@ -165,12 +155,6 @@ public class FilterFragment extends Fragment
         this.mOnFilterSeleted = mOnFilterSeleted;
     }
 
-    @Override
-    public void onDropDownValueAdded(int position) {
-        getDataForRecyclerView();
-        setUpParentRecycler();
-        setUpChildRecycler(list.get(position));
-    }
 
     public interface OnFilterSeleted{
         void onFilterSeleted(String QUERY);

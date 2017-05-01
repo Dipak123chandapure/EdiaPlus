@@ -13,10 +13,10 @@ public class StudentDTO implements Parcelable {
     private String form1Entity4;
     private String form1Entity5;
 
-    private int form2Entity1ID;
-    private int form2Entity2ID;
-    private int form2Entity3ID;
-    private int form2Entity4ID;
+    private Long form2Entity1ID;
+    private Long form2Entity2ID;
+    private Long form2Entity3ID;
+    private Long form2Entity4ID;
     private String form2Entity1;
     private String form2Entity2;
     private String form2Entity3;
@@ -25,10 +25,10 @@ public class StudentDTO implements Parcelable {
     private String form2Entity6;
     private String form2Entity7;
 
-    private int form3Entity1ID;
-    private int form3Entity2ID;
-    private int form3Entity3ID;
-    private int form3Entity4ID;
+    private Long form3Entity1ID;
+    private Long form3Entity2ID;
+    private Long form3Entity3ID;
+    private Long form3Entity4ID;
     private String form3Entity1;
     private String form3Entity2;
     private String form3Entity3;
@@ -37,10 +37,10 @@ public class StudentDTO implements Parcelable {
     private String form3Entity6;
     private String form3Entity7;
 
-    private int form4Entity1ID;
-    private int form4Entity2ID;
-    private int form4Entity3ID;
-    private int form4Entity4ID;
+    private Long form4Entity1ID;
+    private Long form4Entity2ID;
+    private Long form4Entity3ID;
+    private Long form4Entity4ID;
     private String form4Entity1;
     private String form4Entity2;
     private String form4Entity3;
@@ -82,10 +82,10 @@ public class StudentDTO implements Parcelable {
         this.form1Entity4 = in.readString();
         this.form1Entity5 = in.readString();
 
-        this.form2Entity1ID = in.readInt();
-        this.form2Entity2ID = in.readInt();
-        this.form2Entity3ID = in.readInt();
-        this.form2Entity4ID = in.readInt();
+        this.form2Entity1ID = in.readLong();
+        this.form2Entity2ID = in.readLong();
+        this.form2Entity3ID = in.readLong();
+        this.form2Entity4ID = in.readLong();
         this.form2Entity1 = in.readString();
         this.form2Entity2 = in.readString();
         this.form2Entity3 = in.readString();
@@ -94,10 +94,10 @@ public class StudentDTO implements Parcelable {
         this.form2Entity6 = in.readString();
         this.form2Entity7 = in.readString();
 
-        this.form3Entity1ID = in.readInt();
-        this.form3Entity2ID = in.readInt();
-        this.form3Entity3ID = in.readInt();
-        this.form3Entity4ID = in.readInt();
+        this.form3Entity1ID = in.readLong();
+        this.form3Entity2ID = in.readLong();
+        this.form3Entity3ID = in.readLong();
+        this.form3Entity4ID = in.readLong();
         this.form3Entity1 = in.readString();
         this.form3Entity2 = in.readString();
         this.form3Entity3 = in.readString();
@@ -106,10 +106,10 @@ public class StudentDTO implements Parcelable {
         this.form3Entity6 = in.readString();
         this.form3Entity7 = in.readString();
 
-        this.form4Entity1ID = in.readInt();
-        this.form4Entity2ID = in.readInt();
-        this.form4Entity3ID = in.readInt();
-        this.form4Entity4ID = in.readInt();
+        this.form4Entity1ID = in.readLong();
+        this.form4Entity2ID = in.readLong();
+        this.form4Entity3ID = in.readLong();
+        this.form4Entity4ID = in.readLong();
         this.form4Entity1 = in.readString();
         this.form4Entity2 = in.readString();
         this.form4Entity3 = in.readString();
@@ -137,10 +137,10 @@ public class StudentDTO implements Parcelable {
         dest.writeString(this.form1Entity4);
         dest.writeString(this.form1Entity5);
 
-        dest.writeInt(this.form2Entity1ID);
-        dest.writeInt(this.form2Entity2ID);
-        dest.writeInt(this.form2Entity3ID);
-        dest.writeInt(this.form2Entity4ID);
+        dest.writeLong(this.form2Entity1ID);
+        dest.writeLong(this.form2Entity2ID);
+        dest.writeLong(this.form2Entity3ID);
+        dest.writeLong(this.form2Entity4ID);
         dest.writeString(this.form2Entity1);
         dest.writeString(this.form2Entity2);
         dest.writeString(this.form2Entity3);
@@ -149,10 +149,10 @@ public class StudentDTO implements Parcelable {
         dest.writeString(this.form2Entity6);
         dest.writeString(this.form2Entity7);
 
-        dest.writeInt(this.form3Entity1ID);
-        dest.writeInt(this.form3Entity2ID);
-        dest.writeInt(this.form3Entity3ID);
-        dest.writeInt(this.form3Entity4ID);
+        dest.writeLong(this.form3Entity1ID);
+        dest.writeLong(this.form3Entity2ID);
+        dest.writeLong(this.form3Entity3ID);
+        dest.writeLong(this.form3Entity4ID);
         dest.writeString(this.form3Entity1);
         dest.writeString(this.form3Entity2);
         dest.writeString(this.form3Entity3);
@@ -161,10 +161,10 @@ public class StudentDTO implements Parcelable {
         dest.writeString(this.form3Entity6);
         dest.writeString(this.form3Entity7);
 
-        dest.writeInt(this.form4Entity1ID);
-        dest.writeInt(this.form4Entity2ID);
-        dest.writeInt(this.form4Entity3ID);
-        dest.writeInt(this.form4Entity4ID);
+        dest.writeLong(this.form4Entity1ID);
+        dest.writeLong(this.form4Entity2ID);
+        dest.writeLong(this.form4Entity3ID);
+        dest.writeLong(this.form4Entity4ID);
         dest.writeString(this.form4Entity1);
         dest.writeString(this.form4Entity2);
         dest.writeString(this.form4Entity3);
@@ -234,35 +234,35 @@ public class StudentDTO implements Parcelable {
         this.form1Entity4 = form1Entity4;
     }
 
-    public int getForm2Entity1ID() {
+    public Long getForm2Entity1ID() {
         return form2Entity1ID;
     }
 
-    public void setForm2Entity1ID(int form2Entity1ID) {
+    public void setForm2Entity1ID(Long form2Entity1ID) {
         this.form2Entity1ID = form2Entity1ID;
     }
 
-    public int getForm2Entity2ID() {
+    public Long getForm2Entity2ID() {
         return form2Entity2ID;
     }
 
-    public void setForm2Entity2ID(int form2Entity2ID) {
+    public void setForm2Entity2ID(Long form2Entity2ID) {
         this.form2Entity2ID = form2Entity2ID;
     }
 
-    public int getForm2Entity3ID() {
+    public Long getForm2Entity3ID() {
         return form2Entity3ID;
     }
 
-    public void setForm2Entity3ID(int form2Entity3ID) {
+    public void setForm2Entity3ID(Long form2Entity3ID) {
         this.form2Entity3ID = form2Entity3ID;
     }
 
-    public int getForm2Entity4ID() {
+    public Long getForm2Entity4ID() {
         return form2Entity4ID;
     }
 
-    public void setForm2Entity4ID(int form2Entity4ID) {
+    public void setForm2Entity4ID(Long form2Entity4ID) {
         this.form2Entity4ID = form2Entity4ID;
     }
 
@@ -290,35 +290,35 @@ public class StudentDTO implements Parcelable {
         this.form2Entity7 = form2Entity7;
     }
 
-    public int getForm3Entity1ID() {
+    public Long getForm3Entity1ID() {
         return form3Entity1ID;
     }
 
-    public void setForm3Entity1ID(int form3Entity1ID) {
+    public void setForm3Entity1ID(Long form3Entity1ID) {
         this.form3Entity1ID = form3Entity1ID;
     }
 
-    public int getForm3Entity2ID() {
+    public Long getForm3Entity2ID() {
         return form3Entity2ID;
     }
 
-    public void setForm3Entity2ID(int form3Entity2ID) {
+    public void setForm3Entity2ID(Long form3Entity2ID) {
         this.form3Entity2ID = form3Entity2ID;
     }
 
-    public int getForm3Entity3ID() {
+    public Long getForm3Entity3ID() {
         return form3Entity3ID;
     }
 
-    public void setForm3Entity3ID(int form3Entity3ID) {
+    public void setForm3Entity3ID(Long form3Entity3ID) {
         this.form3Entity3ID = form3Entity3ID;
     }
 
-    public int getForm3Entity4ID() {
+    public Long getForm3Entity4ID() {
         return form3Entity4ID;
     }
 
-    public void setForm3Entity4ID(int form3Entity4ID) {
+    public void setForm3Entity4ID(Long form3Entity4ID) {
         this.form3Entity4ID = form3Entity4ID;
     }
 
@@ -346,35 +346,35 @@ public class StudentDTO implements Parcelable {
         this.form3Entity7 = form3Entity7;
     }
 
-    public int getForm4Entity1ID() {
+    public Long getForm4Entity1ID() {
         return form4Entity1ID;
     }
 
-    public void setForm4Entity1ID(int form4Entity1ID) {
+    public void setForm4Entity1ID(Long form4Entity1ID) {
         this.form4Entity1ID = form4Entity1ID;
     }
 
-    public int getForm4Entity2ID() {
+    public Long getForm4Entity2ID() {
         return form4Entity2ID;
     }
 
-    public void setForm4Entity2ID(int form4Entity2ID) {
+    public void setForm4Entity2ID(Long form4Entity2ID) {
         this.form4Entity2ID = form4Entity2ID;
     }
 
-    public int getForm4Entity3ID() {
+    public Long getForm4Entity3ID() {
         return form4Entity3ID;
     }
 
-    public void setForm4Entity3ID(int form4Entity3ID) {
+    public void setForm4Entity3ID(Long form4Entity3ID) {
         this.form4Entity3ID = form4Entity3ID;
     }
 
-    public int getForm4Entity4ID() {
+    public Long getForm4Entity4ID() {
         return form4Entity4ID;
     }
 
-    public void setForm4Entity4ID(int form4Entity4ID) {
+    public void setForm4Entity4ID(Long form4Entity4ID) {
         this.form4Entity4ID = form4Entity4ID;
     }
 

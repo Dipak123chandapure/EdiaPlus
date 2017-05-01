@@ -5,11 +5,14 @@ import android.os.Parcelable;
 public class DropDownDataDTO implements Parcelable {
 
     private String title;
-    private int id;
+    private Long id;
     private String details;
     private Boolean isSystemValue;
     private Boolean isVirtuallyDeleted;
     private Boolean isChecked = false;
+
+
+
 
     public DropDownDataDTO(){
 
@@ -17,11 +20,13 @@ public class DropDownDataDTO implements Parcelable {
 
     protected DropDownDataDTO(Parcel in) {
         this.title = in.readString();
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.details = in.readString();
         this.isSystemValue = in.readByte() != 0;
         this.isVirtuallyDeleted = in.readByte() != 0;
         this.isChecked = in.readByte() != 0;
+
+
 
     }
 
@@ -35,11 +40,13 @@ public class DropDownDataDTO implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeString(this.title);
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.details);
         dest.writeByte((byte) (isSystemValue ? 1 : 0));
         dest.writeByte((byte) (isVirtuallyDeleted ? 1 : 0));
         dest.writeByte((byte) (isChecked ? 1 : 0));
+
+
 
     }
 
@@ -64,11 +71,11 @@ public class DropDownDataDTO implements Parcelable {
         this.title = title;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -103,5 +110,7 @@ public class DropDownDataDTO implements Parcelable {
     public void setChecked(Boolean checked) {
         isChecked = checked;
     }
+
+
 
 }

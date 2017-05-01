@@ -93,7 +93,7 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
             holder.student_name.setTextColor(mContext.getResources().getColor(R.color.Red_400));
             holder.mob_no.setTextColor(mContext.getResources().getColor(R.color.Red_300));
             holder.time_duartion.setTextColor(mContext.getResources().getColor(R.color.Red_200));
-        }else {
+        } else {
             holder.student_name.setTextColor(mContext.getResources().getColor(R.color.Grey_700));
             holder.mob_no.setTextColor(mContext.getResources().getColor(R.color.Grey_600));
             holder.time_duartion.setTextColor(mContext.getResources().getColor(R.color.Grey_500));
@@ -110,14 +110,14 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
 
     }
 
-    private int getIconForCallType(int actvityTypeID) {
-        switch (actvityTypeID) {
-            case 3:
+    private int getIconForCallType(Long actvityTypeID) {
+        switch (actvityTypeID + "") {
+            case 3 + "":
                 return R.mipmap.call_made_grey;
-            case 4:
+            case 4 + "":
                 return R.mipmap.call_missed_grey;
 
-            case 5:
+            case 5 + "":
                 return R.mipmap.call_received_grey;
 
             default:
@@ -134,7 +134,7 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
         }).start();
     }
 
-    
+
     @Override
     public void onBindChildViewHolder(MyChildBatchViewHolder holder, final int groupPosition, final int childPosition, int viewType) {
         holder.image_one.setOnClickListener(new ChilClickListener(groupPosition, 0));
@@ -153,6 +153,7 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
     public void onClick(View v) {
 
     }
+
     public class ChilClickListener implements View.OnClickListener {
         int childPosition, groupPosition;
 
@@ -179,6 +180,7 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
 
     public interface OnSmartCallerListAdapterCallback {
         void onLoadMore(int index);
+
         void onChildItemClicked(int position, StudentDTO sto);
     }
 }

@@ -15,6 +15,8 @@ public class OfflineDatabaseHelper extends AbstractDatabaseHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d("rohit", "starting oncreate");
         try {
+            db.execSQL(PARENT_DROP_DOWN_TABLE_CREATE);
+
             db.execSQL(FORM_2_ENTITY_1_TABLE_CREATE);
             db.execSQL(FORM_2_ENTITY_2_TABLE_CREATE);
             db.execSQL(FORM_2_ENTITY_3_TABLE_CREATE);
