@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
+import com.example.deepak.myapplication.Database.DTO.ParentDropDownDTO;
 import com.example.deepak.myapplication.R;
 
 import org.json.JSONArray;
@@ -18,15 +19,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-
 public class FilterParentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    JSONArray jsonArray;
-    ArrayList<ArrayList<DropDownDataDTO>> list;
+    ArrayList<ParentDropDownDTO> mList;
+    Context mContext;
 
-    public FilterParentAdapter(Context mContext, JSONArray jsonArray, ArrayList<ArrayList<DropDownDataDTO>> list) {
-        this.jsonArray = jsonArray;
-        this.list = list;
+    public FilterParentAdapter(Context mContext, ArrayList<ParentDropDownDTO> mList) {
+        this.mContext = mContext;
+        this.mList = mList;
     }
 
     @Override
@@ -36,50 +36,44 @@ public class FilterParentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (null != jsonArray) {
+        if (null != mList) {
             LeadListViewHolder headingViewHolder = (LeadListViewHolder) holder;
-            try {
-                JSONObject jsonObject = (JSONObject) jsonArray.get(position);
-                headingViewHolder.s_d_f_r_p_l_i_text.setText(jsonObject.optString("VALUE"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+            headingViewHolder.text.setText(mList.get(position).getTitle());
         }
     }
 
-    @Override
     public int getItemCount() {
-
-        if (null != jsonArray) {
-            return jsonArray.length();
+        if (null != mList) {
+            return mList.size()-1;
         }
         return 0;
     }
 
     public class LeadListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView s_d_f_r_p_l_i_text;
+        TextView text;
+
         public LeadListViewHolder(View v) {
             super(v);
-            s_d_f_r_p_l_i_text = (TextView) v.findViewById(R.id.s_d_f_r_p_l_i_text);
-            s_d_f_r_p_l_i_text.setOnClickListener(this);
+            text = (TextView) v.findViewById(R.id.text);
+            text.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if (null != mOnFilterParentItemSelected){
-                mOnFilterParentItemSelected.onFilterParentItemSelected(list.get(getAdapterPosition()), getAdapterPosition());
+            if (null != mOnFilterParentItemSelected) {
+                mOnFilterParentItemSelected.onFilterParentItemSelected(mList.get(getAdapterPosition()));
             }
         }
     }
+
     OnFilterParentItemSelected mOnFilterParentItemSelected;
-    public void setmOnFilterParentItemSelected(OnFilterParentItemSelected mOnFilterParentItemSelected){
+
+    public void setmOnFilterParentItemSelected(OnFilterParentItemSelected mOnFilterParentItemSelected) {
         this.mOnFilterParentItemSelected = mOnFilterParentItemSelected;
     }
 
-    public interface OnFilterParentItemSelected{
-        void onFilterParentItemSelected(ArrayList<DropDownDataDTO> mList, int position);
+    public interface OnFilterParentItemSelected {
+        void onFilterParentItemSelected(ParentDropDownDTO parentDropDownDTO);
     }
 }

@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_margin="6dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="Sources"
-        android:textColor="#ffffff"
-        android:id="@+id/s_d_f_r_p_l_i_text"/>
+        app:mrl_rippleColor="@color/Grey_200">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="6dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Sources"
+            android:textColor="#ffffff" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="#817f7f"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"/>
+        android:layout_marginRight="4dp"
+        android:background="#817f7f" />
 </LinearLayout>

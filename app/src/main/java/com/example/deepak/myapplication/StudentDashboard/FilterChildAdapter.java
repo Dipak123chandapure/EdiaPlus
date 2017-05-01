@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
+import com.example.deepak.myapplication.Database.DTO.ParentDropDownDTO;
 import com.example.deepak.myapplication.R;
 
 import java.util.ArrayList;
@@ -31,10 +32,7 @@ public class FilterChildAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (null != mList) {
             LeadListViewHolder headingViewHolder = (LeadListViewHolder) holder;
-            if (mList.get(position).getChecked())
-                headingViewHolder.s_d_f_r_c_l_i_checkBox.setChecked(true);
-            else headingViewHolder.s_d_f_r_c_l_i_checkBox.setChecked(false);
-            headingViewHolder.s_d_f_r_c_l_i_text.setText(mList.get(position).getTitle());
+            headingViewHolder.text.setText(mList.get(position).getTitle());
         }
     }
 
@@ -49,23 +47,26 @@ public class FilterChildAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public class LeadListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        TextView s_d_f_r_c_l_i_text;
-        CheckBox s_d_f_r_c_l_i_checkBox;
-
-
+        TextView text;
         public LeadListViewHolder(View v) {
             super(v);
-            s_d_f_r_c_l_i_checkBox = (CheckBox) v.findViewById(R.id.s_d_f_r_c_l_i_checkBox);
-            s_d_f_r_c_l_i_text = (TextView) v.findViewById(R.id.s_d_f_r_c_l_i_text);
-            s_d_f_r_c_l_i_checkBox.setOnClickListener(this);
+            text = (TextView) v.findViewById(R.id.text);
+            text.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if (mList.get(getAdapterPosition()).getChecked())
-                mList.get(getAdapterPosition()).setChecked(false);
-            else mList.get(getAdapterPosition()).setChecked(true);
+            if (null != mOnFilterChildItemSelected)
+                mOnFilterChildItemSelected.onFilterChildItemSelected(mList.get(getAdapterPosition()));
         }
+    }
+    OnFilterChildItemSelected mOnFilterChildItemSelected;
+
+    public void setOnFilterChildItemSelected(OnFilterChildItemSelected mOnFilterChildItemSelected) {
+        this.mOnFilterChildItemSelected = mOnFilterChildItemSelected;
+    }
+
+    public interface OnFilterChildItemSelected {
+        void onFilterChildItemSelected(DropDownDataDTO ChildDropDownDTO);
     }
 }
