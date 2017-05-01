@@ -16,6 +16,11 @@ import android.widget.ImageView;
 import com.example.deepak.myapplication.Application.App;
 import com.example.deepak.myapplication.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.Random;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
@@ -181,5 +186,17 @@ public class Utility {
         void onNegativeButtonClick(DialogInterface dialog, int which);
     }
 
+    public static Long getRandomDate() {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd hh mm", Locale.getDefault());
+        Calendar calender = Calendar.getInstance();
+        int month = new Random().nextInt(12);
+        int date = new Random().nextInt(28);
+        int hours = new Random().nextInt(12);
+        int min = new Random().nextInt(60);
 
+        calender.set(2017, month, date, hours, min);
+        Log.d("rohit", "Date: " + fmt.format(calender.getTime()));
+        Log.d("rohit", "Time: " + calender.getTime().getTime());
+        return calender.getTime().getTime();
+    }
 }

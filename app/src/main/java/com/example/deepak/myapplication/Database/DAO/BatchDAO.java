@@ -121,4 +121,15 @@ public class BatchDAO extends OfflineDatabaseHelper {
         db.close();
         return list;
     }
+
+    public int updateBatch(BatchDTO batch) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(BATCH_NAME, batch.getName());
+        contentValues.put(BATCH_DETAILS, batch.getDetails());
+        SQLiteDatabase db = getWritableDatabase();
+        int result = db.update(BATCH_TABLE, contentValues,ID+" = '"+batch.getId()+"'" ,null);
+        Log.d("rohit", "result " + result);
+        db.close();
+        return result;
+    }
 }

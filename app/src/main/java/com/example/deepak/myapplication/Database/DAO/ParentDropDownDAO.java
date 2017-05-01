@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.ParentDropDownDTO;
 import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.example.deepak.myapplication.Utility.Constant;
@@ -56,22 +57,6 @@ public class ParentDropDownDAO extends OfflineDatabaseHelper {
         return list;
     }
 
-    private void addDefaultData() {
-        for (int i = 0; i < titles.length; i++) {
-                ParentDropDownDTO dto = new ParentDropDownDTO();
-                dto.setTitle(titles[i]);
-                dto.setSystemValue(false);
-
-                dto.setTableName(tables[i]);
-                dto.setDatabaseKey(database_keys[i]);
-
-                dto.setShown(isShown[i]);
-                dto.setCompulsory(isCompulsory[i]);
-                dto.setDropDown(isDropDown[i]);
-
-                addParentsDropDown(dto);
-           }
-    }
 
 
     public ArrayList<ParentDropDownDTO> getParentsDropDown() {
@@ -108,15 +93,6 @@ public class ParentDropDownDAO extends OfflineDatabaseHelper {
 
 
 
-
-
-
-
-
-
-
-
-
     private void addParentsDropDown(ParentDropDownDTO dto) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -137,6 +113,26 @@ public class ParentDropDownDAO extends OfflineDatabaseHelper {
         Log.d("rohit", "result" + result);
         db.close();
     }
+
+
+
+    private void addDefaultData() {
+        for (int i = 0; i < titles.length; i++) {
+            ParentDropDownDTO dto = new ParentDropDownDTO();
+            dto.setTitle(titles[i]);
+            dto.setSystemValue(false);
+
+            dto.setTableName(tables[i]);
+            dto.setDatabaseKey(database_keys[i]);
+
+            dto.setShown(isShown[i]);
+            dto.setCompulsory(isCompulsory[i]);
+            dto.setDropDown(isDropDown[i]);
+
+            addParentsDropDown(dto);
+        }
+    }
+
 
     String[] titles = {
             "First Name", "Laset Name", "Email Id", "Mobile No",
@@ -209,7 +205,7 @@ public class ParentDropDownDAO extends OfflineDatabaseHelper {
             true, true, true, true,
             true, true, false, false, false, false, false,
             false, false, false, false, false, false, false,
-            false
+            true
     };
 
     Boolean[] isCompulsory = {
@@ -225,6 +221,6 @@ public class ParentDropDownDAO extends OfflineDatabaseHelper {
             true, true, true, true,
             true, true, true, true, false, false, false,
             true, true, true, true, false, false, false,
-            false
+            true
     };
 }

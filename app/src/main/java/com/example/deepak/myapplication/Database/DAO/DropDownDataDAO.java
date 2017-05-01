@@ -33,7 +33,7 @@ public class DropDownDataDAO extends OfflineDatabaseHelper {
 
     public ArrayList<DropDownDataDTO> getFormData(String TYPE){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+getTableName(TYPE), null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+getTableName(TYPE)+" WHERE "+IS_SYSTEM_VALUE+" = '"+0+"'", null);
         ArrayList<DropDownDataDTO> list = new ArrayList<>();
         if (cursor!= null){
             if (cursor.getCount()>0){
@@ -43,7 +43,7 @@ public class DropDownDataDAO extends OfflineDatabaseHelper {
                     dropDownDataDTO.setId(cursor.getLong(cursor.getColumnIndex(ID)));
                     dropDownDataDTO.setDetails(cursor.getString(cursor.getColumnIndex(DETAILS)));
                     dropDownDataDTO.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
-                    dropDownDataDTO.setVirtuallyDeleted(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(IS_SYSTEM_VALUE))));
+                    dropDownDataDTO.setSystemValue(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(IS_SYSTEM_VALUE))));
                     dropDownDataDTO.setVirtuallyDeleted(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(IS_VIRTUALLY_DELETED))));
                     list.add(dropDownDataDTO);
                 }while (cursor.moveToNext());
@@ -121,4 +121,7 @@ public class DropDownDataDAO extends OfflineDatabaseHelper {
             default:return null;
         }
     }
+
+
+
 }

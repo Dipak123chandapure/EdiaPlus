@@ -20,10 +20,12 @@ import com.example.deepak.myapplication.ChartDashboard.Chart_Dashboard_Fragment;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
+import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
+import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.example.deepak.myapplication.EmailDashboard.EmailDashboardFragment;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FrameLayout main_frame_layout;
     ImageView m_d_f_a_b_image_one, m_d_f_a_b_image_two, m_d_f_a_b_image_three, m_d_f_a_b_image_four,
             m_d_f_a_b_image_five, m_d_f_a_b_image_six, m_d_f_a_b_image_seven;
+    OnMActivityResult mOnMActivityResult;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +64,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             addFragment(getIntent());
         } else
             getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
+        //setDefaultActivities();
 
-        OfflineDatabaseHelper helper = new OfflineDatabaseHelper(this);
+    }
+    public void setDefaultActivities(){
+        for (int i =0; i<5;i ++){
+            DropDownDataDTO dto = new DropDownDataDTO();
+            dto.setTitle(activityTypetitle[i]);
+            dto.setSystemValue(true);
+            dto.setVirtuallyDeleted(false);
+            DropDownDataDAO dao = new DropDownDataDAO(this);
+            dao.saveFormData(Constant.ACTIVITY_DROPDOWN_VALUES, dto);
+        }
     }
 
+    String[] activityTypetitle = {"Send SMS", "Received SMS", "Dialed Call", "Missed Call", "Received Call" };
     private void addFragment(Intent intent) {
         String LAUNCHING_FRAGMENT = intent.getStringExtra(Constant.LAUNCHING_FRAGMENT);
         StudentDTO student = null;
@@ -125,10 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public class TodoItem {
-        public String Id;
-        public String Text;
-    }
 
     private void inItView() {
         main_frame_layout = (FrameLayout) findViewById(R.id.main_frame_layout);
@@ -215,42 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private Long getRandomDate() {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd hh mm", Locale.getDefault());
-        Calendar calender = Calendar.getInstance();
-        int month = new Random().nextInt(12);
-        int date = new Random().nextInt(28);
-        int hours = new Random().nextInt(12);
-        int min = new Random().nextInt(60);
 
-        calender.set(2017, month, date, hours, min);
-        Log.d("rohit", "Date: " + fmt.format(calender.getTime()));
-        Log.d("rohit", "Time: " + calender.getTime().getTime());
-        return calender.getTime().getTime();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 10 && resultCode == RESULT_OK) {
-            //String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            if (null != mOnMActivityResult)
-                mOnMActivityResult.onMActivityResult(data);
-            //Log.d("rohit", "file path" + filePath);
-        }
-    }
-
-    OnMActivityResult mOnMActivityResult;
-
-    public void setOnMActivityResult(OnMActivityResult mOnMActivityResult) {
-        this.mOnMActivityResult = mOnMActivityResult;
-
-    }
-
-    public interface OnMActivityResult {
-        void onMActivityResult(Intent intent);
-    }
-
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
@@ -262,6 +237,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
 
         inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10 && resultCode == RESULT_OK) {
+            if (null != mOnMActivityResult)
+                mOnMActivityResult.onMActivityResult(data);
+        }
+    }
+
+
+    public void setOnMActivityResult(OnMActivityResult mOnMActivityResult) {
+        this.mOnMActivityResult = mOnMActivityResult;
+
+    }
+
+    public interface OnMActivityResult {
+        void onMActivityResult(Intent intent);
     }
 }
 

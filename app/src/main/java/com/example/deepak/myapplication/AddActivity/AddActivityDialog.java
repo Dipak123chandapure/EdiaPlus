@@ -123,9 +123,7 @@ public class AddActivityDialog extends Dialog implements View.OnClickListener,
         activityData.setActivityBody(add_activity_dialog_activity_comment_etxt.getText().toString());
         activityData.setActivityComment(add_activity_dialog_activity_comment_etxt.getText().toString());
 
-        activityData.setForm1Entity1(studentData.getForm1Entity1()+" "+studentData.getForm1Entity2());
-        activityData.setForm1Entity3(studentData.getForm1Entity3());
-        activityData.setForm1Entity4(studentData.getForm1Entity4());
+        activityData.setStudentID(studentData.getId());
 
         activityData.setActivityDataJSON(new Gson().toJson(activityData));
         activityData.setIsDone(0);

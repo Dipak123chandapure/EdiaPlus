@@ -23,16 +23,4 @@
         android:layout_below="@+id/separator">
 
     </android.support.v4.view.ViewPager>
-
-    <ImageView
-        android:id="@+id/floating_btn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="12dp"
-        android:background="@drawable/floating_button"
-        android:elevation="2dp"
-        android:padding="12dp"
-        android:src="@mipmap/add_group_white" />
 </RelativeLayout>

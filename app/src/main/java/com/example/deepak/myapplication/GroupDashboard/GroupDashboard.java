@@ -19,16 +19,15 @@ import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.Utility.Constant;
 
 
-public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback, GroupStudents.OnStudentClicked, View.OnClickListener, AddGroupDialog.OnBatchaAdded {
+public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagmetCallback, GroupStudents.OnStudentClicked, View.OnClickListener {
 
     ViewPager view_pager;
-    ImageView floating_btn;
+
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.group_dashboard, container, false);
         view_pager = (ViewPager) view.findViewById(R.id.view_pager);
-        floating_btn = (ImageView) view.findViewById(R.id.floating_btn);
-        floating_btn.setOnClickListener(this);
+
         setUpViewPager();
         return view;
     }
@@ -85,19 +84,8 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
         view_pager.setCurrentItem(2);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.floating_btn:
-                AddGroupDialog dialog = new AddGroupDialog(getActivity());
-                dialog.setOnBatchaAdded(this);
-                dialog.show();
-                break;
-        }
-    }
 
-    @Override
-    public void onBatchAdded(BatchDTO batch) {
-        fragment1.addBatch(batch);
+    public void onClick(View v) {
+
     }
 }
