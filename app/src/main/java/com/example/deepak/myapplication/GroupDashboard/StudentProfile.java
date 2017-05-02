@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.EmailDashboard.EmailAttchmentAdapter;
 import com.example.deepak.myapplication.MainActivity;
 import com.example.deepak.myapplication.R;
+import com.example.deepak.myapplication.StudentDashboard.StudentList;
 import com.example.deepak.myapplication.Utility.Constant;
 import com.example.deepak.myapplication.Utility.UserDataParser;
 import com.example.deepak.myapplication.Utility.UserInfo;
@@ -46,7 +48,7 @@ import java.util.ArrayList;
 import static android.R.attr.data;
 
 
-public class StudentProfile extends Fragment implements EmailAttchmentAdapter.OnAttchmentRemoved, View.OnTouchListener, MainActivity.OnMActivityResult, View.OnClickListener {
+public class StudentProfile extends Fragment implements EmailAttchmentAdapter.OnAttchmentRemoved, View.OnTouchListener, MainActivity.OnMActivityResult, View.OnClickListener, GroupStudents.OnStudentClicked, StudentList.OnStudentSelected {
     LinearLayout form1_ll;
     TextView form1entity1, form1entity3, form1entity4;
 
@@ -184,12 +186,6 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
 
     }
 
-    public void changeStudent(StudentDTO sto) {
-        scroll_view.setVisibility(View.VISIBLE);
-        studentData = new StudentDAO(getActivity()).getStudentForNumber(sto.getForm1Entity4());
-        setRecyclerView();
-    }
-
 
     public boolean onTouch(View v, MotionEvent event) {
         return true;
@@ -230,5 +226,20 @@ public class StudentProfile extends Fragment implements EmailAttchmentAdapter.On
         }
 
 
+    }
+
+    public void studentClicked(StudentDTO sto, ViewPager viewPager) {
+        scroll_view.setVisibility(View.VISIBLE);
+        studentData = new StudentDAO(getActivity()).getStudentForNumber(sto.getForm1Entity4());
+        setRecyclerView();
+        viewPager.setCurrentItem(2);
+    }
+
+
+    public void onStudentClicked(StudentDTO dto, ViewPager viewPager) {
+        viewPager.setCurrentItem(1);
+        scroll_view.setVisibility(View.VISIBLE);
+        studentData = new StudentDAO(getActivity()).getStudentForNumber(dto.getForm1Entity4());
+        setRecyclerView();
     }
 }

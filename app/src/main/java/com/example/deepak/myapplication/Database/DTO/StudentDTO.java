@@ -13,10 +13,10 @@ public class StudentDTO implements Parcelable {
     private String form1Entity4;
     private String form1Entity5;
 
-    private Long form2Entity1ID;
-    private Long form2Entity2ID;
-    private Long form2Entity3ID;
-    private Long form2Entity4ID;
+    private Long form2Entity1ID =null;
+    private Long form2Entity2ID = null;
+    private Long form2Entity3ID = null;
+    private Long form2Entity4ID = null;
     private String form2Entity1;
     private String form2Entity2;
     private String form2Entity3;
@@ -25,10 +25,10 @@ public class StudentDTO implements Parcelable {
     private String form2Entity6;
     private String form2Entity7;
 
-    private Long form3Entity1ID;
-    private Long form3Entity2ID;
-    private Long form3Entity3ID;
-    private Long form3Entity4ID;
+    private Long form3Entity1ID = null;
+    private Long form3Entity2ID = null;
+    private Long form3Entity3ID = null;
+    private Long form3Entity4ID = null;
     private String form3Entity1;
     private String form3Entity2;
     private String form3Entity3;
@@ -37,10 +37,10 @@ public class StudentDTO implements Parcelable {
     private String form3Entity6;
     private String form3Entity7;
 
-    private Long form4Entity1ID;
-    private Long form4Entity2ID;
-    private Long form4Entity3ID;
-    private Long form4Entity4ID;
+    private Long form4Entity1ID = null;
+    private Long form4Entity2ID = null;
+    private Long form4Entity3ID = null;
+    private Long form4Entity4ID = null;
     private String form4Entity1;
     private String form4Entity2;
     private String form4Entity3;
@@ -82,6 +82,7 @@ public class StudentDTO implements Parcelable {
         this.form1Entity4 = in.readString();
         this.form1Entity5 = in.readString();
 
+        if (null != form2Entity1ID)
         this.form2Entity1ID = in.readLong();
         this.form2Entity2ID = in.readLong();
         this.form2Entity3ID = in.readLong();
@@ -94,9 +95,13 @@ public class StudentDTO implements Parcelable {
         this.form2Entity6 = in.readString();
         this.form2Entity7 = in.readString();
 
+        if (null != form3Entity1ID)
         this.form3Entity1ID = in.readLong();
+        if (null != form3Entity2ID)
         this.form3Entity2ID = in.readLong();
+        if (null != form3Entity3ID)
         this.form3Entity3ID = in.readLong();
+        if (null != form3Entity4ID)
         this.form3Entity4ID = in.readLong();
         this.form3Entity1 = in.readString();
         this.form3Entity2 = in.readString();
@@ -106,9 +111,13 @@ public class StudentDTO implements Parcelable {
         this.form3Entity6 = in.readString();
         this.form3Entity7 = in.readString();
 
+        if (null != form4Entity1ID)
         this.form4Entity1ID = in.readLong();
+        if (null != form4Entity2ID)
         this.form4Entity2ID = in.readLong();
+        if (null != form4Entity3ID)
         this.form4Entity3ID = in.readLong();
+        if (null != form4Entity4ID)
         this.form4Entity4ID = in.readLong();
         this.form4Entity1 = in.readString();
         this.form4Entity2 = in.readString();
@@ -149,9 +158,13 @@ public class StudentDTO implements Parcelable {
         dest.writeString(this.form2Entity6);
         dest.writeString(this.form2Entity7);
 
+        if (null != form3Entity1ID)
         dest.writeLong(this.form3Entity1ID);
+        if (null != form3Entity2ID)
         dest.writeLong(this.form3Entity2ID);
+        if (null != form3Entity3ID)
         dest.writeLong(this.form3Entity3ID);
+        if (null != form3Entity4ID)
         dest.writeLong(this.form3Entity4ID);
         dest.writeString(this.form3Entity1);
         dest.writeString(this.form3Entity2);
@@ -161,9 +174,13 @@ public class StudentDTO implements Parcelable {
         dest.writeString(this.form3Entity6);
         dest.writeString(this.form3Entity7);
 
+        if (null != form4Entity1ID)
         dest.writeLong(this.form4Entity1ID);
+        if (null != form4Entity2ID)
         dest.writeLong(this.form4Entity2ID);
+        if (null != form4Entity3ID)
         dest.writeLong(this.form4Entity3ID);
+        if (null != form4Entity4ID)
         dest.writeLong(this.form4Entity4ID);
         dest.writeString(this.form4Entity1);
         dest.writeString(this.form4Entity2);

@@ -13,19 +13,18 @@ import android.widget.ImageView;
 
 import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
-import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.GroupDashboard.CustomFragmentPageradapter;
 import com.example.deepak.myapplication.GroupDashboard.StudentProfile;
 import com.example.deepak.myapplication.R;
 
 
-public class StudentDashboard extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener, StudentList.OnStudentSelected {
+public class StudentDashboard extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     ViewPager view_pager;
     ImageView search_icon, group_icon, filter_icon, floating_btn;
     EditText search_et;
-    StudentProfile fragment3;
-    StudentList fragment1;
+    StudentProfile StudentProfile;
+    StudentList studnetList;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.student_dashboard, container, false);
@@ -38,11 +37,11 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
 
     private void setUpViewPager() {
         CustomFragmentPageradapter adapter = new CustomFragmentPageradapter(getActivity().getSupportFragmentManager());
-        fragment1 = new StudentList();
-        fragment3 = new StudentProfile();
-        fragment1.setOnStudentSelected(this);
-        adapter.addFragment(fragment1, "Group Fragment");
-        adapter.addFragment(fragment3, "Group_Student");
+        studnetList = new StudentList();
+        StudentProfile = new StudentProfile();
+        studnetList.setOnStudentSelected(StudentProfile, view_pager);
+        adapter.addFragment(studnetList, "Group Fragment");
+        adapter.addFragment(StudentProfile, "Group_Student");
         view_pager.setOffscreenPageLimit(1);
         view_pager.setAdapter(adapter);
     }
@@ -54,15 +53,15 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
         search_icon = (ImageView) view.findViewById(R.id.search_icon);
         search_et = (EditText) view.findViewById(R.id.search_et);
 
-        filter_icon.setOnClickListener(fragment1);
-        group_icon.setOnClickListener(fragment1);
+        filter_icon.setOnClickListener(studnetList);
+        group_icon.setOnClickListener(studnetList);
         search_icon.setOnClickListener(this);
         search_et.setOnClickListener(this);
         floating_btn.setOnClickListener(this);
         view_pager.setOnPageChangeListener(this);
     }
 
-    @Override
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_et:
@@ -76,7 +75,7 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
                     QUERY = null;
                 else
                     QUERY = StudentDAO.FORM_1_ENTITY_3 + " LIKE '%" + search_et.getText().toString() + "%'";
-                fragment1.afterTextChanged(QUERY);
+                studnetList.afterTextChanged(QUERY);
                 break;
             case R.id.floating_btn:
 
@@ -89,7 +88,7 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
         }
     }
 
-    @Override
+
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (position == 1) {
             filter_icon.setVisibility(View.GONE);
@@ -107,21 +106,13 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
         }
     }
 
-    @Override
+
     public void onPageSelected(int position) {
 
     }
 
-    @Override
+
     public void onPageScrollStateChanged(int state) {
 
-    }
-
-    @Override
-    public void onStudentClicked(StudentDTO dto) {
-        if (null != fragment3)
-            fragment3.changeStudent(dto);
-
-        view_pager.setCurrentItem(1);
     }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
+import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
+import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
@@ -28,7 +31,7 @@ import com.example.deepak.myapplication.Utility.Constant;
 
 import java.util.ArrayList;
 
-public class GroupStudents extends Fragment implements StudentsListAdapter.OnGroupStudentCallback {
+public class GroupStudents extends Fragment implements StudentsListAdapter.OnGroupStudentCallback, Groups.OnGroupItemClicked {
     RecyclerView student_list_recycler;
     ArrayList<StudentDTO> mList;
     StudentsListAdapter adpter;
@@ -68,11 +71,11 @@ public class GroupStudents extends Fragment implements StudentsListAdapter.OnGro
     @Override
     public void studentClicked(int position) {
         if (null != mOnStudentClicked)
-            mOnStudentClicked.studentClicked(mList.get(position));
+            mOnStudentClicked.studentClicked(mList.get(position), viewPager);
     }
 
     @Override
-    public void popupMenuClicked(MenuItem menuItem, StudentDTO dto) {
+    public void popupMenuClicked(MenuItem menuItem, final StudentDTO dto) {
         switch (menuItem.getItemId()) {
             case R.id.menu_sms:
                 SMSDashboardFragment fragment = new SMSDashboardFragment();
@@ -104,25 +107,38 @@ public class GroupStudents extends Fragment implements StudentsListAdapter.OnGro
                 break;
 
             case R.id.menu_activity:
-                AddActivityDialog dialog = new AddActivityDialog(getActivity(), dto);
+                AddActivityDialog dialog = new AddActivityDialog(getActivity());
+                dialog.setOnActivityAdded(new AddActivityDialog.OnActivityAdded() {
+                    public void onActivityAdded(ActivityDTO activity) {
+                        activity.setStudentID(dto.getId());
+                        new ActivitiesDAO(getActivity()).addActivity(activity);
+                    }
+                });
                 dialog.show();
                 break;
         }
     }
 
-    public void changeBatch(BatchDTO batch) {
-        mList.clear();
-        ArrayList<StudentDTO> list = new BatchDAO(getActivity()).getStudentsForBatch(batch.getId(), 0);
-        mList.addAll(list);
-        Log.d("rohit", "mList "+mList.size());
-        adpter.notifyDataSetChanged();
-    }
 
     OnStudentClicked mOnStudentClicked;
-    public void setOnStudentClicked(OnStudentClicked mOnStudentClicked){
+    ViewPager viewPager;
+
+    public void setOnStudentClicked(OnStudentClicked mOnStudentClicked, ViewPager viewPager) {
         this.mOnStudentClicked = mOnStudentClicked;
+        this.viewPager = viewPager;
     }
-    public interface OnStudentClicked{
-         void studentClicked(StudentDTO sto);
+
+    @Override
+    public void onGroupItemClicked(BatchDTO batchDTO, ViewPager viewPager) {
+        mList.clear();
+        ArrayList<StudentDTO> list = new BatchDAO(getActivity()).getStudentsForBatch(batchDTO.getId(), 0);
+        mList.addAll(list);
+        Log.d("rohit", "mList " + mList.size());
+        adpter.notifyDataSetChanged();
+        viewPager.setCurrentItem(1);
+    }
+
+    public interface OnStudentClicked {
+        void studentClicked(StudentDTO sto, ViewPager viewPager);
     }
 }

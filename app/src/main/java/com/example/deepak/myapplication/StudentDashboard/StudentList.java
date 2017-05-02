@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,13 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
-import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
-import com.example.deepak.myapplication.AddStudent.DropDownDialog;
+import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
+import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
-import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
+import com.example.deepak.myapplication.EmailDashboard.EmailDashboardFragment;
 import com.example.deepak.myapplication.GroupDashboard.GroupDashboard;
 import com.example.deepak.myapplication.R;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
@@ -66,27 +67,6 @@ public class StudentList extends Fragment implements
     }
 
 
-    public void onMenuChildItemClicekd(int child_index, StudentDTO dto) {
-        switch (child_index) {
-            case 0:
-                AddActivityDialog dialog = new AddActivityDialog(getActivity(), dto);
-                dialog.show();
-                break;
-            case 1:
-
-
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                if (null != mOnStudentSelected)
-                    mOnStudentSelected.onStudentClicked(dto);
-                break;
-
-        }
-    }
-
     @Override
     public void loadMore(int index) {
         Log.d("rohit", "Load more is called");
@@ -104,11 +84,11 @@ public class StudentList extends Fragment implements
     @Override
     public void studentClicked(int position) {
         if (null != mOnStudentSelected)
-            mOnStudentSelected.onStudentClicked(mList.get(position));
+            mOnStudentSelected.onStudentClicked(mList.get(position), viewPager);
     }
 
     @Override
-    public void popupMenuClicked(MenuItem menuItem, StudentDTO dto) {
+    public void popupMenuClicked(MenuItem menuItem, final StudentDTO dto) {
         switch (menuItem.getItemId()) {
             case R.id.menu_sms:
                 SMSDashboardFragment fragment = new SMSDashboardFragment();
@@ -121,6 +101,19 @@ public class StudentList extends Fragment implements
                 getActivity().getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
                         .replace(R.id.main_frame_layout, fragment).commit();
+                break;
+
+            case R.id.menu_email:
+                EmailDashboardFragment emailDashboardFragment = new EmailDashboardFragment();
+                Bundle emailBundle = new Bundle();
+                emailBundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
+                ArrayList<StudentDTO> studentList = new ArrayList<>();
+                studentList.add(dto);
+                emailBundle.putParcelableArrayList(Constant.SMS_CLIENT_LIST, studentList);
+                emailDashboardFragment.setArguments(emailBundle);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, emailDashboardFragment).commit();
                 break;
 
 
@@ -140,7 +133,13 @@ public class StudentList extends Fragment implements
                 break;
 
             case R.id.menu_activity:
-                AddActivityDialog dialog = new AddActivityDialog(getActivity(), dto);
+                AddActivityDialog dialog = new AddActivityDialog(getActivity());
+                dialog.setOnActivityAdded(new AddActivityDialog.OnActivityAdded() {
+                    public void onActivityAdded(ActivityDTO activity) {
+                        activity.setStudentID(dto.getId());
+                        new ActivitiesDAO(getActivity()).addActivity(activity);
+                    }
+                });
                 dialog.show();
                 break;
 
@@ -163,13 +162,14 @@ public class StudentList extends Fragment implements
     }
 
     public interface OnStudentSelected {
-        void onStudentClicked(StudentDTO dto);
+        void onStudentClicked(StudentDTO dto, ViewPager viewPager);
     }
 
     OnStudentSelected mOnStudentSelected;
-
-    public void setOnStudentSelected(OnStudentSelected mOnStudentSelected) {
+    ViewPager viewPager;
+    public void setOnStudentSelected(OnStudentSelected mOnStudentSelected, ViewPager viewPager) {
         this.mOnStudentSelected = mOnStudentSelected;
+        this.viewPager = viewPager;
     }
 
 

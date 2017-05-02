@@ -33,6 +33,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="8dp"
         android:src="@mipmap/send_grey"
-        android:id="@+id/send_icons_ll"/>
+        android:id="@+id/send_icons"/>
 
 </LinearLayout>

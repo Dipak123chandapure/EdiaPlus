@@ -54,7 +54,10 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sms_dashboard_fragment_layout, container, false);
+
+        if (null != getArguments())
         TYPE = getArguments().getString(Constant.SMS_TYPE);
+
         inItView(view);
         setUpRecyclerview();
         return view;

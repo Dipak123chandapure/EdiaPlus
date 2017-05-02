@@ -33,12 +33,10 @@ public class AddActivityDialog extends Dialog implements View.OnClickListener,
         TimePickerDialog.OnTimePickertimeSelected {
     Context mContext;
     DropDownDataDTO mActivityCoomonCodeValue;
-    StudentDTO studentData;
 
-    public AddActivityDialog(Context context, StudentDTO studentData) {
+    public AddActivityDialog(Context context) {
         super(context);
         mContext = context;
-        this.studentData = studentData;
     }
 
     ImageView add_activity_dialog_date_picker, add_activity_dialog_time_picker, add_activity_dialog_template_picker;
@@ -53,7 +51,6 @@ public class AddActivityDialog extends Dialog implements View.OnClickListener,
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = (Gravity.CENTER);
         getWindow().setAttributes(params);
-        Log.d("rohit", "student data"+studentData.getForm1Entity1());
         inItView();
     }
 
@@ -123,21 +120,12 @@ public class AddActivityDialog extends Dialog implements View.OnClickListener,
         activityData.setActivityBody(add_activity_dialog_activity_comment_etxt.getText().toString());
         activityData.setActivityComment(add_activity_dialog_activity_comment_etxt.getText().toString());
 
-        activityData.setStudentID(studentData.getId());
-
         activityData.setActivityDataJSON(new Gson().toJson(activityData));
         activityData.setIsDone(0);
 
-        studentData.setStudentDataJSON(null);
-        String studentDataJSON=  new Gson().toJson(studentData);
-        studentData.setStudentDataJSON(studentDataJSON);
-        Log.d("rohit", "student data JSON "+studentDataJSON);
+        if (null != mOnActivityAdded)
+            mOnActivityAdded.onActivityAdded(activityData);
 
-        StudentDAO handler = new StudentDAO(mContext);
-        ActivitiesDAO handler1 = new ActivitiesDAO(mContext);
-
-        handler1.addActivity(activityData);
-       // handler.updateStudent(studentData);
         dismiss();
     }
 
@@ -185,5 +173,13 @@ public class AddActivityDialog extends Dialog implements View.OnClickListener,
         this.hrs = hrs;
         this.min = min;
         Log.d("rohit", "hrs" + hrs);
+    }
+
+    OnActivityAdded mOnActivityAdded;
+    public void setOnActivityAdded(OnActivityAdded mOnActivityAdded){
+        this.mOnActivityAdded = mOnActivityAdded;
+    }
+    public interface OnActivityAdded{
+        void onActivityAdded(ActivityDTO activity);
     }
 }

@@ -212,10 +212,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .replace(R.id.main_frame_layout, smsFragment).commit();
                 break;
             case R.id.m_d_f_a_b_image_six:
-
+                EmailDashboardFragment emailDashboardFragment = new EmailDashboardFragment();
+                Bundle emailBundle = new Bundle();
+                emailBundle.putString(Constant.SMS_TYPE, Constant.SMS_NO_CLIENT);
+                emailDashboardFragment.setArguments(emailBundle);
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new EmailDashboardFragment()).commit();
+                        .replace(R.id.main_frame_layout, emailDashboardFragment).commit();
                 break;
             case R.id.m_d_f_a_b_image_seven:
                 getSupportFragmentManager().beginTransaction().
