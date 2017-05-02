@@ -29,6 +29,7 @@ import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.example.deepak.myapplication.EmailDashboard.EmailDashboardFragment;
+import com.example.deepak.myapplication.GroupDashboard.GroupDashboard;
 import com.example.deepak.myapplication.SMSDashbard.SMSDashboardFragment;
 import com.example.deepak.myapplication.Settings.SettingsFragment;
 import com.example.deepak.myapplication.SmartCaller.SmartCallerDashboardFragment;
@@ -177,21 +178,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.m_d_f_a_b_image_one:
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new Chart_Dashboard_Fragment()).commit();
+                        .replace(R.id.main_frame_layout, new SmartCallerDashboardFragment()).commit();
 
                 break;
             case R.id.m_d_f_a_b_image_two:
 
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new SmartCallerDashboardFragment()).commit();
+                        .replace(R.id.main_frame_layout, new ActivityDashboardFragmnet()).commit();
                 break;
 
             case R.id.m_d_f_a_b_image_three:
 
                 getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new ActivityDashboardFragmnet()).commit();
+                        .replace(R.id.main_frame_layout, new GroupDashboard()).commit();
                 break;
 
             case R.id.m_d_f_a_b_image_four:

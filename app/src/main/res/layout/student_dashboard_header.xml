@@ -3,47 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="52dp"
     android:background="@drawable/main_activity_layout_drawable"
-    android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:orientation="horizontal">
 
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center_vertical"
-        android:src="@mipmap/search_grey"
-        android:id="@+id/search_icon" />
+        <ImageView
+            android:id="@+id/filter_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/filter_grey" />
+    </com.balysv.materialripple.MaterialRippleLayout>
 
     <EditText
         android:id="@+id/search_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="8dp"
+        android:paddingLeft="8dp"
         android:layout_weight="1"
         android:background="@null"
         android:cursorVisible="false"
         android:focusableInTouchMode="true"
-        android:textColor="@color/Grey_700"
         android:hint="Search Student"
+        android:textColor="@color/Grey_700"
         android:textColorHint="@color/Grey_500"
         android:textSize="14sp" />
 
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="8dp"
-        android:src="@mipmap/group_grey"
-        android:id="@+id/group_icon"/>
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="8dp"
-        android:src="@mipmap/filter_grey"
-        android:id="@+id/filter_icon"/>
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/search_grey" />
 
+    </com.balysv.materialripple.MaterialRippleLayout>
 </LinearLayout>

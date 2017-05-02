@@ -17,7 +17,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:src="@mipmap/equalizer_grey" />
+            android:src="@mipmap/smart_caller_grey" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
@@ -32,7 +32,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:src="@mipmap/smart_caller_grey" />
+            android:src="@mipmap/notification_grey" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
@@ -47,7 +47,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:src="@mipmap/notification_grey" />
+            android:src="@mipmap/group_grey" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout

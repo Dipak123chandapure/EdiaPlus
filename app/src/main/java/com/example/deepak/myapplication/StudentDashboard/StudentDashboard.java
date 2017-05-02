@@ -21,7 +21,7 @@ import com.example.deepak.myapplication.R;
 public class StudentDashboard extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     ViewPager view_pager;
-    ImageView search_icon, group_icon, filter_icon, floating_btn;
+    ImageView search_icon,  filter_icon, floating_btn;
     EditText search_et;
     StudentProfile StudentProfile;
     StudentList studnetList;
@@ -49,12 +49,10 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
     private void inItView(View view) {
         floating_btn = (ImageView) view.findViewById(R.id.floating_btn);
         filter_icon = (ImageView) view.findViewById(R.id.filter_icon);
-        group_icon = (ImageView) view.findViewById(R.id.group_icon);
         search_icon = (ImageView) view.findViewById(R.id.search_icon);
         search_et = (EditText) view.findViewById(R.id.search_et);
 
         filter_icon.setOnClickListener(studnetList);
-        group_icon.setOnClickListener(studnetList);
         search_icon.setOnClickListener(this);
         search_et.setOnClickListener(this);
         floating_btn.setOnClickListener(this);
@@ -92,13 +90,11 @@ public class StudentDashboard extends Fragment implements View.OnClickListener, 
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (position == 1) {
             filter_icon.setVisibility(View.GONE);
-            group_icon.setVisibility(View.GONE);
             search_icon.setVisibility(View.GONE);
             search_et.setEnabled(false);
             search_et.setText("Student Profile");
         } else {
             filter_icon.setVisibility(View.VISIBLE);
-            group_icon.setVisibility(View.VISIBLE);
             search_icon.setVisibility(View.VISIBLE);
             search_et.setEnabled(true);
             search_et.setText("");

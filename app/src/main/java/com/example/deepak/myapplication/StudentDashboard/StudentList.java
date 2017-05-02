@@ -183,13 +183,6 @@ public class StudentList extends Fragment implements
                         setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
                         .add(R.id.main_frame_layout, filterFragment).commit();
                 break;
-
-            case R.id.group_icon:
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, new GroupDashboard()).commit();
-                break;
-
         }
 
     }
