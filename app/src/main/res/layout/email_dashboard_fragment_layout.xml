@@ -92,6 +92,7 @@
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
+                        android:id="@+id/arrow_drop_down"
                         android:src="@mipmap/arrow_drop_down" />
 
                 </LinearLayout>

@@ -1,0 +1,77 @@
+package com.example.deepak.myapplication.EmailDashboard;
+
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.deepak.myapplication.Database.DTO.EmailTemplateDTO;
+import com.example.deepak.myapplication.Database.DTO.SMSTemplateDTO;
+import com.example.deepak.myapplication.R;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Deepak on 5/2/2017.
+ */
+
+public class EmailTemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<EmailTemplateDTO> mLeadList;
+    private static final int TYPE_ITEM = 0;
+    EmailTemplateDialog dialog;
+
+
+    public EmailTemplateAdapter(ArrayList<EmailTemplateDTO> mLeadList, EmailTemplateDialog dialog) {
+        this.mLeadList = mLeadList;
+        this.dialog = dialog;
+
+    }
+
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dropdown_dialog_item, parent, false);
+        return new LeadListViewHolder(view);
+    }
+
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        LeadListViewHolder headingViewHolder = (LeadListViewHolder) holder;
+        Log.d("rohit", "group id"+mLeadList.get(position).getTitile());
+        headingViewHolder.add_lead_coomon_code_dialog_recy_item_text.setText(mLeadList.get(position).getTitile());
+    }
+
+    public int getItemCount() {
+        return mLeadList.size();
+    }
+
+    public int getItemViewType(int position) {
+        return TYPE_ITEM;
+    }
+
+    public class LeadListViewHolder extends RecyclerView.ViewHolder {
+        protected TextView add_lead_coomon_code_dialog_recy_item_text;
+        public LeadListViewHolder(View v) {
+            super(v);
+            add_lead_coomon_code_dialog_recy_item_text = (TextView) v.findViewById(R.id.add_lead_coomon_code_dialog_recy_item_text);
+            add_lead_coomon_code_dialog_recy_item_text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    mOnEmailTemplateSelected.onEmailTemplateSelected(mLeadList.get(getAdapterPosition()));
+
+                }
+            });
+        }
+    }
+    OnEmailTemplateSelected mOnEmailTemplateSelected;
+
+    public void setOnEmailTemplateSelected(OnEmailTemplateSelected mOnEmailTemplateSelected) {
+        this.mOnEmailTemplateSelected = mOnEmailTemplateSelected;
+    }
+
+
+    public interface OnEmailTemplateSelected {
+        void onEmailTemplateSelected(EmailTemplateDTO value);
+    }
+
+}

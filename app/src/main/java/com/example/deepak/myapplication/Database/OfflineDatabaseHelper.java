@@ -44,6 +44,9 @@ public class OfflineDatabaseHelper extends AbstractDatabaseHelper {
             db.execSQL(BATCH_ACTIVITIES_TABLE_CREATE);
             db.execSQL(BATCH_ATTACHMENT_TABLE_CREATE);
 
+            db.execSQL(SMS_TEMPLATE_TABLE_CREATE);
+            db.execSQL(EMAIL_TEMPLATE_TABLE_CREATE);
+
         }catch (Exception e){
             Log.d("rohit", "exception "+e.toString());
         }

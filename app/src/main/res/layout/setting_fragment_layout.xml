@@ -27,12 +27,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:text="Drop Down Values"
                 android:textColor="@color/Grey_700"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"/>
+                android:textSize="16dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/drop_down_recycler"
@@ -40,6 +40,57 @@
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="Templates"
+
+                    android:textColor="@color/Grey_700"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="SMS Templates"
+                    android:id="@+id/sms_templates"
+                    android:textColor="@color/Grey_500"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/Grey_400"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Email Templates"
+                    android:id="@+id/email_templates"
+                    android:textColor="@color/Grey_500"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/Grey_400" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

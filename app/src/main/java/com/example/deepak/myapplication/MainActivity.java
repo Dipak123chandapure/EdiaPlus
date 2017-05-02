@@ -21,11 +21,14 @@ import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
+import com.example.deepak.myapplication.Database.DAO.SMSEmailTemplateDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
+import com.example.deepak.myapplication.Database.DTO.EmailTemplateDTO;
+import com.example.deepak.myapplication.Database.DTO.SMSTemplateDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.example.deepak.myapplication.EmailDashboard.EmailDashboardFragment;
@@ -65,9 +68,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             addFragment(getIntent());
         } else
             getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new StudentDashboard()).commit();
+
         //setDefaultActivities();
+        //setDefaultSMSTemplates();
+        //setDefaultEMAILTemplates();
 
     }
+
+    private void setDefaultSMSTemplates() {
+       for (int i =0 ;i<5; i++){
+           SMSTemplateDTO dto  = new SMSTemplateDTO();
+           dto.setTitile("test title "+i);
+           dto.setText("this is the test sms to check if database is working properly test SMS "+i);
+           dto.setVirtuallyDeleted(false);
+           dto.setSystemValue(false);
+           new SMSEmailTemplateDAO(this).saveSMSTemplate(dto);
+       }
+    }
+
+    private void setDefaultEMAILTemplates() {
+        for (int i =0 ;i<5; i++){
+            EmailTemplateDTO dto  = new EmailTemplateDTO();
+            dto.setTitile("test title "+i);
+            dto.setSubject("test subject "+i);
+            dto.setBody("this is the test email body to check if database is working properly test email "+i);
+            dto.setVirtuallyDeleted(false);
+            dto.setSystemValue(false);
+            new SMSEmailTemplateDAO(this).saveEmailTemplate(dto);
+        }
+    }
+
     public void setDefaultActivities(){
         for (int i =0; i<5;i ++){
             DropDownDataDTO dto = new DropDownDataDTO();

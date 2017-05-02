@@ -20,9 +20,11 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
+import com.example.deepak.myapplication.Database.DAO.SMSEmailTemplateDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
+import com.example.deepak.myapplication.Database.DTO.SMSTemplateDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.Network.NetworkExecuter;
 import com.example.deepak.myapplication.Network.NetworkUtil;
@@ -39,7 +41,7 @@ import java.util.Calendar;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class SMSDashboardFragment extends Fragment implements View.OnClickListener, SMSDashboardStudentListAdapter.OnSMSToListCallback {
+public class SMSDashboardFragment extends Fragment implements View.OnClickListener, SMSDashboardStudentListAdapter.OnSMSToListCallback, SMSTemplateAdapter.OnSMSTemplateSelected {
     RecyclerView s_d_f_l_to_recycler_view, s_d_f_l_add_student_list_recycler_view;
     LinearLayout s_d_f_l_temp_text_ll;
     ImageView s_d_f_l_add_student_image, send_icon;
@@ -74,6 +76,8 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
         send_icon.setOnClickListener(this);
         msg_text = (EditText) view.findViewById(R.id.msg_text);
         template = (TextView) view.findViewById(R.id.template);
+
+        s_d_f_l_temp_text_ll.setOnClickListener(this);
 
         switch (TYPE) {
             case Constant.SMS_SINGE_CLIENT:
@@ -154,6 +158,10 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
                     Toast.makeText(getActivity(), "Please add student", Toast.LENGTH_LONG).show();
                 break;
 
+            case R.id.s_d_f_l_temp_text_ll:
+                ArrayList<SMSTemplateDTO> smsTemplateList = new SMSEmailTemplateDAO(getActivity()).getAllSMSTemplates();
+                SMSTemplateDialog smsTemplateDialog = new SMSTemplateDialog(getActivity(),smsTemplateList, this );
+                smsTemplateDialog.show();
         }
     }
 
@@ -284,5 +292,11 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
                 adapter1.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onSMSTemplateSelected(SMSTemplateDTO value) {
+        template.setText(value.getTitile());
+        msg_text.setText(value.getText());
     }
 }

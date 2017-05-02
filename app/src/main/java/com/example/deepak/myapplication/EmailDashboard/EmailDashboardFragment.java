@@ -23,10 +23,12 @@ import com.android.volley.VolleyError;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.AttachmentDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
+import com.example.deepak.myapplication.Database.DAO.SMSEmailTemplateDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.ActivityDTO;
 import com.example.deepak.myapplication.Database.DTO.AttachmentDTO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
+import com.example.deepak.myapplication.Database.DTO.EmailTemplateDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.MainActivity;
 import com.example.deepak.myapplication.Network.NetworkExecuter;
@@ -43,7 +45,7 @@ import java.util.Calendar;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class EmailDashboardFragment extends Fragment implements View.OnClickListener, EmailDashboardStudentListAdapter.OnSMSToListCallback, EmailAttchmentAdapter.OnAttchmentRemoved, MainActivity.OnMActivityResult {
+public class EmailDashboardFragment extends Fragment implements View.OnClickListener, EmailDashboardStudentListAdapter.OnSMSToListCallback, EmailAttchmentAdapter.OnAttchmentRemoved, MainActivity.OnMActivityResult, EmailTemplateAdapter.OnEmailTemplateSelected {
     RecyclerView s_d_f_l_to_recycler_view, s_d_f_l_add_student_list_recycler_view, email_attachment_recycler_view;
     LinearLayout s_d_f_l_temp_text_ll;
     ImageView s_d_f_l_add_student_image, email_attachment_icon, send_icons;
@@ -57,6 +59,7 @@ public class EmailDashboardFragment extends Fragment implements View.OnClickList
     ArrayList<StudentDTO> toStudentList = new ArrayList<>();
     ArrayList<StudentDTO> list;
     BatchDTO batch;
+    ImageView arrow_drop_down;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.email_dashboard_fragment_layout, container, false);
@@ -87,6 +90,8 @@ public class EmailDashboardFragment extends Fragment implements View.OnClickList
 
         body = (EditText) view.findViewById(R.id.body);
         subject = (EditText) view.findViewById(R.id.subject);
+        arrow_drop_down = (ImageView) view.findViewById(R.id.arrow_drop_down);
+        arrow_drop_down.setOnClickListener(this);
 
         switch (TYPE) {
             case Constant.SMS_SINGE_CLIENT:
@@ -175,6 +180,14 @@ public class EmailDashboardFragment extends Fragment implements View.OnClickList
 
                 } else
                     Toast.makeText(getActivity(), "Please Select Student", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.arrow_drop_down:
+                SMSEmailTemplateDAO dao = new SMSEmailTemplateDAO(getActivity());
+                ArrayList<EmailTemplateDTO> emailTemplateList = dao.getAllEmailTemplates();
+                EmailTemplateDialog dialog = new EmailTemplateDialog(getActivity(), emailTemplateList, this);
+                dialog.show();
+                break;
 
         }
     }
@@ -356,5 +369,11 @@ public class EmailDashboardFragment extends Fragment implements View.OnClickList
                 emailAttchmentAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onEmailTemplateSelected(EmailTemplateDTO value) {
+        subject.setText(value.getSubject());
+        body.setText(value.getBody());
     }
 }

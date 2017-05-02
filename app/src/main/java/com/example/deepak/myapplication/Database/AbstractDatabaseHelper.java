@@ -412,6 +412,35 @@ public abstract class AbstractDatabaseHelper extends SQLiteOpenHelper {
             + " FOREIGN KEY ("+ACTIVITY_ID+") REFERENCES "+ACTIVITY_TABLE+"("+ID+") ON DELETE CASCADE"
             + ");";
 
+
+    protected static final String EMAIL_TEMPLATE_TABLE = "EMAIL_TEMPLATE_TABLE";
+    protected static final String SUBJECT = "SUBJECT";
+    protected static final String BODY = "BODY";
+
+    protected static final String SMS_TEMPLATE_TABLE = "SMS_TEMPLATE_TABLE";
+    protected static final String TEXT = "TEXT";
+
+
+    protected static final String EMAIL_TEMPLATE_TABLE_CREATE = "create table "
+            + EMAIL_TEMPLATE_TABLE + " ( "
+            + ID + " integer primary key autoincrement, "
+            + TITLE + " text, "
+            + SUBJECT + " text, "
+            + BODY + " text, "
+            + IS_SYSTEM_VALUE + " text, "
+            + IS_VIRTUALLY_DELETED + " text "
+            + ");";
+
+    protected static final String SMS_TEMPLATE_TABLE_CREATE = "create table "
+            + SMS_TEMPLATE_TABLE + " ( "
+            + ID + " integer primary key autoincrement, "
+            + TITLE + " text, "
+            + TEXT + " text, "
+            + IS_SYSTEM_VALUE + " text, "
+            + IS_VIRTUALLY_DELETED + " text "
+            + ");";
+
+
     public AbstractDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
