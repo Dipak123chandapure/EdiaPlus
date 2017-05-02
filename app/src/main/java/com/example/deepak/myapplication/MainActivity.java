@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String[] activityTypetitle = {"Send SMS", "Received SMS", "Dialed Call", "Missed Call", "Received Call" };
     private void addFragment(Intent intent) {
         String LAUNCHING_FRAGMENT = intent.getStringExtra(Constant.LAUNCHING_FRAGMENT);
+        String studentString = null;
         StudentDTO student = null;
         String mob_no;
 
@@ -89,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().add(R.id.main_frame_layout, new SmartCallerDashboardFragment()).commit();
                 break;
             case Constant.SMS_DASHBOARD_FRAGMENT:
-                student = intent.getParcelableExtra(Constant.STUDENT_LIST);
+                studentString =  intent.getStringExtra(Constant.STUDENT_LIST);
+                student = new Gson().fromJson(studentString, StudentDTO.class);
                 SMSDashboardFragment fragment = new SMSDashboardFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
@@ -103,7 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case Constant.EMAIL_DASHBOARD_FRAGMENT:
-                student = intent.getParcelableExtra(Constant.STUDENT_LIST);
+                studentString =  intent.getStringExtra(Constant.STUDENT_LIST);
+                student = new Gson().fromJson(studentString, StudentDTO.class);
                 EmailDashboardFragment fragment1 = new EmailDashboardFragment();
                 Bundle bundle1 = new Bundle();
                 bundle1.putString(Constant.SMS_TYPE, Constant.SMS_SINGE_CLIENT);
@@ -127,7 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case Constant.EDIT_STUDENT_DASHBOARD_FRAGMENT:
-                student = intent.getParcelableExtra(Constant.STUDENT_LIST);
+                studentString =  intent.getStringExtra(Constant.STUDENT_LIST);
+                student = new Gson().fromJson(studentString, StudentDTO.class);
                 AddStudentFragment addStudent1 = new AddStudentFragment();
                 Bundle bundle4 = new Bundle();
                 bundle4.putParcelable(Constant.STUDENT_LIST, student);

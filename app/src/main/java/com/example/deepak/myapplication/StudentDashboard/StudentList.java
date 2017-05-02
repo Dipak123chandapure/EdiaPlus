@@ -18,7 +18,11 @@ import android.view.ViewGroup;
 
 import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
 import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
+import com.example.deepak.myapplication.AddStudent.DropDownDialog;
+import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
+import com.example.deepak.myapplication.Database.DTO.BatchDTO;
+import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.GroupDashboard.GroupDashboard;
 import com.example.deepak.myapplication.R;
@@ -29,7 +33,7 @@ import java.util.ArrayList;
 
 public class StudentList extends Fragment implements
         FilterFragment.OnFilterSeleted,
-        View.OnClickListener, StudentsListAdapter.OnGroupStudentCallback {
+        View.OnClickListener, StudentsListAdapter.OnGroupStudentCallback, BatchDialogRecyclerAdapter.OnBatchItemSelected {
 
     ArrayList<StudentDTO> mList;
     String QUERY = null;
@@ -57,6 +61,7 @@ public class StudentList extends Fragment implements
         mList = studentDAO.getStudentList(QUERY, 0);
         adapter = new StudentsListAdapter(getActivity(), mList);
         adapter.setOnGroupStudentCallback(this);
+        adapter.setTotalCount(studentDAO.getStudentListCount(QUERY));
         recycler_view.setAdapter(adapter);
     }
 
@@ -138,7 +143,23 @@ public class StudentList extends Fragment implements
                 AddActivityDialog dialog = new AddActivityDialog(getActivity(), dto);
                 dialog.show();
                 break;
+
+            case R.id.menu_add:
+                BatchDAO batchDAO = new BatchDAO(getActivity());
+                BatchDialog dialog1 = new BatchDialog(getActivity(), batchDAO.getBatchs(), dto, this);
+                dialog1.show();
+                break;
+
+            case R.id.menu_edit:
+                break;
+
         }
+    }
+
+    @Override
+    public void onBatchItemSelected(BatchDTO value, StudentDTO dto) {
+        BatchDAO batchDAO = new BatchDAO(getActivity());
+        batchDAO.saveToStudentBatchBridge(dto, value);
     }
 
     public interface OnStudentSelected {
@@ -175,21 +196,21 @@ public class StudentList extends Fragment implements
 
     public void afterTextChanged(String QUERY) {
         this.QUERY = QUERY;
-        StudentDAO handler = new StudentDAO(getActivity());
-        ArrayList<StudentDTO> list = handler.getStudentList(QUERY, 0);
+        StudentDAO studentDAO = new StudentDAO(getActivity());
+        ArrayList<StudentDTO> list = studentDAO.getStudentList(QUERY, 0);
         mList.clear();
         mList.addAll(list);
+        adapter.setTotalCount(studentDAO.getStudentListCount(QUERY));
         adapter.notifyDataSetChanged();
     }
 
-
-    @Override
     public void onFilterSeleted(String QUERY) {
         this.QUERY = QUERY;
-        StudentDAO handler = new StudentDAO(getActivity());
-        ArrayList<StudentDTO> list = handler.getStudentList(QUERY, 0);
+        StudentDAO studentDAO = new StudentDAO(getActivity());
+        ArrayList<StudentDTO> list = studentDAO.getStudentList(QUERY, 0);
         mList.clear();
         mList.addAll(list);
+        adapter.setTotalCount(studentDAO.getStudentListCount(QUERY));
         adapter.notifyDataSetChanged();
     }
 

@@ -9,9 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
+import com.example.deepak.myapplication.Database.DAO.StudentDAO;
 import com.example.deepak.myapplication.Database.DTO.BatchDTO;
 import com.example.deepak.myapplication.Database.DTO.StudentDTO;
 import com.example.deepak.myapplication.R;
@@ -55,29 +57,38 @@ public class GroupDashboard extends Fragment implements GroupAdapter.GroupFroagm
     @Override
     public void onGroupItemClicked(BatchDTO dto) {
         if (null != fragmet2)
-           fragmet2.changeBatch(dto);
+            fragmet2.changeBatch(dto);
 
         view_pager.setCurrentItem(1);
     }
 
-    @Override
+
     public void onGroupMenuIconClicked(MenuItem item, BatchDTO dto) {
         switch (item.getItemId()) {
             case R.id.menu_sms:
                 SMSDashboardFragment smsFragment = new SMSDashboardFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(Constant.SMS_TYPE, Constant.SMS_GROUP_CLIENT);
-                bundle.putParcelable(Constant.SMS_BATCH_DTO, dto);
-                smsFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                        .replace(R.id.main_frame_layout, smsFragment).commit();
+                BatchDAO batchDAO = new BatchDAO(getActivity());
+                int count = batchDAO.getStudentsCountForBatch(dto);
+                if (count > 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.SMS_TYPE, Constant.SMS_GROUP_CLIENT);
+                    bundle.putParcelable(Constant.SMS_BATCH_DTO, dto);
+                    smsFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().
+                            setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                            .replace(R.id.main_frame_layout, smsFragment).commit();
+                } else
+                    Toast.makeText(getActivity(), "No Students in the Batch", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_email:
+                break;
+            case R.id.menu_activity:
+                //AddActivityDialog dialog = new AddActivityDialog()
                 break;
         }
 
     }
 
-    @Override
     public void studentClicked(StudentDTO sto) {
         if (null != fragment3)
             fragment3.changeStudent(sto);

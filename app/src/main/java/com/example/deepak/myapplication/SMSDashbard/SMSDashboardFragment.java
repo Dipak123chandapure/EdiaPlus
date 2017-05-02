@@ -49,6 +49,7 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
     String TYPE = "";
     ArrayList<StudentDTO> mList = new ArrayList<>();
     ArrayList<StudentDTO> list;
+    BatchDTO batch;
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,11 +85,11 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
 
             case Constant.SMS_GROUP_CLIENT:
                 s_d_f_l_add_student_image.setVisibility(View.GONE);
-                BatchDTO dto = getArguments().getParcelable(Constant.SMS_BATCH_DTO);
+                batch = getArguments().getParcelable(Constant.SMS_BATCH_DTO);
                 mList = new ArrayList<>();
-                StudentDTO batch = new StudentDTO();
-                batch.setForm1Entity1(dto.getName());
-                mList.add(batch);
+                StudentDTO student = new StudentDTO();
+                student.setForm1Entity1(batch.getName());
+                mList.add(student);
                 break;
 
             case Constant.SMS_NO_CLIENT:
@@ -200,8 +201,20 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
     }
 
     private void setUpActivities() {
-        if (TYPE.equals(Constant.SMS_BATCH_DTO)) {
-
+        if (TYPE.equals(Constant.SMS_GROUP_CLIENT)) {
+            Log.d("rohit", "adding activities to batch");
+            Calendar now = Calendar.getInstance();
+            ActivitiesDAO dao = new ActivitiesDAO(getActivity());
+            ActivityDTO activity = new ActivityDTO();
+            activity.setActvityTypeID(1);
+            activity.setStudentID(batch.getId());
+            activity.setCreatedDate(now.getTimeInMillis());
+            activity.setModificationDate(now.getTimeInMillis());
+            activity.setNextActionDate(now.getTimeInMillis());
+            activity.setActivityBody(msg_text.getText().toString());
+            activity.setActivityComment(msg_text.getText().toString());
+            activity.setActivityDataJSON(new Gson().toJson(activity));
+            dao.addBatchActivity(activity);
         } else {
             for (int i = 0; i < mList.size(); i++) {
                 Calendar now = Calendar.getInstance();
@@ -264,7 +277,6 @@ public class SMSDashboardFragment extends Fragment implements View.OnClickListen
         ArrayList<StudentDTO> dtolist = handler.getStudentList(null, index);
         list.addAll(dtolist);
         getActivity().runOnUiThread(new Runnable() {
-            @Override
             public void run() {
                 adapter1.notifyDataSetChanged();
             }

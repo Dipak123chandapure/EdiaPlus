@@ -93,7 +93,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             switch (v.getId()) {
                 case R.id.menu_icon:
                     PopupMenu popup = new PopupMenu(v.getContext(), v);
-                    popup.inflate(R.menu.studeny_menu);
+                    popup.inflate(R.menu.groups_menu);
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
                             if (null != mGroupFroagmetCallback) {

@@ -39,6 +39,11 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_item, parent, false);
         return new LeadListViewHolder(view);
     }
+    int toatlCount =0;
+    public void setTotalCount(int toatlCount){
+        this.toatlCount = toatlCount;
+        Log.d("rohit","total count"+toatlCount);
+    }
 
 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -52,7 +57,7 @@ public class StudentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mHolder.email_id.setText(data.getForm1Entity3());
         mHolder.mobile_num.setText(data.getForm1Entity4());
 
-        if (position == (mList.size() - 25))
+        if ((position == (mList.size() - 25)) && mList.size() < toatlCount)
             loadMore(mList.size());
     }
 

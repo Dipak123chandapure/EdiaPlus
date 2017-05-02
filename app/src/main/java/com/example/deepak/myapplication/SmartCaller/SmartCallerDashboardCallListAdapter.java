@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
-public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemAdapter<MyGroupBatchesViewHolder, MyChildBatchViewHolder> implements View.OnClickListener {
+public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemAdapter<SmartCallerDashboardCallListAdapter.MyGroupBatchesViewHolder, SmartCallerDashboardCallListAdapter.MyChildBatchViewHolder> implements View.OnClickListener {
     ArrayList<ActivityDTO> mList;
     Context mContext;
 
@@ -105,9 +105,13 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
         holder.time_duartion.setText(sdf.format(mList.get(groupPosition).getCreatedDate()) + " (" + mList.get(groupPosition).getSmartCallDuration() + ")");
 
         holder.call_type_image.setImageResource(getIconForCallType(mList.get(groupPosition).getActvityTypeID()));
-        if (groupPosition == (mList.size() - 10))
+        if ((groupPosition == (mList.size() - 10)) && mList.size() < totalCount)
             loadMore(mList.size());
 
+    }
+    int totalCount;
+    public void setTotalCount(int totalCount){
+        this.totalCount = totalCount;
     }
 
     private int getIconForCallType(Long actvityTypeID) {
@@ -183,46 +187,49 @@ public class SmartCallerDashboardCallListAdapter extends AbstractExpandableItemA
 
         void onChildItemClicked(int position, StudentDTO sto);
     }
-}
 
-class MyGroupBatchesViewHolder extends AbstractExpandableItemViewHolder {
-    LinearLayout linearLayout;
-    TextView heading_text;
-    TextView circular_text;
-    TextView student_name;
-    TextView mob_no;
-    TextView time_duartion;
-    ImageView call_type_image;
 
-    public MyGroupBatchesViewHolder(View itemView) {
-        super(itemView);
-        linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
-        heading_text = (TextView) itemView.findViewById(R.id.heading_text);
-        circular_text = (TextView) itemView.findViewById(R.id.circular_text);
-        student_name = (TextView) itemView.findViewById(R.id.student_name);
-        mob_no = (TextView) itemView.findViewById(R.id.mob_no);
-        time_duartion = (TextView) itemView.findViewById(R.id.time_duartion);
-        call_type_image = (ImageView) itemView.findViewById(R.id.call_type_image);
+    class MyGroupBatchesViewHolder extends AbstractExpandableItemViewHolder {
+        LinearLayout linearLayout;
+        TextView heading_text;
+        TextView circular_text;
+        TextView student_name;
+        TextView mob_no;
+        TextView time_duartion;
+        ImageView call_type_image;
+
+        public MyGroupBatchesViewHolder(View itemView) {
+            super(itemView);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
+            heading_text = (TextView) itemView.findViewById(R.id.heading_text);
+            circular_text = (TextView) itemView.findViewById(R.id.circular_text);
+            student_name = (TextView) itemView.findViewById(R.id.student_name);
+            mob_no = (TextView) itemView.findViewById(R.id.mob_no);
+            time_duartion = (TextView) itemView.findViewById(R.id.time_duartion);
+            call_type_image = (ImageView) itemView.findViewById(R.id.call_type_image);
+        }
     }
-}
 
-class MyChildBatchViewHolder extends AbstractExpandableItemViewHolder {
+    class MyChildBatchViewHolder extends AbstractExpandableItemViewHolder {
 
-    ImageView image_one;
-    ImageView image_two;
-    ImageView image_three;
-    ImageView image_four;
-    ImageView image_five;
+        ImageView image_one;
+        ImageView image_two;
+        ImageView image_three;
+        ImageView image_four;
+        ImageView image_five;
 
 
-    public MyChildBatchViewHolder(View itemView) {
-        super(itemView);
+        public MyChildBatchViewHolder(View itemView) {
+            super(itemView);
 
-        image_one = (ImageView) itemView.findViewById(R.id.image_one);
-        image_two = (ImageView) itemView.findViewById(R.id.image_two);
-        image_three = (ImageView) itemView.findViewById(R.id.image_three);
-        image_four = (ImageView) itemView.findViewById(R.id.image_four);
-        image_five = (ImageView) itemView.findViewById(R.id.image_five);
+            image_one = (ImageView) itemView.findViewById(R.id.image_one);
+            image_two = (ImageView) itemView.findViewById(R.id.image_two);
+            image_three = (ImageView) itemView.findViewById(R.id.image_three);
+            image_four = (ImageView) itemView.findViewById(R.id.image_four);
+            image_five = (ImageView) itemView.findViewById(R.id.image_five);
 
+        }
     }
+
 }
+

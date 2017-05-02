@@ -11,7 +11,6 @@ public class BatchDTO implements Parcelable {
 
     private String name;
     private Long id;
-
     private String details;
 
 

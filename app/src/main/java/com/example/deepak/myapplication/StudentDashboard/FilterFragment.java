@@ -9,27 +9,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.example.deepak.myapplication.Database.DAO.DropDownDataDAO;
 import com.example.deepak.myapplication.Database.DAO.ParentDropDownDAO;
 import com.example.deepak.myapplication.Database.DTO.DropDownDataDTO;
 import com.example.deepak.myapplication.Database.DTO.ParentDropDownDTO;
-import com.example.deepak.myapplication.Database.OfflineDatabaseHelper;
 import com.example.deepak.myapplication.R;
-import com.example.deepak.myapplication.Settings.AddEditDropDownDialog;
 import com.example.deepak.myapplication.Utility.Constant;
-import com.example.deepak.myapplication.Utility.UserDataParser;
-import com.example.deepak.myapplication.Utility.UserInfo;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class FilterFragment extends Fragment
-        implements FilterParentAdapter.OnFilterParentItemSelected, View.OnClickListener, FilterChildAdapter.OnFilterChildItemSelected {
+        implements FilterParentAdapter.OnFilterParentItemSelected, FilterChildAdapter.OnFilterChildItemSelected {
 
     RecyclerView s_d_f_f_l_parent_recycler, s_d_f_f_l_child_recycler;
     FilterChildAdapter adapter;
@@ -64,15 +55,6 @@ public class FilterFragment extends Fragment
     }
 
 
-
-
-    public void onClick(View v) {
-        switch (v.getId()){
-
-
-
-        }
-    }
 
     OnFilterSeleted mOnFilterSeleted;
     public void setOnFilterSeleted(OnFilterSeleted mOnFilterSeleted){

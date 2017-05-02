@@ -288,7 +288,7 @@ public class SmartCallerService extends Service implements View.OnTouchListener,
         Intent intent1 = new Intent(this, MainActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent1.putExtra(Constant.LAUNCHING_FRAGMENT, TYPE);
-        intent1.putExtra(Constant.STUDENT_LIST, studentData);
+        intent1.putExtra(Constant.STUDENT_LIST, new Gson().toJson(studentData));
         intent1.putExtra(Constant.STUDENT_MOB, number);
         this.startActivity(intent1);
         stopSelf();

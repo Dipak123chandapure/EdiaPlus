@@ -46,6 +46,8 @@ public class StudentDAO extends OfflineDatabaseHelper {
                 studentData.setId(id);
                 list.add(studentData);
                 if (i > 40) {
+                    cursor.close();
+                    db.close();
                     return list;
                 }
                 i++;
@@ -54,32 +56,21 @@ public class StudentDAO extends OfflineDatabaseHelper {
         }
         db.close();
         return list;
-
     }
 
 
-    public ArrayList<StudentDTO> getAllStudentList() {
-        int i = 0;
+    public int getStudentListCount(String QUERY) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] coloumns = {ID, STUDENT_DATA_JSON};
-        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, FORM_2_ENTITY_2_ID + " = '" + 4 + "'", null, null, null, null);
+        Cursor cursor = db.query(STUDENT_INFO_TABLE, coloumns, QUERY, null, null, null, null);
         ArrayList<StudentDTO> list = new ArrayList<>();
+        int count = 0;
         if (null != cursor) {
-            while (cursor.moveToNext()) {
-                String student = cursor.getString(cursor.getColumnIndex(STUDENT_DATA_JSON));
-                Long id = cursor.getLong(cursor.getColumnIndex(ID));
-                StudentDTO studentData = new Gson().fromJson(student, StudentDTO.class);
-                studentData.setId(id);
-                list.add(studentData);
-                i++;
-                if (i > 100)
-                    return list;
-            }
+            count = cursor.getCount();
             cursor.close();
         }
         db.close();
-        return list;
-
+        return count;
     }
 
     public StudentDTO getStudentForNumber(String number) {

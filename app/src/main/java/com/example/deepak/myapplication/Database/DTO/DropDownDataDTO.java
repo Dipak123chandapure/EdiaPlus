@@ -11,9 +11,6 @@ public class DropDownDataDTO implements Parcelable {
     private Boolean isVirtuallyDeleted;
     private Boolean isChecked = false;
 
-
-
-
     public DropDownDataDTO(){
 
     }
@@ -25,9 +22,6 @@ public class DropDownDataDTO implements Parcelable {
         this.isSystemValue = in.readByte() != 0;
         this.isVirtuallyDeleted = in.readByte() != 0;
         this.isChecked = in.readByte() != 0;
-
-
-
     }
 
 
@@ -38,16 +32,12 @@ public class DropDownDataDTO implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
         dest.writeString(this.title);
         dest.writeLong(this.id);
         dest.writeString(this.details);
         dest.writeByte((byte) (isSystemValue ? 1 : 0));
         dest.writeByte((byte) (isVirtuallyDeleted ? 1 : 0));
         dest.writeByte((byte) (isChecked ? 1 : 0));
-
-
-
     }
 
 

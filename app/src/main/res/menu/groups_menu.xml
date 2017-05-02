@@ -14,16 +14,5 @@
         android:title="Add Activity"
         android:icon="@mipmap/notification_grey"
         />
-    <item
-        android:id="@+id/menu_call"
-        android:title="Make Call"
-        android:icon="@mipmap/smart_caller_grey"/>
-    <item
-        android:id="@+id/menu_add"
-        android:title="Add to Group"
-        android:icon="@mipmap/add_group_grey"/>
-    <item
-        android:id="@+id/menu_edit"
-        android:title="Edit"
-        android:icon="@mipmap/edit_grey"/>
+
 </menu>

@@ -46,15 +46,15 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
 
     public ArrayList<ActivityDTO> getActivities(long statingMilli, long endingMilli) {
 
-        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "a." + ID + ", " + "at." + TITLE+ ", "
-                + "s." + FORM_1_ENTITY_1 +", " + "s." + FORM_1_ENTITY_2+", " + "s." + FORM_1_ENTITY_3+", " + "s." + FORM_1_ENTITY_4
+        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "a." + ID + ", " + "at." + TITLE + ", "
+                + "s." + FORM_1_ENTITY_1 + ", " + "s." + FORM_1_ENTITY_2 + ", " + "s." + FORM_1_ENTITY_3 + ", " + "s." + FORM_1_ENTITY_4
                 + " FROM " + ACTIVITY_TABLE + " a "
                 + " LEFT JOIN " + ACTIVITY_TYPE_TABLE + " at "
                 + " ON a." + ACTIVITY_TYPE_ID + " = at." + ID
                 + " LEFT JOIN " + STUDENT_INFO_TABLE + " s "
                 + " ON a." + STUDENT_ID + " = s." + ID
-                + " WHERE a." + ACTIVITY_DATE_TIME + " < '" + endingMilli + "' AND a." + ACTIVITY_DATE_TIME + " >= '"+ statingMilli + "'"
-                + " ORDER BY "+ACTIVITY_DATE_TIME + " DESC";
+                + " WHERE a." + ACTIVITY_DATE_TIME + " < '" + endingMilli + "' AND a." + ACTIVITY_DATE_TIME + " >= '" + statingMilli + "'"
+                + " ORDER BY " + ACTIVITY_DATE_TIME + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -64,14 +64,14 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
             while (cursor.moveToNext()) {
                 String student = cursor.getString(cursor.getColumnIndex(ACTIVITY_DATA_JSON));
                 String title = cursor.getString(cursor.getColumnIndex(TITLE));
-                Long id= cursor.getLong(cursor.getColumnIndex(ID));
+                Long id = cursor.getLong(cursor.getColumnIndex(ID));
                 String form1entity1 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_1));
                 String form1entity2 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_2));
                 String form1entity3 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_3));
                 String form1entity4 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_4));
 
                 ActivityDTO activity = new Gson().fromJson(student, ActivityDTO.class);
-                activity.setForm1Entity1(form1entity1+" "+form1entity2);
+                activity.setForm1Entity1(form1entity1 + " " + form1entity2);
                 activity.setForm1Entity3(form1entity3);
                 activity.setForm1Entity4(form1entity4);
                 activity.setActivityTitle(title);
@@ -86,19 +86,19 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
     }
 
 
-    public ArrayList<ActivityDTO> getActivities(int index) {
+    public ArrayList<ActivityDTO> getActivitiesForSmartCaller(int index) {
         int i = 0;
 
-        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "a." + ID + ", " + "at." + TITLE+ ", "
-                + "s." + FORM_1_ENTITY_1 +", " + "s." + FORM_1_ENTITY_2+", " + "s." + FORM_1_ENTITY_3+", " + "s." + FORM_1_ENTITY_4
+        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "a." + ID + ", " + "at." + TITLE + ", "
+                + "s." + FORM_1_ENTITY_1 + ", " + "s." + FORM_1_ENTITY_2 + ", " + "s." + FORM_1_ENTITY_3 + ", " + "s." + FORM_1_ENTITY_4
                 + " FROM " + ACTIVITY_TABLE + " a "
                 + " LEFT JOIN " + ACTIVITY_TYPE_TABLE + " at "
                 + " ON a." + ACTIVITY_TYPE_ID + " = at." + ID
                 + " LEFT JOIN " + STUDENT_INFO_TABLE + " s "
                 + " ON a." + STUDENT_ID + " = s." + ID
                 + " WHERE a." + ACTIVITY_DATE_TIME + " < '" + new Date().getTime() + "' AND "
-                + " a." + ACTIVITY_TYPE_ID + " IN ('" + 3+"', '"+4+"', '"+5 + "') "
-                + " ORDER BY "+ACTIVITY_DATE_TIME + " DESC";
+                + " a." + ACTIVITY_TYPE_ID + " IN ('" + 3 + "', '" + 4 + "', '" + 5 + "') "
+                + " ORDER BY " + ACTIVITY_DATE_TIME + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -109,25 +109,29 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
             while (cursor.moveToNext()) {
                 String student = cursor.getString(cursor.getColumnIndex(ACTIVITY_DATA_JSON));
                 String title = cursor.getString(cursor.getColumnIndex(TITLE));
-                Long id= cursor.getLong(cursor.getColumnIndex(ID));
+                Long id = cursor.getLong(cursor.getColumnIndex(ID));
                 String form1entity1 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_1));
                 String form1entity2 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_2));
                 String form1entity3 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_3));
                 String form1entity4 = cursor.getString(cursor.getColumnIndex(FORM_1_ENTITY_4));
 
                 ActivityDTO activity = new Gson().fromJson(student, ActivityDTO.class);
-                activity.setForm1Entity1(form1entity1+" "+form1entity2);
+                activity.setForm1Entity1(form1entity1 + " " + form1entity2);
                 activity.setForm1Entity3(form1entity3);
                 activity.setForm1Entity4(form1entity4);
                 activity.setActivityTitle(title);
                 activity.setId(id);
                 list.add(activity);
                 if (i > 20) {
+                    cursor.close();
+                    db.close();
                     return list;
                 }
                 i++;
             }
+            cursor.close();
         }
+        db.close();
         return list;
     }
 
@@ -138,7 +142,7 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
                 + " ON a." + ACTIVITY_TYPE_ID + " = at." + ID
                 + " WHERE a." + STUDENT_ID + " = '" + studentData.getId() + "'";
 
-        Log.d("rohit", "id "+studentData.getId());
+        Log.d("rohit", "id " + studentData.getId());
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -160,4 +164,51 @@ public class ActivitiesDAO extends OfflineDatabaseHelper {
     }
 
 
+    public Long addBatchActivity(ActivityDTO activityDTO) {
+        Log.d("rohit", "inseting value : " + activityDTO.getActivityDataJSON());
+        ContentValues cv = new ContentValues();
+
+        cv.put(ACTIVITY_TYPE_ID, activityDTO.getActvityTypeID());
+        cv.put(BATCH_ID, activityDTO.getStudentID());
+
+        cv.put(ACTIVITY_DATE_TIME, activityDTO.getNextActionDate());
+        cv.put(CREATED_ON, activityDTO.getCreatedDate());
+        cv.put(UPDATED_ON, activityDTO.getModificationDate());
+
+        cv.put(IS_DONE, activityDTO.getIsDone());
+
+        cv.put(SEND_ACTIVITY_JSON, activityDTO.getSendActivityJSON());
+        cv.put(ACTIVITY_DATA_JSON, activityDTO.getActivityDataJSON());
+        cv.put(SYNC_STATUS, activityDTO.getSyncStatus());
+
+        SQLiteDatabase db = getWritableDatabase();
+        long result = db.insert(BATCH_ACTIVITIES_TABLE, null, cv);
+        Log.d("rohit", "result  : " + result);
+        db.close();
+        return result;
+    }
+
+    public int getActivitiesCountForSmartCaller() {
+
+        String sql = "SELECT " + "a." + ACTIVITY_DATA_JSON + ", " + "a." + ID + ", " + "at." + TITLE + ", "
+                + "s." + FORM_1_ENTITY_1 + ", " + "s." + FORM_1_ENTITY_2 + ", " + "s." + FORM_1_ENTITY_3 + ", " + "s." + FORM_1_ENTITY_4
+                + " FROM " + ACTIVITY_TABLE + " a "
+                + " LEFT JOIN " + ACTIVITY_TYPE_TABLE + " at "
+                + " ON a." + ACTIVITY_TYPE_ID + " = at." + ID
+                + " LEFT JOIN " + STUDENT_INFO_TABLE + " s "
+                + " ON a." + STUDENT_ID + " = s." + ID
+                + " WHERE a." + ACTIVITY_DATE_TIME + " < '" + new Date().getTime() + "' AND "
+                + " a." + ACTIVITY_TYPE_ID + " IN ('" + 3 + "', '" + 4 + "', '" + 5 + "') "
+                + " ORDER BY " + ACTIVITY_DATE_TIME + " DESC";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        int count = 0;
+        if (null != cursor) {
+            count = cursor.getCount();
+            cursor.close();
+        }
+        db.close();
+        return count;
+    }
 }

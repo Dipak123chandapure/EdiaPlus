@@ -39,10 +39,11 @@ public class SmartCallerDashboardFragment extends Fragment implements SmartCalle
     private void setUpRecyclerView() {
         expMgr = new RecyclerViewExpandableItemManager(null);
         s_c_d_f_l_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ActivitiesDAO dto = new ActivitiesDAO(getActivity());
-        mList = dto.getActivities(0);
+        ActivitiesDAO ado = new ActivitiesDAO(getActivity());
+        mList = ado.getActivitiesForSmartCaller(0);
         adapter = new SmartCallerDashboardCallListAdapter(getActivity(), mList);
         adapter.setOnSmartCallerListAdapterCallback(this);
+        adapter.setTotalCount(ado.getActivitiesCountForSmartCaller());
         s_c_d_f_l_recycler_view.setAdapter(expMgr.createWrappedAdapter(adapter));
         ((SimpleItemAnimator) s_c_d_f_l_recycler_view.getItemAnimator()).setSupportsChangeAnimations(false);
         expMgr.attachRecyclerView(s_c_d_f_l_recycler_view);
@@ -54,7 +55,7 @@ public class SmartCallerDashboardFragment extends Fragment implements SmartCalle
     public void onLoadMore(int index) {
         Log.d("rohit", "Load more is called");
         ActivitiesDAO handler = new ActivitiesDAO(getActivity());
-        ArrayList<ActivityDTO> list = handler.getActivities(index);
+        ArrayList<ActivityDTO> list = handler.getActivitiesForSmartCaller(index);
         mList.addAll(list);
         getActivity().runOnUiThread(new Runnable() {
             @Override
