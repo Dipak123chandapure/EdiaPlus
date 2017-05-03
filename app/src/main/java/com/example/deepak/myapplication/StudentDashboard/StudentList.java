@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.deepak.myapplication.AddActivity.AddActivityDialog;
+import com.example.deepak.myapplication.AddStudent.AddStudentFragment;
 import com.example.deepak.myapplication.Database.DAO.ActivitiesDAO;
 import com.example.deepak.myapplication.Database.DAO.BatchDAO;
 import com.example.deepak.myapplication.Database.DAO.StudentDAO;
@@ -150,6 +151,13 @@ public class StudentList extends Fragment implements
                 break;
 
             case R.id.menu_edit:
+                AddStudentFragment addStudent1 = new AddStudentFragment();
+                Bundle bundle4 = new Bundle();
+                bundle4.putParcelable(Constant.STUDENT_LIST, dto);
+                addStudent1.setArguments(bundle4);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                        .replace(R.id.main_frame_layout, addStudent1).commit();
                 break;
 
         }

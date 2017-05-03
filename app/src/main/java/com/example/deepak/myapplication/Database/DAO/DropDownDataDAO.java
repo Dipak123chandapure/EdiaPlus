@@ -123,5 +123,22 @@ public class DropDownDataDAO extends OfflineDatabaseHelper {
     }
 
 
-
+    public DropDownDataDTO getFormDTO(String type, Long id) {
+        if (null != id) {
+            String TABLE_NAME = getTableName(type);
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = '" + id + "'", null);
+            DropDownDataDTO dropDownDataDTO = null;
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                dropDownDataDTO = new DropDownDataDTO();
+                dropDownDataDTO.setId(cursor.getLong(cursor.getColumnIndex(ID)));
+                dropDownDataDTO.setDetails(cursor.getString(cursor.getColumnIndex(DETAILS)));
+                dropDownDataDTO.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
+                dropDownDataDTO.setSystemValue(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(IS_SYSTEM_VALUE))));
+                dropDownDataDTO.setVirtuallyDeleted(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(IS_VIRTUALLY_DELETED))));
+            }
+            return dropDownDataDTO;
+        }else return null;
+    }
 }

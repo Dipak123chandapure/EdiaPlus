@@ -37,7 +37,6 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
     MaterialEditText form3entity1, form3entity2, form3entity3, form3entity4, form3entity5, form3entity6, form3entity7;
     MaterialEditText form4entity1, form4entity2, form4entity3, form4entity4, form4entity5, form4entity6, form4entity7;
 
-    FormConstarins form1constarins, form2constarins, form3constarins, form4constarins;
 
     DropDownDataDTO form2entity1DTO, form2entity2DTO, form2entity3DTO, form2entity4DTO,
             form3entity1DTO, form3entity2DTO, form3entity3DTO, form3entity4DTO,
@@ -45,12 +44,39 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
 
     Button add_edit_btn, cancel_btn;
+    Boolean isEdit = false;
+    StudentDTO editStudentData = null;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_student, container, false);
+        chekForEdit();
         inItView(view);
         inItForm();
         return view;
+    }
+
+    private void chekForEdit() {
+        if (null != getArguments()) {
+            if (null != getArguments().getParcelable(Constant.STUDENT_LIST)) {
+                isEdit = true;
+                DropDownDataDAO dao = new DropDownDataDAO(getActivity());
+                editStudentData = getArguments().getParcelable(Constant.STUDENT_LIST);
+                form2entity1DTO = dao.getFormDTO(Constant.FORM_2_CHILD_1, editStudentData.getForm2Entity1ID());
+                form2entity2DTO = dao.getFormDTO(Constant.FORM_2_CHILD_2, editStudentData.getForm2Entity2ID());
+                form2entity3DTO = dao.getFormDTO(Constant.FORM_2_CHILD_3, editStudentData.getForm2Entity3ID());
+                form2entity4DTO = dao.getFormDTO(Constant.FORM_2_CHILD_4, editStudentData.getForm2Entity4ID());
+
+                form3entity1DTO = dao.getFormDTO(Constant.FORM_3_CHILD_1, editStudentData.getForm3Entity1ID());
+                form3entity2DTO = dao.getFormDTO(Constant.FORM_3_CHILD_2, editStudentData.getForm3Entity2ID());
+                form3entity3DTO = dao.getFormDTO(Constant.FORM_3_CHILD_3, editStudentData.getForm3Entity3ID());
+                form3entity4DTO = dao.getFormDTO(Constant.FORM_3_CHILD_4, editStudentData.getForm3Entity4ID());
+
+                form4entity1DTO = dao.getFormDTO(Constant.FORM_4_CHILD_1, editStudentData.getForm4Entity1ID());
+                form4entity2DTO = dao.getFormDTO(Constant.FORM_4_CHILD_2, editStudentData.getForm4Entity2ID());
+                form4entity3DTO = dao.getFormDTO(Constant.FORM_4_CHILD_3, editStudentData.getForm4Entity3ID());
+                form4entity4DTO = dao.getFormDTO(Constant.FORM_4_CHILD_4, editStudentData.getForm4Entity4ID());
+            }
+        }
     }
 
     ArrayList<ParentDropDownDTO> parnetLsit;
@@ -101,6 +127,9 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
         add_edit_btn = (Button) view.findViewById(R.id.add_edit_btn);
         add_edit_btn.setOnClickListener(this);
+
+        if (isEdit)
+            add_edit_btn.setText("Edit");
         cancel_btn = (Button) view.findViewById(R.id.cancel_btn);
         cancel_btn.setOnClickListener(this);
 
@@ -121,31 +150,39 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
         ParentDropDownDTO e2 = parnetLsit.get(1);
         ParentDropDownDTO e3 = parnetLsit.get(2);
         ParentDropDownDTO e4 = parnetLsit.get(3);
-        
+
         if (e1.getShown() || e2.getShown() || e3.getShown() || e4.getShown()) {
             form_one_ll.setVisibility(View.VISIBLE);
             if (e1.getShown()) {
                 form1entity1.setVisibility(View.VISIBLE);
                 form1entity1.setHint(e1.getTitle());
                 form1entity1.setFloatingLabelText(e1.getTitle());
+                if (isEdit && null != editStudentData)
+                    form1entity1.setText(editStudentData.getForm1Entity1());
             }
 
             if (e2.getShown()) {
                 form1entity2.setVisibility(View.VISIBLE);
                 form1entity2.setHint(e2.getTitle());
                 form1entity2.setFloatingLabelText(e2.getTitle());
+                if (isEdit && null != editStudentData)
+                    form1entity2.setText(editStudentData.getForm1Entity2());
             }
 
             if (e3.getShown()) {
                 form1entity3.setVisibility(View.VISIBLE);
                 form1entity3.setHint(e3.getTitle());
                 form1entity3.setFloatingLabelText(e3.getTitle());
+                if (isEdit && null != editStudentData)
+                    form1entity3.setText(editStudentData.getForm1Entity3());
             }
 
             if (e4.getShown()) {
                 form1entity4.setVisibility(View.VISIBLE);
                 form1entity4.setHint(e4.getTitle());
                 form1entity4.setFloatingLabelText(e4.getTitle());
+                if (isEdit && null != editStudentData)
+                    form1entity4.setText(editStudentData.getForm1Entity4());
             }
         }
 
@@ -163,24 +200,32 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
                 form2entity1.setVisibility(View.VISIBLE);
                 form2entity1.setHint(e1.getTitle());
                 form2entity1.setFloatingLabelText(e1.getTitle());
+                if (isEdit && null != editStudentData && null != form2entity1DTO)
+                    form2entity1.setText(form2entity1DTO.getTitle());
             }
 
             if (e2.getShown()) {
                 form2entity2.setVisibility(View.VISIBLE);
                 form2entity2.setHint(e2.getTitle());
                 form2entity2.setFloatingLabelText(e2.getTitle());
+                if (isEdit && null != editStudentData && null != form2entity2DTO)
+                    form2entity2.setText(form2entity2DTO.getTitle());
             }
 
             if (e3.getShown()) {
                 form2entity3.setVisibility(View.VISIBLE);
                 form2entity3.setHint(e3.getTitle());
                 form2entity3.setFloatingLabelText(e3.getTitle());
+                if (isEdit && null != editStudentData && null != form2entity3DTO)
+                    form2entity3.setText(form2entity3DTO.getTitle());
             }
 
             if (e4.getShown()) {
                 form2entity4.setVisibility(View.VISIBLE);
                 form2entity4.setHint(e4.getTitle());
                 form2entity4.setFloatingLabelText(e4.getTitle());
+                if (isEdit && null != editStudentData && null != form2entity4DTO)
+                    form2entity4.setText(form2entity4DTO.getTitle());
             }
         }
 
@@ -202,42 +247,56 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
                 form3entity1.setVisibility(View.VISIBLE);
                 form3entity1.setHint(e1.getTitle());
                 form3entity1.setFloatingLabelText(e1.getTitle());
+                if (isEdit && null != editStudentData && null != form3entity1DTO)
+                    form3entity1.setText(form3entity1DTO.getTitle());
             }
 
             if (e2.getShown()) {
                 form3entity2.setVisibility(View.VISIBLE);
                 form3entity2.setHint(e2.getTitle());
                 form3entity2.setFloatingLabelText(e2.getTitle());
+                if (isEdit && null != editStudentData && null != form3entity2DTO)
+                    form3entity2.setText(form3entity2DTO.getTitle());
             }
 
             if (e3.getShown()) {
                 form3entity3.setVisibility(View.VISIBLE);
                 form3entity3.setHint(e3.getTitle());
                 form3entity3.setFloatingLabelText(e3.getTitle());
+                if (isEdit && null != editStudentData && null != form3entity3DTO)
+                    form3entity3.setText(form3entity3DTO.getTitle());
             }
 
             if (e4.getShown()) {
                 form3entity4.setVisibility(View.VISIBLE);
                 form3entity4.setHint(e4.getTitle());
                 form3entity4.setFloatingLabelText(e4.getTitle());
+                if (isEdit && null != editStudentData && null != form3entity4DTO)
+                    form3entity4.setText(form3entity4DTO.getTitle());
             }
 
             if (e5.getShown()) {
                 form3entity5.setVisibility(View.VISIBLE);
                 form3entity5.setHint(e5.getTitle());
                 form3entity5.setFloatingLabelText(e5.getTitle());
+                if (isEdit && null != editStudentData)
+                    form3entity5.setText(editStudentData.getForm3Entity5());
             }
 
             if (e6.getShown()) {
                 form3entity6.setVisibility(View.VISIBLE);
                 form3entity6.setHint(e6.getTitle());
                 form3entity6.setFloatingLabelText(e6.getTitle());
+                if (isEdit && null != editStudentData)
+                    form3entity6.setText(editStudentData.getForm3Entity6());
             }
 
             if (e7.getShown()) {
                 form3entity7.setVisibility(View.VISIBLE);
                 form3entity7.setHint(e7.getTitle());
                 form3entity7.setFloatingLabelText(e7.getTitle());
+                if (isEdit && null != editStudentData)
+                    form3entity7.setText(editStudentData.getForm3Entity7());
             }
         }
 
@@ -259,42 +318,57 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
                 form4entity1.setVisibility(View.VISIBLE);
                 form4entity1.setHint(e1.getTitle());
                 form4entity1.setFloatingLabelText(e1.getTitle());
+                if (isEdit && null != editStudentData && null != form4entity1DTO)
+                    form4entity1.setText(form4entity1DTO.getTitle());
             }
 
             if (e2.getShown()) {
                 form4entity2.setVisibility(View.VISIBLE);
                 form4entity2.setHint(e2.getTitle());
                 form4entity2.setFloatingLabelText(e2.getTitle());
+                if (isEdit && null != editStudentData && null != form4entity2DTO)
+                    form4entity2.setText(form4entity2DTO.getTitle());
             }
 
             if (e3.getShown()) {
                 form4entity3.setVisibility(View.VISIBLE);
                 form4entity3.setHint(e3.getTitle());
                 form4entity3.setFloatingLabelText(e3.getTitle());
+                if (isEdit && null != editStudentData && null != form4entity3DTO)
+                    form4entity3.setText(form4entity3DTO.getTitle());
             }
 
             if (e4.getShown()) {
                 form4entity4.setVisibility(View.VISIBLE);
                 form4entity4.setHint(e4.getTitle());
                 form4entity4.setFloatingLabelText(e4.getTitle());
+                if (isEdit && null != editStudentData && null != form4entity4DTO)
+                    form4entity4.setText(form4entity4DTO.getTitle());
             }
 
             if (e5.getShown()) {
                 form4entity5.setVisibility(View.VISIBLE);
                 form4entity5.setHint(e5.getTitle());
                 form4entity5.setFloatingLabelText(e5.getTitle());
+                if (isEdit && null != editStudentData)
+                    form4entity5.setText(editStudentData.getForm4Entity5());
             }
 
             if (e6.getShown()) {
                 form4entity6.setVisibility(View.VISIBLE);
                 form4entity6.setHint(e6.getTitle());
                 form4entity6.setFloatingLabelText(e6.getTitle());
+                if (isEdit && null != editStudentData)
+                    form4entity6.setText(editStudentData.getForm4Entity6());
+
             }
 
             if (e7.getShown()) {
                 form4entity7.setVisibility(View.VISIBLE);
                 form4entity7.setHint(e7.getTitle());
                 form4entity7.setFloatingLabelText(e7.getTitle());
+                if (isEdit && null != editStudentData)
+                    form4entity7.setText(editStudentData.getForm4Entity7());
             }
         }
 
@@ -383,7 +457,19 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
             case R.id.add_edit_btn:
                 if (isAllValidEntries()) {
-                    addStudent();
+                    if (!isEdit) {
+                        StudentDTO studentdata = getStudentForAdd();
+                        StudentDAO studentDao = new StudentDAO(getActivity());
+                        studentDao.addStudent(studentdata);
+                    } else {
+                        StudentDTO studentdata = getStudentForAdd();
+                        StudentDAO studentDao = new StudentDAO(getActivity());
+                        studentDao.updateStudent(studentdata);
+                    }
+
+                    getActivity().getSupportFragmentManager().beginTransaction().
+                            setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
+                            .replace(R.id.main_frame_layout, new StudentDashboard()).commit();
                 }
 
                 break;
@@ -397,7 +483,7 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
     }
 
-    private void addStudent() {
+    private StudentDTO getStudentForAdd() {
         StudentDTO studentdata = new StudentDTO();
         studentdata.setForm1Entity1(form1entity1.getText().toString());
         studentdata.setForm1Entity2(form1entity2.getText().toString());
@@ -440,12 +526,11 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
         Log.d("rohit", "saving data " + new Gson().toJson(studentdata));
         studentdata.setStudentDataJSON(new Gson().toJson(studentdata));
-        StudentDAO dao = new StudentDAO(getActivity());
-        dao.addStudent(studentdata);
 
-        getActivity().getSupportFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.exit_anim, R.anim.enter_anim)
-                .replace(R.id.main_frame_layout, new StudentDashboard()).commit();
+        if (isEdit && null != editStudentData)
+            studentdata.setId(editStudentData.getId());
+
+        return studentdata;
     }
 
     private boolean isAllValidEntries() {
@@ -576,7 +661,7 @@ public class AddStudentFragment extends Fragment implements View.OnClickListener
 
 
     public void onAddLeadCommonCodeDialogItemSelected(DropDownDataDTO value, String TYPE) {
-        Log.d("rohit", "id "+value.getTitle()+value.getId());
+        Log.d("rohit", "id " + value.getTitle() + value.getId());
         switch (TYPE) {
             case Constant.FORM_2_CHILD_1:
                 form2entity1.setText(value.getTitle());
