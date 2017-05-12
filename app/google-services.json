@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "853367185468",
+    "firebase_url": "https://studentnotificationhub.firebaseio.com",
+    "project_id": "studentnotificationhub",
+    "storage_bucket": "studentnotificationhub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853367185468:android:3eafc375c8dc12bd",
+        "android_client_info": {
+          "package_name": "com.example.deepak.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853367185468-qulgococsppqa0lbdeb7rgqm7eqmh7sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkY8k4pQ-ns3R5tUhVACTxUr2x42zwlao"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
