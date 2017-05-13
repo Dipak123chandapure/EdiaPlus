@@ -10,5 +10,5 @@ functionality:
 7. cutomizable form for adding students fields
 8. analytics of student getting enrolled on the basis of source, time, location
 
-![screen1](https://cloud.githubusercontent.com/assets/10182852/26022364/969a7734-37c1-11e7-9cca-146fd4ac93b6.png)
+![screen1](https://cloud.githubusercontent.com/assets/10182852/26022418/a8e6a272-37c2-11e7-9d2e-66216dca0b21.png)
 ![screen2](https://cloud.githubusercontent.com/assets/10182852/26022406/5d4f2d98-37c2-11e7-8913-f219592ab66d.png)
