@@ -9,3 +9,5 @@ functionality:
 6. add group, send sms email to group, manage group
 7. cutomizable form for adding students fields
 8. analytics of student getting enrolled on the basis of source, time, location
+
+(https://cloud.githubusercontent.com/assets/10182852/26022270/accf65c6-37be-11e7-8080-39ab857db58d.png)
