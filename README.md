@@ -10,11 +10,6 @@ functionality:
 7. cutomizable form for adding students fields
 8. analytics of student getting enrolled on the basis of source, time, location
 
-![setting](https://cloud.githubusercontent.com/assets/10182852/26022309/59c2ab6c-37bf-11e7-99bd-3a87bfdaf501.png)
-![main](https://cloud.githubusercontent.com/assets/10182852/26022312/59c81912-37bf-11e7-9a69-39f9b15db3f0.png)
-![group](https://cloud.githubusercontent.com/assets/10182852/26022311/59c6de80-37bf-11e7-96d5-5a4f82fcebfa.png)
-![student_profile](https://cloud.githubusercontent.com/assets/10182852/26022310/59c5afce-37bf-11e7-8aad-efde34d09183.png)
-![caller](https://cloud.githubusercontent.com/assets/10182852/26022313/59d311e6-37bf-11e7-8907-439657c998d3.png)
-![activities](https://cloud.githubusercontent.com/assets/10182852/26022314/59d688bc-37bf-11e7-8c15-d9f8ebe66bbc.png)
-![email](https://cloud.githubusercontent.com/assets/10182852/26022315/59edf0ce-37bf-11e7-92d3-b787e3c02022.png)
+![screen1](https://cloud.githubusercontent.com/assets/10182852/26022364/969a7734-37c1-11e7-9cca-146fd4ac93b6.png)
+
 
